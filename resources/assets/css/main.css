@@ -1,0 +1,4 @@
+.waves-effect input[type="button"], .waves-effect input[type="reset"], .waves-effect input[type="submit"]{
+    vertical-align: middle;
+    height: 100%;
+}
