@@ -1,2 +1,4 @@
-php_value error_reporting E_ALL
-php_value display_errors On
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteRule ^(.*)$ public/$1 [L]
+</ifModule>

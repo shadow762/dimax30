@@ -52,11 +52,14 @@ class OrdersController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
+     * @param Models\Order $orderModel
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Models\Order $orderModel, $id)
     {
-        //
+        $order = $orderModel->with('client', 'status')->where('orders.id', '=', $id)->first();
+
+        return view('orders.show', ['order' => $order]);
     }
 
     /**

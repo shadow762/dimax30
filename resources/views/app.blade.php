@@ -32,5 +32,11 @@
     </head>
 <body>
  @yield('content')
+<div class="modal" id="modal-1">
+
+ </div>
+ <div class="modal" id="modal-2">
+
+ </div>
 </body>
 </html>
