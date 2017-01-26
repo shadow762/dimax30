@@ -26,7 +26,7 @@
             <tbody>
 
                 @foreach($orders as $order)
-                    <tr>
+                    <tr class="create-modal-dbl" data-url="{{ route('orders.show', ['id' => $order->id]) }}">
                         <td>{{ $order->id }}</td>
                         <td>{{ $order->status }}</td>
                         <td>{{ $order->client_name }}</td>

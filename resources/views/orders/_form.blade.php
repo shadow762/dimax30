@@ -24,11 +24,11 @@
         {{ Form::select('client_id', $clients, null, ['placeholder' => 'Выберите клиента', 'required']) }}
     </div>
 @endif
-<script>
-    $(document).ready(function () {
-        $.Modal();
-    });
-
-</script>
+@if(isset($types))
+    <div class="input-field col s12">
+        {{ Form::select('type_id', $types, null, ['placeholder' => 'Выберите тип устройства', 'required']) }}
+    </div>
+@endif
+{{ Form::submit('Отправить', ['class' => 'btn waves-effect waves-light orange']) }}
 <!-- TODO реализовать выбор модели устройства-->
 <!-- TODO реализовать поле предоплаты -->

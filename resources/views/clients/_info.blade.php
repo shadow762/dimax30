@@ -17,9 +17,9 @@
                 <p>email клиента: {{ $client->email }}</p>
             </div>
             <div class="card-action">
-                {{ link_to_route('clients.edit', 'Редактировать', ['id' => $client->id]) }}
+                {{ link_to_route('clients.edit', trans('common.edit'), ['id' => $client->id]) }}
                 <!-- TODO Доработать после того как разберусь с удалением записей -->
-                {{ link_to_route('clients.destroy', 'Удалить(не работает)', ['id' => $client->id]) }}
+                {{ link_to_route('clients.destroy', trans('common.delete'), ['id' => $client->id]) }}
             </div>
         </div>
     </div>

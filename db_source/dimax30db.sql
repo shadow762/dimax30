@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.10.18
--- https://www.phpmyadmin.net
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
 --
--- Хост: 10.100.10.231:3306
--- Время создания: Янв 24 2017 г., 14:36
--- Версия сервера: 10.1.18-MariaDB
--- Версия PHP: 5.3.3
+-- Хост: 127.0.0.1:3306
+-- Время создания: Янв 26 2017 г., 15:26
+-- Версия сервера: 5.5.53
+-- Версия PHP: 5.6.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,10 +14,10 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- База данных: `test`
+-- База данных: `dimax`
 --
 
 -- --------------------------------------------------------
@@ -26,13 +26,12 @@ SET time_zone = "+00:00";
 -- Структура таблицы `brends`
 --
 
-CREATE TABLE IF NOT EXISTS `brends` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `brends` (
+  `id` int(10) UNSIGNED NOT NULL,
   `name` text COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=11 ;
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Дамп данных таблицы `brends`
@@ -56,16 +55,14 @@ INSERT INTO `brends` (`id`, `name`, `created_at`, `updated_at`) VALUES
 -- Структура таблицы `clients`
 --
 
-CREATE TABLE IF NOT EXISTS `clients` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `clients` (
+  `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `phone` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `clients_name_unique` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=153 ;
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Дамп данных таблицы `clients`
@@ -123,7 +120,7 @@ INSERT INTO `clients` (`id`, `name`, `phone`, `email`, `created_at`, `updated_at
 (149, 'Prof. Marcelo Green', '+1-660-291-1752', 'jerry.rohan@gmail.com', '2017-01-11 09:37:42', '2017-01-11 09:37:42'),
 (150, 'Ashlynn McClure', '359.230.8119 x9955', 'rboyle@vonrueden.com', '2017-01-11 09:37:42', '2017-01-11 09:37:42'),
 (151, 'eterty', 'tfhfgh', 'hfghf@gdfsgd', '2017-01-13 08:27:20', '2017-01-13 08:27:20'),
-(152, 'fdfd@3" ''//script<>', 'fdfd@3" ''//script<>', 'fdfsf@fdsf', '2017-01-13 08:32:32', '2017-01-13 08:32:32');
+(152, 'fdfd@3\" \'//script<>', 'fdfd@3\" \'//script<>', 'fdfsf@fdsf', '2017-01-13 08:32:32', '2017-01-13 08:32:32');
 
 -- --------------------------------------------------------
 
@@ -131,15 +128,14 @@ INSERT INTO `clients` (`id`, `name`, `phone`, `email`, `created_at`, `updated_at
 -- Структура таблицы `comments`
 --
 
-CREATE TABLE IF NOT EXISTS `comments` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `order_id` int(10) unsigned NOT NULL,
+CREATE TABLE `comments` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `order_id` int(10) UNSIGNED NOT NULL,
   `comment` text COLLATE utf8_unicode_ci NOT NULL,
-  `user_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -147,16 +143,14 @@ CREATE TABLE IF NOT EXISTS `comments` (
 -- Структура таблицы `lmodels`
 --
 
-CREATE TABLE IF NOT EXISTS `lmodels` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `lmodels` (
+  `id` int(10) UNSIGNED NOT NULL,
   `name` text COLLATE utf8_unicode_ci NOT NULL,
-  `type_id` int(10) unsigned NOT NULL,
-  `brand_id` int(10) unsigned NOT NULL,
+  `type_id` int(10) UNSIGNED NOT NULL,
+  `brand_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `models_type_id_foreign` (`type_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=21 ;
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Дамп данных таблицы `lmodels`
@@ -190,12 +184,11 @@ INSERT INTO `lmodels` (`id`, `name`, `type_id`, `brand_id`, `created_at`, `updat
 -- Структура таблицы `migrations`
 --
 
-CREATE TABLE IF NOT EXISTS `migrations` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
   `migration` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `batch` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=45 ;
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Дамп данных таблицы `migrations`
@@ -220,34 +213,29 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- Структура таблицы `orders`
 --
 
-CREATE TABLE IF NOT EXISTS `orders` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `orders` (
+  `id` int(10) UNSIGNED NOT NULL,
   `sn` char(30) COLLATE utf8_unicode_ci NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated` timestamp NULL DEFAULT NULL,
-  `status_id` int(10) unsigned NOT NULL,
-  `user_created` int(10) unsigned NOT NULL,
-  `user_closed` int(10) unsigned DEFAULT NULL,
-  `user_resp` int(10) unsigned DEFAULT NULL,
+  `status_id` int(10) UNSIGNED NOT NULL,
+  `user_created` int(10) UNSIGNED NOT NULL,
+  `user_closed` int(10) UNSIGNED DEFAULT NULL,
+  `user_resp` int(10) UNSIGNED DEFAULT NULL,
   `description` text COLLATE utf8_unicode_ci,
-  `cost` mediumint(8) unsigned NOT NULL,
-  `client_id` int(10) unsigned NOT NULL,
-  `model_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `orders_client_id_foreign` (`client_id`),
-  KEY `orders_model_id_foreign` (`model_id`),
-  KEY `orders_status_id_foreign` (`status_id`),
-  KEY `orders_user_created_foreign` (`user_created`),
-  KEY `orders_user_closed_foreign` (`user_closed`),
-  KEY `orders_user_resp_foreign` (`user_resp`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+  `cost` mediumint(8) UNSIGNED NOT NULL,
+  `client_id` int(10) UNSIGNED NOT NULL,
+  `model_id` int(10) UNSIGNED NOT NULL,
+  `closed` timestamp NULL DEFAULT NULL,
+  `pay` mediumint(8) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Дамп данных таблицы `orders`
 --
 
-INSERT INTO `orders` (`id`, `sn`, `created`, `updated`, `status_id`, `user_created`, `user_closed`, `user_resp`, `description`, `cost`, `client_id`, `model_id`) VALUES
-(3, '123456789', '2017-01-18 10:53:01', NULL, 1, 1, 1, 2, '123', 0, 103, 1);
+INSERT INTO `orders` (`id`, `sn`, `created`, `updated`, `status_id`, `user_created`, `user_closed`, `user_resp`, `description`, `cost`, `client_id`, `model_id`, `closed`, `pay`) VALUES
+(3, '123456789', '2017-01-18 10:53:01', NULL, 1, 1, 1, 2, '123', 0, 103, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -255,14 +243,13 @@ INSERT INTO `orders` (`id`, `sn`, `created`, `updated`, `status_id`, `user_creat
 -- Структура таблицы `parts`
 --
 
-CREATE TABLE IF NOT EXISTS `parts` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `parts` (
+  `id` int(10) UNSIGNED NOT NULL,
   `name` text COLLATE utf8_unicode_ci NOT NULL,
-  `buy_cost` mediumint(8) unsigned NOT NULL,
-  `sell_cost` mediumint(8) unsigned NOT NULL,
-  `numbers` smallint(5) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+  `buy_cost` mediumint(8) UNSIGNED NOT NULL,
+  `sell_cost` mediumint(8) UNSIGNED NOT NULL,
+  `numbers` smallint(5) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -270,12 +257,10 @@ CREATE TABLE IF NOT EXISTS `parts` (
 -- Структура таблицы `password_resets`
 --
 
-CREATE TABLE IF NOT EXISTS `password_resets` (
+CREATE TABLE `password_resets` (
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  KEY `password_resets_email_index` (`email`),
-  KEY `password_resets_token_index` (`token`)
+  `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -284,12 +269,11 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
 -- Структура таблицы `services`
 --
 
-CREATE TABLE IF NOT EXISTS `services` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `services` (
+  `id` int(10) UNSIGNED NOT NULL,
   `name` text COLLATE utf8_unicode_ci NOT NULL,
-  `cost` mediumint(9) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+  `cost` mediumint(9) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -297,11 +281,10 @@ CREATE TABLE IF NOT EXISTS `services` (
 -- Структура таблицы `statuses`
 --
 
-CREATE TABLE IF NOT EXISTS `statuses` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` text COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+CREATE TABLE `statuses` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` text COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Дамп данных таблицы `statuses`
@@ -317,13 +300,12 @@ INSERT INTO `statuses` (`id`, `name`) VALUES
 -- Структура таблицы `types`
 --
 
-CREATE TABLE IF NOT EXISTS `types` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `types` (
+  `id` int(10) UNSIGNED NOT NULL,
   `name` text COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=11 ;
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Дамп данных таблицы `types`
@@ -347,17 +329,15 @@ INSERT INTO `types` (`id`, `name`, `created_at`, `updated_at`) VALUES
 -- Структура таблицы `users`
 --
 
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `users` (
+  `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Дамп данных таблицы `users`
@@ -367,6 +347,151 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `creat
 (1, '123', '123', '123', '123', NULL, NULL),
 (2, 'user', 'user@user.ru', '123', '123', NULL, NULL);
 
+--
+-- Индексы сохранённых таблиц
+--
+
+--
+-- Индексы таблицы `brends`
+--
+ALTER TABLE `brends`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `clients`
+--
+ALTER TABLE `clients`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `clients_name_unique` (`name`);
+
+--
+-- Индексы таблицы `comments`
+--
+ALTER TABLE `comments`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `lmodels`
+--
+ALTER TABLE `lmodels`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `models_type_id_foreign` (`type_id`);
+
+--
+-- Индексы таблицы `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `orders_client_id_foreign` (`client_id`),
+  ADD KEY `orders_model_id_foreign` (`model_id`),
+  ADD KEY `orders_status_id_foreign` (`status_id`),
+  ADD KEY `orders_user_created_foreign` (`user_created`),
+  ADD KEY `orders_user_closed_foreign` (`user_closed`),
+  ADD KEY `orders_user_resp_foreign` (`user_resp`);
+
+--
+-- Индексы таблицы `parts`
+--
+ALTER TABLE `parts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD KEY `password_resets_email_index` (`email`),
+  ADD KEY `password_resets_token_index` (`token`);
+
+--
+-- Индексы таблицы `services`
+--
+ALTER TABLE `services`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `statuses`
+--
+ALTER TABLE `statuses`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `types`
+--
+ALTER TABLE `types`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `users_email_unique` (`email`);
+
+--
+-- AUTO_INCREMENT для сохранённых таблиц
+--
+
+--
+-- AUTO_INCREMENT для таблицы `brends`
+--
+ALTER TABLE `brends`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT для таблицы `clients`
+--
+ALTER TABLE `clients`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
+--
+-- AUTO_INCREMENT для таблицы `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `lmodels`
+--
+ALTER TABLE `lmodels`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+--
+-- AUTO_INCREMENT для таблицы `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+--
+-- AUTO_INCREMENT для таблицы `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT для таблицы `parts`
+--
+ALTER TABLE `parts`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `services`
+--
+ALTER TABLE `services`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `statuses`
+--
+ALTER TABLE `statuses`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT для таблицы `types`
+--
+ALTER TABLE `types`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT для таблицы `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- Ограничения внешнего ключа сохраненных таблиц
 --

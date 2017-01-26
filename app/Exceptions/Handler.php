@@ -44,6 +44,18 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        /*if(!$e instanceof NotFoundHttpException) {
+            $message = $e->getMessage() ? $e->getMessage() : trans('page_error_default_text');
+            $code = $e->getCode() ? $e->getCode() : 500;
+
+            return response()->view('errors.500', ['message' => $message, 'code' => $code], $code);
+        }
+        else {
+            $message = $e->getMessage() ? $e->getMessage() : trans('page_not_found_default_text');
+            $code = $e->getCode() ? $e->getCode() : 404;
+
+            return response()->view('errors.404', ['message' => $message, 'code' => $code], $code);
+        }*/
         return parent::render($request, $exception);
     }
 

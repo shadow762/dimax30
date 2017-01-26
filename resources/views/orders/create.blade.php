@@ -1,11 +1,3 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: vkazalin
- * Date: 18.01.2017
- * Time: 16:49
- */
-?>
 @extends('app')
 
 @section('content')

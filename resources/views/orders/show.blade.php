@@ -1,3 +1,3 @@
 <div class="row">
-    @include('orders._info');
+    @include('orders._info')
 </div>

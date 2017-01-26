@@ -18,4 +18,4 @@
     {{ Form::label('email', 'E-mail адрес') }}
     {{ Form::email('email') }}
 </div>
-{{ Form::submit('Добавить', ['class' => 'btn waves-effect waves-light orange']) }}
+{{ Form::submit('Отправить', ['class' => 'btn waves-effect waves-light orange']) }}

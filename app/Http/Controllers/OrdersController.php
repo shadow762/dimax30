@@ -57,6 +57,7 @@ class OrdersController extends Controller
      */
     public function show(Models\Order $orderModel, $id)
     {
+        // TODO Добавить к запросу информацию об участвующих пользователях
         $order = $orderModel->with('client', 'status')->where('orders.id', '=', $id)->first();
 
         return view('orders.show', ['order' => $order]);
@@ -66,11 +67,23 @@ class OrdersController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
+     * @param Models\Order $orderModel
+     * @param Models\Client $clientModel
+     * @param Models\Status $statusModel
+     * @param Models\Lmodel $modelsModel
+     * @param Models\Type $typeModel
+     * @param Models\Brend $brendmodel
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, Models\Order $orderModel, Models\Client $clientModel, Models\Status $statusModel, Models\Lmodel $modelsModel, Models\Type $typeModel, Models\Brend $brendmodel)
     {
-        //
+        $order = $orderModel->with('client', 'status')->where('orders.id', '=', $id)->first();
+        $clients = $clientModel->pluck('name', 'id')->toArray();
+        $statuses = $statusModel->pluck('name', 'id')->toArray();
+        $models = $modelsModel->with(['brend', 'type'])->get();
+        $types = $typeModel->pluck('name', 'id')->toArray();
+
+        return view('orders.edit', compact('order', 'clients', 'statuses', 'types'));
     }
 
     /**

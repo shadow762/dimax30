@@ -20,12 +20,14 @@ class CreateOrdersTable extends Migration
             $table->char('sn', 30);
             $table->timestamp('created');
             $table->timestamp('updated')->nullable()->onUpdate('CURRENT_TIMESTAMP');
+            $table->timestamp('closed')->nullable();
             $table->unsignedInteger('status_id');
             $table->unsignedInteger('user_created');
             $table->unsignedInteger('user_closed')->nullable();
             $table->unsignedInteger('user_resp')->nullable();
             $table->text('description')->nullable();
             $table->mediumInteger('cost')->unsigned();
+            $table->mediumInteger('pay')->unsigned();
             $table->integer('client_id')->unsigned();
             $table->integer('model_id')->unsigned();
 
