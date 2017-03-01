@@ -17,3 +17,6 @@ Route::get('/', function () {
 
 $router->resource('clients', 'ClientsController');
 $router->resource('orders', 'OrdersController');
+
+Route::post('brends/getbrend', ['as' => 'brends.get', 'uses' => 'BrendsController@getBrend']);
+Route::post('models/getmodel', ['as' => 'models.get', 'uses' => 'ModelsController@getModels']);

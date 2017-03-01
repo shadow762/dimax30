@@ -38,8 +38,8 @@ class Order extends Model
             ->leftJoin('statuses as s', 'orders.status_id', '=', 's.id')
             ->leftJoin('lmodels as m', 'orders.model_id', '=', 'm.id')
             ->leftJoin('clients as c', 'orders.client_id', '=', 'c.id')
-            ->leftJoin('brends as b', 'm.brand_id', '=', 'b.id')
-            ->leftJoin('types as t', 'm.type_id', '=', 't.id')
+            ->leftJoin('brends as b', 'm.brend_id', '=', 'b.id')
+            ->leftJoin('types as t', 'b.type_id', '=', 't.id')
             ->get();
     }
     /** One-to-many relationships with Client

@@ -108,4 +108,11 @@ class OrdersController extends Controller
     {
         //
     }
+
+    /**
+     * @param $brend_id
+     */
+    public function getModel($brend_id) {
+
+    }
 }

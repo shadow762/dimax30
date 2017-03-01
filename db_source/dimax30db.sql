@@ -156,7 +156,7 @@ CREATE TABLE `lmodels` (
 -- Дамп данных таблицы `lmodels`
 --
 
-INSERT INTO `lmodels` (`id`, `name`, `type_id`, `brand_id`, `created_at`, `updated_at`) VALUES
+INSERT INTO `lmodels` (`id`, `name`, `type_id`, brend_id, `created_at`, `updated_at`) VALUES
 (1, 'sunt', 6, 10, '2017-01-11 09:34:00', '2017-01-11 09:34:00'),
 (2, 'et', 4, 1, '2017-01-11 09:34:00', '2017-01-11 09:34:00'),
 (3, 'qui', 6, 3, '2017-01-11 09:34:00', '2017-01-11 09:34:00'),

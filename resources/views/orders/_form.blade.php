@@ -26,9 +26,24 @@
 @endif
 @if(isset($types))
     <div class="input-field col s12">
-        {{ Form::select('type_id', $types, null, ['placeholder' => 'Выберите тип устройства', 'required']) }}
+        {{ Form::select('type_id',
+         $types,
+         null,
+          ['placeholder' => trans('order.select_type_device'), 'required', 'class' => 'listen-change', 'data-link' => route('brends.get'), 'data-target' => 'brend-select']) }}
     </div>
-@endif
+<div class="input-field col s12">
+    {{ Form::select('brend_id',
+     array(),
+     null,
+      ['placeholder' => trans('order.select_brend'), 'required', 'id' => 'brend-select', 'class' => 'listen-change', 'data-link' => route('models.get'), 'data-target' => 'model-select']) }}
+</div>
+<div class="input-field col s12">
+    {{ Form::select('model_id',
+     array(),
+     null,
+      ['placeholder' => trans('order.select_model'), 'required', 'id' => 'model-select']) }}
+</div>
+    @endif
 {{ Form::submit('Отправить', ['class' => 'btn waves-effect waves-light orange']) }}
 <!-- TODO реализовать выбор модели устройства-->
 <!-- TODO реализовать поле предоплаты -->
