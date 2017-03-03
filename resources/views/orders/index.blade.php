@@ -7,7 +7,7 @@
  */
 ?>
 @extends('app')
-
+@include('orders._header')
 @section('content')
     <div class="row">
         <table>

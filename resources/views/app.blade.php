@@ -31,12 +31,20 @@
         <script src="{{asset('public/js/modal.js')}}" type="text/javascript"></script>
     </head>
 <body>
+<header class="main-header">
+    @yield('header')
+</header>
+<aside class="left-sidebar">
+    <ul>
+        <li><a href="{{ route('orders.index') }}">Заказы</a></li>
+        <li><a href="{{ route('clients.index') }}">Клиенты</a></li>
+        <li><a href="#">Запчасти</a></li>
+        <li><a href="#">Услуги</a></li>
+        <li><a href="#">Выход</a></li>
+    </ul>
+</aside>
+<main>
  @yield('content')
-<div class="modal-w" id="modal-1">
-
- </div>
- <div class="modal-w" id="modal-2">
-
- </div>
+</main>
 </body>
 </html>

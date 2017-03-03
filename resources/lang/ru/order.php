@@ -3,5 +3,7 @@
 return [
     'select_model' => 'Выберите модель',
     'select_type_device' => 'Выберите устройство',
-    'select_brend' => 'Выберите бренд'
+    'select_brend' => 'Выберите бренд',
+
+    'new_order' => 'Новый заказ'
 ];

@@ -8,6 +8,17 @@ use App\Models;
 class OrdersController extends Controller
 {
     /**
+     * @var array $rules - правила валидации
+     */
+    protected $rules = array(
+        'sn' => 'required|max:30',
+        'status_id' => 'required|integer',
+        'client_id' => 'required|integer',
+        'model_id' => 'required|integer',
+        'cost' => 'integer',
+        'pay' => 'integer'
+    );
+    /**
      * Display a listing of the resource.
      *
      * @param Models\Order $orderModel
@@ -25,16 +36,16 @@ class OrdersController extends Controller
      *
      * @param Models\Client $clientModel
      * @param Models\Status $statusModel
-     * @param Models\Lmodel $modelsModel
+     * @param Models\Type $typesModel
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create(Models\Client $clientModel, Models\Status $statusModel, Models\Lmodel $modelsModel)
+    public function create(Models\Client $clientModel, Models\Status $statusModel, Models\Type $typesModel)
     {
         $clients = $clientModel->pluck('name', 'id')->toArray();
         $statuses = $statusModel->pluck('name', 'id')->toArray();
-        $models = $modelsModel->with(['brend', 'type'])->get();
-//dd($statuses);
-        return view('orders.create', compact('statuses', 'clients'));
+        $types = $typesModel->pluck('name', 'id')->toArray();
+
+        return view('orders.create', compact('statuses', 'clients', 'types'));
     }
 
     /**
@@ -43,9 +54,17 @@ class OrdersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Models\Order $orderModel)
     {
-        //
+        /** TODO После реализации модуля пользователей добавить подстановку текущего пользователя в user_created */
+        $this->validate($request, $this->rules);
+        $data = $request->all();
+        $data['user_created'] = '1';
+
+
+        $orderModel->create($data);
+
+        return redirect()->route('orders.index');
     }
 
     /**
@@ -58,9 +77,11 @@ class OrdersController extends Controller
     public function show(Models\Order $orderModel, $id)
     {
         // TODO Добавить к запросу информацию об участвующих пользователях
-        $order = $orderModel->with('client', 'status')->where('orders.id', '=', $id)->first();
+        $order = $orderModel->with('client', 'status', 'lmodel')->where('orders.id', '=', $id)->first();
+        $brend = Models\Brend::where('id', '=', $order->lmodel->brend_id)->first();
+        $type = Models\Type::where('id', '=', $brend->type_id)->first();
 
-        return view('orders.show', ['order' => $order]);
+        return view('orders.show', compact('order', 'brend', 'type'));
     }
 
     /**
@@ -70,32 +91,50 @@ class OrdersController extends Controller
      * @param Models\Order $orderModel
      * @param Models\Client $clientModel
      * @param Models\Status $statusModel
-     * @param Models\Lmodel $modelsModel
      * @param Models\Type $typeModel
-     * @param Models\Brend $brendmodel
      * @return \Illuminate\Http\Response
      */
-    public function edit($id, Models\Order $orderModel, Models\Client $clientModel, Models\Status $statusModel, Models\Lmodel $modelsModel, Models\Type $typeModel, Models\Brend $brendmodel)
+    public function edit($id, Models\Order $orderModel, Models\Client $clientModel, Models\Status $statusModel, Models\Type $typeModel)
     {
-        $order = $orderModel->with('client', 'status')->where('orders.id', '=', $id)->first();
+        $order = $orderModel->with('client', 'status', 'lmodel')->where('orders.id', '=', $id)->first();
         $clients = $clientModel->pluck('name', 'id')->toArray();
         $statuses = $statusModel->pluck('name', 'id')->toArray();
-        $models = $modelsModel->with(['brend', 'type'])->get();
-        $types = $typeModel->pluck('name', 'id')->toArray();
 
-        return view('orders.edit', compact('order', 'clients', 'statuses', 'types'));
+        $brends = Models\Brend::where('id', '=', $order->lmodel->brend_id)->pluck('name', 'id')->toArray();
+        $current['brend'] = Models\Brend::select('id', 'type_id')->where('id', '=', $order->lmodel->brend_id)->first();
+
+        $types = $typeModel->pluck('name', 'id')->toArray();
+        $current['type'] = Models\Type::select('id')->where('id', '=', $current['brend']->type_id)->first();
+
+        $models = Models\Lmodel::pluck('name', 'id')->toArray();
+
+        return view('orders.edit', compact('order', 'clients', 'statuses', 'types', 'brends', 'models', 'current'));
     }
 
     /**
+     * ajax
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $ordersModel
+     * @return json $result
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, Models\Order $ordersModel)
     {
-        //
+        $this->validate($request, $this->rules);
+
+        $data = $request->all();
+
+        unset($data['_method']);
+        unset($data['_token']);
+        unset($data['type_id']);
+        unset($data['brend_id']);
+
+        if($ordersModel->where('id', '=', (int)$id)->update($data))
+            $result['success'] = true;
+
+        return json_encode($result);
     }
 
     /**

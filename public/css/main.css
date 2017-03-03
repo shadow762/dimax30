@@ -2,3 +2,50 @@
     vertical-align: middle;
     height: 100%;
 }
+body{
+    position: relative;
+    padding-left: 30px;
+}
+/**modals*/
+.modal-window{
+    position: absolute;
+    right: 0;
+    top:0;
+    transform: translate3d(100%, 0, 0);
+    transition: transform 0.3s ease-in-out;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border: 1px solid #000;
+    border-right: none;
+    background: #fff;
+    padding: 20px;
+    max-width: 50%;
+}
+.modal-window.active{
+    transform: translate3d(0, 0, 0);
+}
+/** end modals*/
+/*left sidebar*/
+.left-sidebar{
+    position: fixed;
+    left: 0;
+    top:0;
+    width: 150px;
+    background: #403939;
+    height: 100vh;
+    transform: translate3d(-120px, 0, 0);
+    transition: transform 0.2s ease-in-out;
+}
+.left-sidebar:hover{
+    transform: translate3d(0, 0, 0);
+}
+/**end left sidebar*/
+/*main*/
+main{
+    padding: 20px;
+}
+/** end main */
+/** header */
+.main-header{
+    padding: 10px 20px;
+}

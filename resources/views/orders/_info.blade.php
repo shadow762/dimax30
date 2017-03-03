@@ -12,7 +12,7 @@
                 <p>Статус: {{ $order->status->name }}</p>
                 <p>Стоимость: {{ $order->cost ? $order->cost . 'руб.' : 'не указано' }} </p>
                 <p>Оплачено: {{ $order->pay ? $order->pay : 0 }}</p>
-                <p>Устройство: В разработке</p>
+                <p>Устройство: {{ $type->name . ' ' . $brend->name . ' ' . $order->lmodel->name }}</p>
                 <p>Клиент: {{ $order->client->name }}</p>
                 <p>Телефон клиента: {{ $order->client->phone }}</p>
                 <p>Email клиента: {{ $order->client->email }}</p>
