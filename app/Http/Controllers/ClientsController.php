@@ -7,6 +7,17 @@ use Illuminate\Http\Request;
 
 class ClientsController extends Controller
 {
+    protected $rules = [
+        'name' => 'required|max:150',
+        'phone' => 'required|max:30'
+    ];
+
+    protected $msgs = [
+        'name.required' => 'Необходимо заполнить имя/наименование клиента',
+        'name.max' => 'Имя/наименование клиента должно быть не более 150 символов',
+        'phone.required' => 'Необходимо указать номер телефона клиента',
+        'phone.max' => 'Номер телефона клиента должен быть не более 30 символов'
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -31,6 +42,7 @@ class ClientsController extends Controller
     }
 
     /**
+     * ajax
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -38,9 +50,12 @@ class ClientsController extends Controller
      */
     public function store(Client $clientModel, Request $request)
     {
-        $clientModel->create($request->all());
+        $this->validate($request, $this->rules, $this->msgs);
 
-        return redirect()->route('clients.index');
+        if($clientModel->create($request->all()))
+            $result['success'] = true;
+
+        return json_encode($result);
     }
 
     /**
@@ -53,7 +68,6 @@ class ClientsController extends Controller
     public function show(Client $clientModel, $id)
     {
         $client = $clientModel->where('id', $id)->first();
-        //dd($client);
 
         return view('clients.show', ['client' => $client]);
     }
@@ -83,16 +97,18 @@ class ClientsController extends Controller
      */
     public function update(Request $request, Client $clientModel, $id)
     {
+        $this->validate($request, $this->rules, $this->msgs);
+
         $clientData = $clientModel->find($id);
 
-        // TODO сделать валидацию входящих данных перед сохранением
         $clientData->name = $request->name;
         $clientData->phone = (int)$request->phone;
         $clientData->email = $request->email;
 
-        $clientData->save();
+        if($clientData->save())
+            $result['success'] = true;
 
-        return redirect()->route('clients.show', ['id' => $id]);
+        return json_encode($result);
     }
 
     /**

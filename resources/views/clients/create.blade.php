@@ -6,10 +6,10 @@
  * Time: 16:57
  */
 ?>
-@extends('app')
+@extends(Request::ajax() ? 'ajax' : 'app')
 @section('content')
 <div class="row">
-{{ Form::open(['route' => 'clients.store', 'method' => 'post'], ['class' => 'col s12', 'data-url' => 'clients']) }}
+{{ Form::open(['route' => 'clients.store', 'method' => 'post', 'class' => 'col s12 ajax-form', 'data-url' => 'clients']) }}
     @include('clients._form')
 {{ Form::close() }}
 </div>

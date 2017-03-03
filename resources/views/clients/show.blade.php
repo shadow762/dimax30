@@ -6,7 +6,7 @@
  * Time: 14:21
  */
 ?>
-@extends('app')
+@extends(Request::ajax() ? 'ajax' : 'app')
 
 @section('content')
     <div class="row">

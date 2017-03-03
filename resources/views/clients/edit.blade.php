@@ -6,11 +6,11 @@
  * Time: 15:13
  */
 ?>
-@extends('app')
+@extends(Request::ajax() ? 'ajax' : 'app')
 
 @section('content')
     <div class="row">
-        {{ Form::model($client, ['route' => ['clients.update', $client->id], 'method' => 'PUT']) }}
+        {{ Form::model($client, ['route' => ['clients.update', $client->id], 'method' => 'PUT', 'class' => 'col s12 ajax-form', 'data-url' => route('clients.update', ['id' => $client->id])]) }}
             @include('clients._form')
         {{ Form::close() }}
     </div>

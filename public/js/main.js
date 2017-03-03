@@ -73,10 +73,7 @@ $(document).ready(function() {
             },
             error: function(data, msg, err){
                 if(err == 'Unprocessable Entity') {
-                    console.log(data.responseJSON);
                     $.each(data.responseJSON, function(key, val){
-                        console.log(key);
-                        console.log(val);
                         var error = '';
                         $.each(val, function(num, text){
                             error += text;

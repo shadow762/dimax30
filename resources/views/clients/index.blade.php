@@ -7,7 +7,7 @@
  */
 ?>
 @extends('app')
-
+@include('clients._header')
 @section('content')
     <table class="bordered responsive-table highlight">
         <thead>
@@ -18,12 +18,11 @@
             </tr>
         </thead>
         @foreach($clients as $client)
-            <tr>
+            <tr class="create-modal-dbl" data-url="{{ route('clients.show', ['id' => $client->id]) }}">
                 <td>{{ $client->name }}</td>
                 <td>{{ $client->phone }}</td>
                 <td>{{ $client->email }}</td>
             </tr>
         @endforeach
     </table>
-{{ link_to_route('clients.create', 'create') }}
 @stop
