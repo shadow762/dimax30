@@ -57,17 +57,32 @@ $(document).ready(function() {
         e.preventDefault();
         console.log('Отправка');
         var data = $(this).serializeArray(),
-            url = $(this).attr('action');
-
+            url = $(this).attr('action'),
+            method = $(this).find('input[name="_method"]').val() ? $(this).find('input[name="_method"]').val() : $(this).attr('method');
+            console.log(method);
         $.ajax({
             url: url,
             data: data,
             dataType: 'json',
-            method:'PUT',
+            method:method,
             success: function(data){
                 if(data.success) {
                     alert('Сохранилось');
                     close_modal();
+                }
+            },
+            error: function(data, msg, err){
+                if(err == 'Unprocessable Entity') {
+                    console.log(data.responseJSON);
+                    $.each(data.responseJSON, function(key, val){
+                        console.log(key);
+                        console.log(val);
+                        var error = '';
+                        $.each(val, function(num, text){
+                            error += text;
+                        });
+                        $('#' + key + '-error').html(error);
+                    });
                 }
             }
         });

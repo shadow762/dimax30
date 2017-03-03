@@ -49,6 +49,7 @@ class OrdersController extends Controller
     }
 
     /**
+     * ajax
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -60,11 +61,13 @@ class OrdersController extends Controller
         $this->validate($request, $this->rules);
         $data = $request->all();
         $data['user_created'] = '1';
+        $data['cost'] = $data['cost'] ? $data['cost'] : 0;
+        $data['pay'] = $data['pay'] ? $data['pay'] : 0;
 
+        if($orderModel->create($data))
+            $result['success'] = true;
 
-        $orderModel->create($data);
-
-        return redirect()->route('orders.index');
+        return json_encode($result);
     }
 
     /**
