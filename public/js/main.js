@@ -2,7 +2,7 @@
  * Created by vkazalin on 20.01.2017.
  */
 $(document).ready(function() {
-    $('select').material_select();
+    $('.materialized select').material_select();
 
     $('body').on('dblclick', '.create-modal-dbl', function (e) {
         e.preventDefault();
@@ -47,19 +47,30 @@ $(document).ready(function() {
             function(data){
                 var new_options = '';
                 $.each(JSON.parse(data), function(key, value){
-                    new_options += '<option value="' + key +'">' + value + '</option>';
+                    new_options += '<li>' + value + '</li>';
                 });
-                target.append(new_options).material_select();
+                target.find('ul.combo-list').html(new_options);
         });
     });
+
+
+
     /** Скрипт для ajax отправки формы */
     $('body').on('submit', 'form.ajax-form', function(e){
         e.preventDefault();
         console.log('Отправка');
         var data = $(this).serializeArray(),
             url = $(this).attr('action'),
-            method = $(this).find('input[name="_method"]').val() ? $(this).find('input[name="_method"]').val() : $(this).attr('method');
-            console.log(method);
+            method = '';
+        if($(this).find('input[name="_method"]').is('input')) {
+            console.log('indef');
+            method = $(this).find('input[name="_method"]').val()
+        }
+        else {
+            console.log('attr');
+            method = $(this).attr('method');
+        }
+        console.log(method);
         $.ajax({
             url: url,
             data: data,

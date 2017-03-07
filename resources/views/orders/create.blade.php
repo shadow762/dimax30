@@ -7,5 +7,5 @@
         {{ Form::submit('Отправить', ['class' => 'btn waves-effect waves-light orange']) }}
         {{ Form::close() }}
     </div>
-    <script>$('form select').material_select();</script>
+    <script>//$('form select').material_select();</script>
     @stop

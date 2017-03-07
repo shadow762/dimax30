@@ -2,61 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Brend;
+use App\Models\Type;
 use Illuminate\Http\Request;
 
-class BrendsController extends Controller
+class TypesController extends Controller
 {
-    public function manageVue() {
-        return view('manage-vue');
-    }
-    public function index(Request $request)
 
-    {
-
-        $items = Brend::latest()->paginate(5);
-
-
-        $response = [
-
-            'pagination' => [
-
-                'total' => $items->total(),
-
-                'per_page' => $items->perPage(),
-
-                'current_page' => $items->currentPage(),
-
-                'last_page' => $items->lastPage(),
-
-                'from' => $items->firstItem(),
-
-                'to' => $items->lastItem()
-
-            ],
-
-            'data' => $items
-
-        ];
-
-
-        return response()->json($response);
-
+    public function getType() {
+        return true;
     }
     /**
-     * @param Request $request
-     * @return string
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
-    public function getBrend(Request $request) {
-        $type_id = (int)$request->id;
-
-        $brends = Brend::where('type_id', '=', $type_id)->pluck('name', 'id')->toArray();
-        array_unshift($brends, trans('order.select_brend'));
-
-        return json_encode($brends);
+    public function index()
+    {
+        //
     }
-
-
 
     /**
      * Show the form for creating a new resource.

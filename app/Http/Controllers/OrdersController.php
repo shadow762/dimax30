@@ -66,7 +66,6 @@ class OrdersController extends Controller
 
         if($orderModel->create($data))
             $result['success'] = true;
-
         return json_encode($result);
     }
 
@@ -104,10 +103,10 @@ class OrdersController extends Controller
         $statuses = $statusModel->pluck('name', 'id')->toArray();
 
         $brends = Models\Brend::where('id', '=', $order->lmodel->brend_id)->pluck('name', 'id')->toArray();
-        $current['brend'] = Models\Brend::select('id', 'type_id')->where('id', '=', $order->lmodel->brend_id)->first();
+        $current['brend'] = Models\Brend::select('id', 'type_id', 'name')->where('id', '=', $order->lmodel->brend_id)->first();
 
         $types = $typeModel->pluck('name', 'id')->toArray();
-        $current['type'] = Models\Type::select('id')->where('id', '=', $current['brend']->type_id)->first();
+        $current['type'] = Models\Type::select('id', 'name')->where('id', '=', $current['brend']->type_id)->first();
 
         $models = Models\Lmodel::pluck('name', 'id')->toArray();
 
