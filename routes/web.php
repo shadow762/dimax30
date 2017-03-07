@@ -16,7 +16,11 @@ Route::get('/', function () {
 });
 
 $router->resource('clients', 'ClientsController');
+
+Route::get('orders-panel', ['as' => 'orders.panel', 'uses' => 'OrdersController@getPage']);
 $router->resource('orders', 'OrdersController');
+
+
 $router->resource('types', 'TypesController');
 
 Route::post('types/gettypes', ['as' => 'types.get', 'uses' => 'TypesController@getType']);

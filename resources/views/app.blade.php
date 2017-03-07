@@ -26,13 +26,19 @@
 
         <!-- Compiled and minified JavaScript -->
         <!--<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>-->
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <!--<script src="{{asset('public\js\jquery-ui.min.js')}}" type="text/javascript"></script>-->
-        <script src="{{asset('public/js/main.js')}}" type="text/javascript"></script>
-        <script src="{{asset('public/js/modal.js')}}" type="text/javascript"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.js"></script>
+
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/vue.resource/0.9.3/vue-resource.min.js"></script>
+
+        <script type="text/javascript" src="/public/js/order.js"></script>
+
+        <!--<script src="{{asset('public/js/main.js')}}" type="text/javascript"></script>
+        <script src="{{asset('public/js/modal.js')}}" type="text/javascript"></script>-->
     </head>
 <body>
 <header class="main-header">
@@ -49,7 +55,6 @@
 </aside>
 <main>
  @yield('content')
-    <example></example>
 </main>
 </body>
 </html>

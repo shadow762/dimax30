@@ -9,7 +9,7 @@
 @extends('app')
 @include('orders._header')
 @section('content')
-    <div class="row">
+    <div class="row" id="orders-block">
         <table>
             <thead>
                 <tr>
@@ -24,19 +24,10 @@
                 </tr>
             </thead>
             <tbody>
-
-                @foreach($orders as $order)
-                    <tr class="create-modal-dbl" data-url="{{ route('orders.show', ['id' => $order->id]) }}">
-                        <td>{{ $order->id }}</td>
-                        <td>{{ $order->status }}</td>
-                        <td>{{ $order->client_name }}</td>
-                        <td>{{ $order->created }}</td>
-                        <td>{{ $order->sn }}</td>
-                        <td>{{ $order->model_name }}</td>
-                        <td>{{ $order->creator_name }}</td>
-                        <td>{{ $order->resp_name }}</td>
-                    </tr>
-                @endforeach
+                <tr v-for="order in orders" class="create-modal-dbl">
+                    <td>@{{ order.id }}</td>
+                    <td>@{{ order.sn }}</td>
+                </tr>
             </tbody>
         </table>
 

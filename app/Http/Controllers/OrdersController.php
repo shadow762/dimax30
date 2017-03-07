@@ -18,6 +18,9 @@ class OrdersController extends Controller
         'cost' => 'integer',
         'pay' => 'integer'
     );
+    public function getPage() {
+        return view('orders.index');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -26,9 +29,31 @@ class OrdersController extends Controller
      */
     public function index(Models\Order $orderModel)
     {
-        $orders = $orderModel->getAllWithAssoc();
+        $orders = $orderModel->latest()->paginate(5);
 
-        return view('orders.index', ['orders' => $orders]);
+        $response = [
+
+            'pagination' => [
+
+                'total' => $orders->total(),
+
+                'per_page' => $orders->perPage(),
+
+                'current_page' => $orders->currentPage(),
+
+                'last_page' => $orders->lastPage(),
+
+                'from' => $orders->firstItem(),
+
+                'to' => $orders->lastItem()
+
+            ],
+
+            'data' => $orders
+
+        ];
+
+        return response()->json($response);/*view('orders.index', ['orders' => $orders])*/;
     }
 
     /**

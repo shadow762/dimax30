@@ -113,7 +113,7 @@ new Vue({
         createItem: function(){
 
             var input = this.newItem;
-
+            console.log(input);
             this.$http.post('/brends',input).then((response) => {
 
                 this.changePage(this.pagination.current_page);
