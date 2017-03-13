@@ -42,8 +42,7 @@ class Order extends Model
             ->leftJoin('lmodels as m', 'orders.model_id', '=', 'm.id')
             ->leftJoin('clients as c', 'orders.client_id', '=', 'c.id')
             ->leftJoin('brends as b', 'm.brend_id', '=', 'b.id')
-            ->leftJoin('types as t', 'b.type_id', '=', 't.id')
-            ->get();
+            ->leftJoin('types as t', 'b.type_id', '=', 't.id');
     }
     /** One-to-many relationships with Client
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

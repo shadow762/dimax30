@@ -11,6 +11,11 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <script>
+            window.Laravel = <?php echo json_encode([
+                    'csrfToken' => csrf_token(),
+            ]); ?>
+        </script>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,14 +36,6 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.js"></script>
-
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/vue.resource/0.9.3/vue-resource.min.js"></script>
-
-        <script type="text/javascript" src="/public/js/order.js"></script>
-
-        <!--<script src="{{asset('public/js/main.js')}}" type="text/javascript"></script>
-        <script src="{{asset('public/js/modal.js')}}" type="text/javascript"></script>-->
     </head>
 <body>
 <header class="main-header">
@@ -56,5 +53,7 @@
 <main>
  @yield('content')
 </main>
+<script type="text/javascript" src="/public/js/app.js"></script>
+
 </body>
 </html>
