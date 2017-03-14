@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 
 class BrendsController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return string
+     */
+    public function getBrends() {
+        return json_encode(Brend::select('id', 'name')->get());
+    }
+
     public function manageVue() {
         return view('manage-vue');
     }
@@ -43,18 +51,7 @@ class BrendsController extends Controller
         return response()->json($response);
 
     }
-    /**
-     * @param Request $request
-     * @return string
-     */
-    public function getBrend(Request $request) {
-        $type_id = (int)$request->id;
 
-        $brends = Brend::where('type_id', '=', $type_id)->pluck('name', 'id')->toArray();
-        array_unshift($brends, trans('order.select_brend'));
-
-        return json_encode($brends);
-    }
 
 
 

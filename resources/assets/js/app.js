@@ -13,7 +13,24 @@ require('./bootstrap');
  * the application, or feel free to tweak this setup for your needs.
  */
 
-/*Vue.component('example', require('./components/Example.vue'));*/
+class Errors{
+    constructor() {
+        this.errors = {};
+    }
+    get(field) {
+        if(this.errors[field]) {
+            return this.errors[field][0];
+        }
+    }
+    set(errors) {
+        this.errors = errors;
+    }
+    clear() {
+        this.errors = {};
+    }
+}
+
+Vue.component('myselect', require('./components/Select.vue'));
 
 /*const app = new Vue({
     el: '#app'
@@ -22,7 +39,11 @@ const order = new Vue({
     el: '#orders-block',
     data: {
         orders: [],
-        statuses: [{id: '0', name: '123'}, {id:'1', name: '321'} ],
+        statuses: [],
+        types:[],
+        brends:[],
+        models:[],
+        errors: new Errors(),
         pagination: {
             total: 0,
             per_page: 2,
@@ -33,12 +54,15 @@ const order = new Vue({
         offset: 4,
         formErrors: {},
         formErrorsUpdate: {},
-        newOrder: {'sn': '', 'description': '', 'status_id': ''},
+        newOrder: {'sn': '', 'description': '', 'status_id': '', type_id: '', brend_id: '', model_id: '', cost: '', pay: ''},
         fillItem: {'title': '', 'description': '', 'id': ''},
         showAddForm: false
     },
     mounted: function () {
-        this.getVueItems(this.pagination.current_page);
+        this.getOrders(this.pagination.current_page);
+        this.getStatuses();
+        this.getDeviceTypes();
+        this.getDeviceBrends();
     },
     computed: {
         isActived: function () {
@@ -65,7 +89,8 @@ const order = new Vue({
         }
     },
     methods: {
-        getVueItems: function (page) {
+        /* order merhods */
+        getOrders: function (page) {
             this.$http.get('/orders?page=' + page).then((response) => {
                 this.$set(this, 'orders', response.data.data.data);
             this.$set(this, 'pagination', response.data.pagination);
@@ -73,7 +98,36 @@ const order = new Vue({
         },
         changePage: function (page) {
             this.pagination.current_page = page;
-            this.getVueItems(page);
+            this.getOrders(page);
+        },
+        createOrder: function(){
+            this.$http.post('/orders', this.newOrder).then((response) => {
+                console.log(response.body);
+        }, (response) => {
+                this.errors.set(response.body);
+            });
+        },
+        /* */
+        getStatuses: function() {
+            this.$http.post('/getstatuses').then(response => {
+                this.$set(this, 'statuses', response.body);
+            });
+        },
+        getDeviceTypes: function() {
+            this.$http.post('/getdevicetypes').then(response => {
+                this.$set(this, 'types', response.body);
+            });
+        },
+        getDeviceBrends: function() {
+            this.$http.post('/getdevicebrends').then(response => {
+                this.$set(this, 'brends', response.body);
+            });
+        },
+        getDeviceModels: function(brend) {
+
+            this.$http.post('/getdevicemodels', {id: brend}).then(response => {
+                this.$set(this, 'models', response.body)
+            });
         }
     }
 });

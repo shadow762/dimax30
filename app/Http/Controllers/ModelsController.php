@@ -15,8 +15,7 @@ class ModelsController extends Controller
     public function getModels(Request $request) {
         $brend_id = (int)$request->id;
 
-        $models = Lmodel::where('brend_id', '=', $brend_id)->pluck('name', 'id')->toArray();
-        array_unshift($models, trans('order.select_model'));
+        $models = Lmodel::where('brend_id', '=', $brend_id)->select('name', 'id')->get();
 
         return json_encode($models);
     }

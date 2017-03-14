@@ -7,9 +7,8 @@ use Illuminate\Http\Request;
 
 class TypesController extends Controller
 {
-
-    public function getType() {
-        return true;
+    public function getTypes() {
+        return json_encode(Type::select('id', 'name')->get());
     }
     /**
      * Display a listing of the resource.
