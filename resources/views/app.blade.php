@@ -53,7 +53,10 @@
 <main>
  @yield('content')
 </main>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script type="text/javascript" src="/public/js/app.js"></script>
+<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 
 </body>
 </html>

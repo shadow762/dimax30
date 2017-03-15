@@ -6,7 +6,7 @@
  * Time: 16:57
  */
 ?>
-@extends(Request::ajax() ? 'ajax' : 'app')
+@extends('ajax')
 @section('content')
 <div class="row">
 {{ Form::open(['route' => 'clients.store', 'method' => 'post', 'class' => 'col s12 ajax-form', 'data-url' => 'clients']) }}

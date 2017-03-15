@@ -30,6 +30,69 @@ class Errors{
     }
 }
 
+class Types {
+    constructor() {
+        this.data = {};
+        this.new = {};
+        this.errors = {};
+        this.formUrl = '/clients/create';
+        this.saveUrl = '';
+    }
+    get() {
+        axios.post('/getdevicetypes')
+            .then(this.onSuccess.bind(this))
+            .catch(this.onFail.bind(this));
+    }
+    onSuccess(response){
+        this.data = response.data;
+    }
+    onFail(errors){
+        this.errors = errors.data;
+    }
+    loadAddForm() {
+        axios.get(this.formUrl).then(function(response){
+            console.log(response.data);
+        });
+    }
+}
+class Brends{
+    constructor() {
+        this.data = {};
+        this.new = {};
+        this.errors = {};
+    }
+    get(){
+        axios.post('/getdevicebrends')
+            .then(this.onSuccess.bind(this))
+            .catch(this.onFail.bind(this));
+    }
+    onSuccess(response){
+        this.data = response.data;
+    }
+    onFail(errors){
+        this.errors = errors.data;
+    }
+}
+class Models{
+    constructor() {
+        this.data = {};
+        this.new = {};
+        this.errors = {};
+    }
+    get(brend_id){
+        console.log(brend_id);
+        axios.post('/getdevicemodels', {id : brend_id})
+            .then(this.onSuccess.bind(this))
+            .catch(this.onFail.bind(this));
+    }
+    onSuccess(response){
+        this.data = response.data;
+    }
+    onFail(errors){
+        this.errors = errors.data;
+    }
+}
+
 Vue.component('myselect', require('./components/Select.vue'));
 
 /*const app = new Vue({
@@ -40,10 +103,11 @@ const order = new Vue({
     data: {
         orders: [],
         statuses: [],
-        types:[],
-        brends:[],
-        models:[],
+        types: new Types(),
+        brends: new Brends(),
+        models: new Models(),
         errors: new Errors(),
+
         pagination: {
             total: 0,
             per_page: 2,
@@ -61,8 +125,8 @@ const order = new Vue({
     mounted: function () {
         this.getOrders(this.pagination.current_page);
         this.getStatuses();
-        this.getDeviceTypes();
-        this.getDeviceBrends();
+        this.types.get();
+        this.brends.get();
     },
     computed: {
         isActived: function () {
@@ -89,6 +153,9 @@ const order = new Vue({
         }
     },
     methods: {
+        tests: function() {
+            console.log(this.types.types);
+        },
         /* order merhods */
         getOrders: function (page) {
             this.$http.get('/orders?page=' + page).then((response) => {
@@ -101,6 +168,7 @@ const order = new Vue({
             this.getOrders(page);
         },
         createOrder: function(){
+            this.errors.clear();
             this.$http.post('/orders', this.newOrder).then((response) => {
                 console.log(response.body);
         }, (response) => {
@@ -111,22 +179,6 @@ const order = new Vue({
         getStatuses: function() {
             this.$http.post('/getstatuses').then(response => {
                 this.$set(this, 'statuses', response.body);
-            });
-        },
-        getDeviceTypes: function() {
-            this.$http.post('/getdevicetypes').then(response => {
-                this.$set(this, 'types', response.body);
-            });
-        },
-        getDeviceBrends: function() {
-            this.$http.post('/getdevicebrends').then(response => {
-                this.$set(this, 'brends', response.body);
-            });
-        },
-        getDeviceModels: function(brend) {
-
-            this.$http.post('/getdevicemodels', {id: brend}).then(response => {
-                this.$set(this, 'models', response.body)
             });
         }
     }
