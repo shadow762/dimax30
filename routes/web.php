@@ -27,7 +27,9 @@ Route::post('getstatuses', ['as' => 'statuses.get', 'uses' => 'StatusesControlle
 Route::post('getdevicetypes', ['as' => 'types.get', 'uses' => 'TypesController@getTypes']);
 Route::post('getdevicebrends', ['as' => 'brends.get', 'uses' => 'BrendsController@getBrends']);
 Route::post('getdevicemodels', ['as' => 'models.get', 'uses' => 'ModelsController@getModels']);
+Route::post('getclients', ['as' => 'clients.get', 'uses' => 'ClientsController@getClients']);
 
 
 Route::get('vue-brend', ['as' => 'brends.get', 'uses' => 'BrendsController@manageVue']);
 $router->resource('brends', 'BrendsController');
+$router->resource('models', 'ModelsController');

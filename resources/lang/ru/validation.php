@@ -30,6 +30,9 @@ return [
         /* clients */
         'phone' => [
             'required' => 'Необходимо ввести номер телефона'
+        ],
+        'name' => [
+            'required' => 'Необходимо указать название'
         ]
     ],
     'attributes' => [

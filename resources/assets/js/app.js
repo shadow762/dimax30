@@ -33,38 +33,103 @@ class Errors{
 class Types {
     constructor() {
         this.data = {};
-        this.new = {};
-        this.errors = {};
-        this.formUrl = '/clients/create';
-        this.saveUrl = '';
+        this.new = {name:''};
+        this.errors = new Errors();
+        this.formUrl = '/types/create';
+        this.saveUrl = '/types';
+        this.showModal = false;
+    }
+    clear() {
+        this.new = {name:''};
     }
     get() {
         axios.post('/getdevicetypes')
             .then(this.onSuccess.bind(this))
             .catch(this.onFail.bind(this));
     }
+    create() {
+        axios.post(this.saveUrl, this.new)
+            .then(this.createSuccess.bind(this))
+            .catch(this.onFail.bind(this));
+    }
+    createSuccess(response){
+        //выводим сообщение, очищаем ошибки и данные нового элемента, обновляем список элементов
+        alert(response.data.msg);
+        this.clear();
+        this.showModal = false;
+        this.errors.clear();
+        this.get();
+    }
     onSuccess(response){
         this.data = response.data;
     }
-    onFail(errors){
-        this.errors = errors.data;
+    onFail(error){
+        this.errors.set(error.response.data);
     }
-    loadAddForm() {
-        axios.get(this.formUrl).then(function(response){
-            console.log(response.data);
-        });
+}
+class Clients {
+    constructor() {
+        this.data = {};
+        this.new = {name:'', phone:'', email:''};
+        this.errors = new Errors();
+        this.formUrl = '/clients/create';
+        this.saveUrl = '/clients';
+        this.showModal = false;
+    }
+    clear() {
+        this.new = {name:'', phone:'', email:''};
+    }
+    get() {
+        axios.post('/getclients')
+            .then(this.onSuccess.bind(this))
+            .catch(this.onFail.bind(this));
+    }
+    create() {
+        axios.post(this.saveUrl, this.new)
+            .then(this.createSuccess.bind(this))
+            .catch(this.onFail.bind(this));
+    }
+    createSuccess(response){
+        //выводим сообщение, очищаем ошибки и данные нового элемента, обновляем список элементов
+        alert(response.data.msg);
+        this.clear();
+        this.showModal = false;
+        this.errors.clear();
+        this.get();
+    }
+    onSuccess(response){
+        this.data = response.data;
+    }
+    onFail(error){
+        this.errors.set(error.response.data);
     }
 }
 class Brends{
     constructor() {
         this.data = {};
         this.new = {};
-        this.errors = {};
+        this.errors = new Errors();
+        this.formUrl = '/brends/create';
+        this.saveUrl = '/brends';
+        this.showModal = false;
     }
     get(){
         axios.post('/getdevicebrends')
             .then(this.onSuccess.bind(this))
             .catch(this.onFail.bind(this));
+    }
+    create() {
+        axios.post(this.saveUrl, this.new)
+            .then(this.createSuccess.bind(this))
+            .catch(this.onFail.bind(this));
+    }
+    createSuccess(response){
+        //выводим сообщение, очищаем ошибки и данные нового элемента, обновляем список элементов
+        alert(response.data.msg);
+        this.clear();
+        this.showModal = false;
+        this.errors.clear();
+        this.get();
     }
     onSuccess(response){
         this.data = response.data;
@@ -77,13 +142,29 @@ class Models{
     constructor() {
         this.data = {};
         this.new = {};
-        this.errors = {};
+        this.errors = new Errors();
+        this.formUrl = '/models/create';
+        this.saveUrl = '/models';
+        this.showModal = false;
     }
     get(brend_id){
         console.log(brend_id);
         axios.post('/getdevicemodels', {id : brend_id})
             .then(this.onSuccess.bind(this))
             .catch(this.onFail.bind(this));
+    }
+    create() {
+        axios.post(this.saveUrl, this.new)
+            .then(this.createSuccess.bind(this))
+            .catch(this.onFail.bind(this));
+    }
+    createSuccess(response){
+        //выводим сообщение, очищаем ошибки и данные нового элемента, обновляем список элементов
+        alert(response.data.msg);
+        this.clear();
+        this.showModal = false;
+        this.errors.clear();
+        this.get();
     }
     onSuccess(response){
         this.data = response.data;
@@ -106,6 +187,7 @@ const order = new Vue({
         types: new Types(),
         brends: new Brends(),
         models: new Models(),
+        clients: new Clients(),
         errors: new Errors(),
 
         pagination: {
@@ -116,17 +198,16 @@ const order = new Vue({
             current_page: 1
         },
         offset: 4,
-        formErrors: {},
-        formErrorsUpdate: {},
-        newOrder: {'sn': '', 'description': '', 'status_id': '', type_id: '', brend_id: '', model_id: '', cost: '', pay: ''},
-        fillItem: {'title': '', 'description': '', 'id': ''},
-        showAddForm: false
+        newOrder: {'sn': '', 'description': '', 'status_id': '', client_id: '', type_id: '', brend_id: '', model_id: '', cost: '', pay: ''},
+        showAddForm: false,
+        showModal: false
     },
     mounted: function () {
         this.getOrders(this.pagination.current_page);
         this.getStatuses();
         this.types.get();
         this.brends.get();
+        this.clients.get();
     },
     computed: {
         isActived: function () {
@@ -153,9 +234,6 @@ const order = new Vue({
         }
     },
     methods: {
-        tests: function() {
-            console.log(this.types.types);
-        },
         /* order merhods */
         getOrders: function (page) {
             this.$http.get('/orders?page=' + page).then((response) => {
@@ -170,7 +248,6 @@ const order = new Vue({
         createOrder: function(){
             this.errors.clear();
             this.$http.post('/orders', this.newOrder).then((response) => {
-                console.log(response.body);
         }, (response) => {
                 this.errors.set(response.body);
             });

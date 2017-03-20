@@ -18,6 +18,10 @@ class ClientsController extends Controller
         'phone.required' => 'Необходимо указать номер телефона клиента',
         'phone.max' => 'Номер телефона клиента должен быть не более 30 символов'
     ];
+
+    public function getClients() {
+        return json_encode(Client::select('name', 'id')->get());
+    }
     /**
      * Display a listing of the resource.
      *

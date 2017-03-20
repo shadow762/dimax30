@@ -14,8 +14,12 @@
         .input-field{position: relative}
         .add-btn{position: absolute; top:0; right: -50px;}
     </style>
+
     <div class="row" id="orders-block">
-        <div @click="tests()">tests</div>
+        @include('types._modal')
+        @include('clients._modal')
+        @include('brends._modal')
+        @include('models._modal')
         @include('orders._header')
         <section class="new-order-section" v-show="showAddForm">
 
@@ -34,18 +38,25 @@
                 <myselect v-model.lazy="newOrder.status_id" :list="statuses" text="статус"></myselect>
                 <span class="error-text" id="status_id-error" v-text="errors.get('status_id')"></span>
             </div>
+            <div class="input-field col s10 materialized">
+                <myselect v-model.lazy="newOrder.client_id" :list="clients.data" text="клиента"></myselect>
+                <span class="error-text" id="client_id-error" v-text="errors.get('client_id')"></span>
+                <a class="btn-floating waves-effect waves-light red add-btn" @click.prevent="clients.showModal=true"><i class="material-icons">add</i></a>
+            </div>
             <div class="input-field col s10">
                 <myselect v-model.lazy="newOrder.type_id" :list="types.data" text="тип устройства"></myselect>
-                <span class="error-text" id="client_id-error" v-text="errors.get('type_id')"></span>
-                <a class="btn-floating waves-effect waves-light red add-btn" @click.prevent="types.loadAddForm()"><i class="material-icons">add</i></a>
+                <span class="error-text" id="type_id-error" v-text="errors.get('type_id')"></span>
+                <a class="btn-floating waves-effect waves-light red add-btn" @click.prevent="types.showModal=true"><i class="material-icons">add</i></a>
             </div>
             <div class="input-field col s10">
                 <myselect v-model.lazy="newOrder.brend_id" @change="models.get(newOrder.brend_id)" :list="brends.data" text="бренд"></myselect>
                 <span class="error-text" id="brend_id-error" v-text="errors.get('brend_id')"></span>
+                <a class="btn-floating waves-effect waves-light red add-btn" @click.prevent="brends.showModal=true"><i class="material-icons">add</i></a>
             </div>
             <div class="input-field col s10">
                 <myselect v-model.lazy="newOrder.model_id" :list="models.data" text="модель"></myselect>
                 <span class="error-text" id="model_id-error" v-text="errors.get('model_id')"></span>
+                <a class="btn-floating waves-effect waves-light red add-btn" @click.prevent="models.showModal=true"><i class="material-icons">add</i></a>
             </div>
             <div class="input-field col s10">
                 {{ Form::label('cost', 'Стоимость') }}
