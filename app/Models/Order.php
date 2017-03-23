@@ -71,7 +71,12 @@ class Order extends Model
     public function user() {
         return $this->belongsTo('App\Models\User', 'user_created');
     }
-
+    public function part() {
+        return $this->belongsToMany('App\Models\Part');
+    }
+    public function service() {
+        return $this->belongsToMany('App\Models\Service');
+    }
     /*public function cuser() {
         return $this->belongsTo('App\Models\User', 'user_closed');
     }

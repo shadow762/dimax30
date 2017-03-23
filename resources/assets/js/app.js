@@ -198,7 +198,30 @@ const order = new Vue({
             current_page: 1
         },
         offset: 4,
-        newOrder: {'sn': '', 'description': '', 'status_id': '', client_id: '', type_id: '', brend_id: '', model_id: '', cost: '', pay: ''},
+        newOrder: {
+            'sn': '',
+            'description': '',
+            'status_id': '',
+            client_id: '',
+            type_id: '',
+            brend_id: '',
+            model_id: '',
+            cost: '',
+            pay: '',
+            parts: [],
+            services: []
+        },
+        newPart: {
+            name: '',
+            numbers: '',
+            price_own: '',
+            price_sell: ''
+        },
+        newService: {
+            name: '',
+            numbers: '',
+            price: ''
+        },
         showAddForm: false,
         showModal: false
     },
@@ -252,11 +275,32 @@ const order = new Vue({
                 this.errors.set(response.body);
             });
         },
+        /*updateOrder: function(){
+            this.errors.clear();
+            this.$http.put('/orders', this.currentOrder).then((response) => {
+            }, (response) => {
+                this.errors.set(response.body);
+            });
+        },*/
         /* */
         getStatuses: function() {
             this.$http.post('/getstatuses').then(response => {
                 this.$set(this, 'statuses', response.body);
             });
+        },
+        savePart: function() {
+            this.newOrder.parts.push(this.newPart);
+            this.newPart =  {'name': '', 'numbers': '', 'price_own': '', 'price_sell': ''};
+        },
+        removePart: function(key) {
+            this.newOrder.parts.splice(key, 1);
+        },
+        saveService: function() {
+            this.newOrder.services.push(this.newService);
+            this.newService =  {name: '', numbers: '', price: ''};
+        },
+        removeService: function(key) {
+            this.newOrder.services.splice(key, 1);
         }
     }
 });

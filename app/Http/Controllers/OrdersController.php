@@ -72,15 +72,57 @@ class OrdersController extends Controller
      */
     public function store(Request $request, Models\Order $orderModel)
     {
-        /** TODO После реализации модуля пользователей добавить подстановку текущего пользователя в user_created */
-        $this->validate($request, $this->rules);
+
+        //$this->validate($request, $this->rules);
+
         $data = $request->all();
+        //dd($data);
+        if(!empty($data['parts'])) {
+            $data['parts'] = PartsController::store($data['parts']);
+        }
+        if(!empty($data['services'])) {
+            $data['services'] = ServicesController::store($data['services']);
+        }
+        //dd($data);
         $data['user_created'] = '1';
         $data['cost'] = $data['cost'] ? $data['cost'] : 0;
         $data['pay'] = $data['pay'] ? $data['pay'] : 0;
 
-        if($orderModel->create($data))
+        $orderModel->status_id = (int)$request->status_id;
+        $orderModel->client_id = (int)$request->client_id;
+        $orderModel->model_id = (int)$request->model_id;
+
+        /** TODO После реализации модуля пользователей добавить подстановку текущего пользователя в user_created */
+        $orderModel->user_created = 1;
+
+        $orderModel->sn = $request->sn;
+        $orderModel->description = $request->description;
+        $orderModel->cost = (int)$request->cost;
+        $orderModel->pay = (int)$request->pay;
+
+        if($orderModel->save()) {
+            if($data['parts']) {
+                $partAttach = [];
+                foreach ($data['parts'] as $part) {
+                    $partAttach[$part['id']]['price_own'] = $part['price_own'];
+                    $partAttach[$part['id']]['price_sell'] = $part['price_sell'];
+                    $partAttach[$part['id']]['quantity'] = $part['numbers'];
+
+                }
+                $orderModel->part()->sync($partAttach);
+            }
+            if($data['services']) {
+                $serviceAttach = [];
+                foreach ($data['services'] as $service) {
+                    $serviceAttach[$service['id']]['price'] = $service['price'];
+                    $serviceAttach[$service['id']]['quantity'] = $service['numbers'];
+
+                }
+                $orderModel->service()->sync($serviceAttach);
+            }
             $result['success'] = true;
+        }
+
         return json_encode($result);
     }
 
@@ -133,23 +175,50 @@ class OrdersController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @param $ordersModel
      * @return json $result
      */
-    public function update(Request $request, $id, Models\Order $ordersModel)
+    public function update(Request $request)
     {
-        $this->validate($request, $this->rules);
+
+        //$this->validate($request, $this->rules);
 
         $data = $request->all();
+        //dd($data);
+        if(!empty($data['parts'])) {
+            $data['parts'] = PartsController::store($data['parts']);
+        }
+        //dd($data);
+        $data['user_created'] = '1';
+        $data['cost'] = $data['cost'] ? $data['cost'] : 0;
+        $data['pay'] = $data['pay'] ? $data['pay'] : 0;
 
-        unset($data['_method']);
-        unset($data['_token']);
-        unset($data['type_id']);
-        unset($data['brend_id']);
+        $orderModel = Models\Order::find($order);
+        $orderModel->status_id = (int)$request->status_id;
+        $orderModel->client_id = (int)$request->client_id;
+        $orderModel->model_id = (int)$request->model_id;
 
-        if($ordersModel->where('id', '=', (int)$id)->update($data))
+        /** TODO После реализации модуля пользователей добавить подстановку текущего пользователя в user_created */
+        $orderModel->user_created = 1;
+
+        $orderModel->sn = $request->sn;
+        $orderModel->description = $request->description;
+        $orderModel->cost = (int)$request->cost;
+        $orderModel->pay = (int)$request->pay;
+
+        if($orderModel->save()) {
+            if($data['parts']) {
+                $partAttach = [];
+                foreach ($data['parts'] as $part) {
+                    $partAttach[$part['id']]['price_own'] = $part['price_own'];
+                    $partAttach[$part['id']]['price_sell'] = $part['price_sell'];
+                    $partAttach[$part['id']]['quantity'] = $part['numbers'];
+
+                }
+                $orderModel->part()->sync($partAttach);
+            }
             $result['success'] = true;
+        }
 
         return json_encode($result);
     }
@@ -164,11 +233,7 @@ class OrdersController extends Controller
     {
         //
     }
-
-    /**
-     * @param $brend_id
-     */
-    public function getModel($brend_id) {
+    public function attachPart(Request $request){
 
     }
 }
