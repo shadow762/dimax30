@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Мар 20 2017 г., 15:44
+-- Время создания: Мар 23 2017 г., 15:09
 -- Версия сервера: 5.5.53
 -- Версия PHP: 5.6.29
 
@@ -224,11 +224,11 @@ CREATE TABLE `orders` (
   `user_closed` int(10) UNSIGNED DEFAULT NULL,
   `user_resp` int(10) UNSIGNED DEFAULT NULL,
   `description` text COLLATE utf8_unicode_ci,
-  `cost` mediumint(8) UNSIGNED DEFAULT NULL,
+  `cost` mediumint(8) UNSIGNED DEFAULT '0',
   `client_id` int(10) UNSIGNED NOT NULL,
   `model_id` int(10) UNSIGNED NOT NULL,
   `closed` timestamp NULL DEFAULT NULL,
-  `pay` mediumint(8) UNSIGNED DEFAULT NULL
+  `pay` mediumint(8) UNSIGNED DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -244,7 +244,74 @@ INSERT INTO `orders` (`id`, `sn`, `created`, `updated`, `status_id`, `user_creat
   (8, 'fdsgfgd', '2017-03-06 06:33:40', NULL, 1, 1, NULL, NULL, '', 0, 153, 1, NULL, 0),
   (9, 'fdsgfgd', '2017-03-06 06:33:53', NULL, 1, 1, NULL, NULL, '', 0, 153, 1, NULL, 0),
   (10, 'fsd', '2017-03-06 06:48:25', NULL, 1, 1, NULL, NULL, '', 0, 153, 1, NULL, 0),
-  (11, 'fsdf', '2017-03-06 06:54:32', NULL, 1, 1, NULL, NULL, '', 0, 153, 1, NULL, 0);
+  (11, 'fsdf', '2017-03-06 06:54:32', NULL, 1, 1, NULL, NULL, '', 0, 153, 1, NULL, 0),
+  (12, '123', '2017-03-23 06:28:31', NULL, 1, 1, NULL, NULL, '', 123, 117, 9, NULL, 123),
+  (13, '123', '2017-03-23 06:30:28', NULL, 1, 1, NULL, NULL, '', 123, 117, 9, NULL, 123),
+  (14, '123', '2017-03-23 06:42:13', NULL, 1, 1, NULL, NULL, '', 123, 117, 9, NULL, 123),
+  (15, '123', '2017-03-23 06:42:28', NULL, 1, 1, NULL, NULL, '', 123, 117, 9, NULL, 123),
+  (16, '123', '2017-03-23 08:04:35', NULL, 1, 1, NULL, NULL, '', 123, 117, 9, NULL, 123),
+  (17, '123', '2017-03-23 08:04:43', NULL, 1, 1, NULL, NULL, '', 123, 117, 9, NULL, 123),
+  (18, '123', '2017-03-23 08:12:30', NULL, 1, 1, NULL, NULL, '', 123, 117, 9, NULL, 123),
+  (20, '31242', '2017-03-23 10:53:27', NULL, 1, 1, NULL, NULL, '', 0, 153, 2, NULL, 0),
+  (21, '31242', '2017-03-23 10:57:34', NULL, 1, 1, NULL, NULL, '', 0, 153, 2, NULL, 0),
+  (22, '31242', '2017-03-23 10:58:13', NULL, 1, 1, NULL, NULL, '', 0, 153, 2, NULL, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `order_part`
+--
+
+CREATE TABLE `order_part` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `part_id` int(11) NOT NULL,
+  `price_own` mediumint(8) UNSIGNED DEFAULT NULL,
+  `price_sell` mediumint(8) UNSIGNED DEFAULT NULL,
+  `quantity` smallint(5) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `order_part`
+--
+
+INSERT INTO `order_part` (`id`, `order_id`, `part_id`, `price_own`, `price_sell`, `quantity`) VALUES
+  (5, 17, 33, 100, 200, 2),
+  (6, 17, 34, 500, 1000, 10),
+  (7, 18, 37, 100, 200, 2),
+  (8, 18, 38, 500, 1000, 10),
+  (9, 15, 43, 100, 200, 2),
+  (10, 15, 44, 500, 1000, 10),
+  (13, 16, 47, 1000, 2000, 100),
+  (14, 20, 52, 100, 200, 32),
+  (15, 20, 53, 200, 400, 100),
+  (16, 21, 54, 100, 200, 32),
+  (17, 21, 55, 200, 400, 100),
+  (18, 22, 56, 100, 200, 32),
+  (19, 22, 57, 200, 400, 100);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `order_service`
+--
+
+CREATE TABLE `order_service` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `service_id` int(11) NOT NULL,
+  `price` mediumint(8) UNSIGNED DEFAULT '0',
+  `quantity` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `order_service`
+--
+
+INSERT INTO `order_service` (`id`, `order_id`, `service_id`, `price`, `quantity`) VALUES
+  (1, 22, 15, 100, 10),
+  (2, 22, 16, 200, 5),
+  (3, 22, 17, 100, 1);
 
 -- --------------------------------------------------------
 
@@ -255,10 +322,71 @@ INSERT INTO `orders` (`id`, `sn`, `created`, `updated`, `status_id`, `user_creat
 CREATE TABLE `parts` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` text COLLATE utf8_unicode_ci NOT NULL,
-  `buy_cost` mediumint(8) UNSIGNED NOT NULL,
-  `sell_cost` mediumint(8) UNSIGNED NOT NULL,
   `numbers` smallint(5) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Дамп данных таблицы `parts`
+--
+
+INSERT INTO `parts` (`id`, `name`, `numbers`) VALUES
+  (1, 'тест 1', 10),
+  (2, 'тест 1', 10),
+  (3, 'тест', 2),
+  (4, 'тест 1', 10),
+  (5, 'тест', 2),
+  (6, 'тест 1', 10),
+  (7, 'тест', 2),
+  (8, 'тест 1', 10),
+  (9, 'тест', 2),
+  (10, 'тест 1', 10),
+  (11, 'тест', 2),
+  (12, 'тест 1', 10),
+  (13, 'тест', 2),
+  (14, 'тест 1', 10),
+  (15, 'тест', 2),
+  (16, 'тест 1', 10),
+  (17, 'тест', 2),
+  (18, 'тест 1', 10),
+  (19, 'тест', 2),
+  (20, 'тест 1', 10),
+  (21, 'тест', 2),
+  (22, 'тест 1', 10),
+  (23, 'тест', 2),
+  (24, 'тест 1', 10),
+  (25, 'тест', 2),
+  (26, 'тест 1', 10),
+  (27, 'тест', 2),
+  (28, 'тест 1', 10),
+  (29, 'тест', 2),
+  (30, 'тест 1', 10),
+  (31, 'тест', 2),
+  (32, 'тест 1', 10),
+  (33, 'тест', 2),
+  (34, 'тест 1', 10),
+  (35, 'тест', 2),
+  (36, 'тест 1', 10),
+  (37, 'тест', 2),
+  (38, 'тест 1', 10),
+  (39, 'тест', 2),
+  (40, 'тест 1', 10),
+  (41, 'тест', 2),
+  (42, 'тест 1', 10),
+  (43, 'тест', 2),
+  (44, 'тест 1', 10),
+  (45, 'Тест 3', 100),
+  (46, 'тест 4', 1000),
+  (47, 'Тест 3', 100),
+  (48, 'ntn2312', 32),
+  (49, '1fdfssd', 100),
+  (50, 'ntn2312', 32),
+  (51, '1fdfssd', 100),
+  (52, 'ntn2312', 32),
+  (53, '1fdfssd', 100),
+  (54, 'ntn2312', 32),
+  (55, '1fdfssd', 100),
+  (56, 'ntn2312', 32),
+  (57, '1fdfssd', 100);
 
 -- --------------------------------------------------------
 
@@ -280,9 +408,31 @@ CREATE TABLE `password_resets` (
 
 CREATE TABLE `services` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` text COLLATE utf8_unicode_ci NOT NULL,
-  `cost` mediumint(9) NOT NULL
+  `name` text COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Дамп данных таблицы `services`
+--
+
+INSERT INTO `services` (`id`, `name`) VALUES
+  (1, 'тест'),
+  (2, 'тест 1'),
+  (3, 'тест'),
+  (4, 'тест 1'),
+  (5, 'ntcvn'),
+  (6, 'тест'),
+  (7, 'тест 1'),
+  (8, 'ntcvn'),
+  (9, 'тест'),
+  (10, 'тест 1'),
+  (11, 'ntcvn'),
+  (12, 'тест'),
+  (13, 'тест 1'),
+  (14, 'ntcvn'),
+  (15, 'тест'),
+  (16, 'тест 1'),
+  (17, 'ntcvn');
 
 -- --------------------------------------------------------
 
@@ -408,6 +558,18 @@ ADD KEY `orders_user_closed_foreign` (`user_closed`),
 ADD KEY `orders_user_resp_foreign` (`user_resp`);
 
 --
+-- Индексы таблицы `order_part`
+--
+ALTER TABLE `order_part`
+ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `order_service`
+--
+ALTER TABLE `order_service`
+ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `parts`
 --
 ALTER TABLE `parts`
@@ -478,17 +640,27 @@ MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+--
+-- AUTO_INCREMENT для таблицы `order_part`
+--
+ALTER TABLE `order_part`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+--
+-- AUTO_INCREMENT для таблицы `order_service`
+--
+ALTER TABLE `order_service`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT для таблицы `parts`
 --
 ALTER TABLE `parts`
-MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 --
 -- AUTO_INCREMENT для таблицы `services`
 --
 ALTER TABLE `services`
-MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT для таблицы `statuses`
 --
