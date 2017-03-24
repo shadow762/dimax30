@@ -12,7 +12,7 @@
         <span class="error-text" id="description-error" v-text="errors.get('description')"></span>
     </div>
     <div class="input-field col s10 materialized">
-        <myselect v-model.lazy="newOrder.status_id" :list="statuses" text="статус"></myselect>
+        <combobox v-model.lazy="newOrder.status_id" :list="statuses" text="статус"></combobox>
         <span class="error-text" id="status_id-error" v-text="errors.get('status_id')"></span>
     </div>
     <div class="input-field col s10 materialized">
