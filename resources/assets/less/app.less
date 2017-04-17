@@ -51,12 +51,16 @@ main{
   height: 71px;
   border-bottom: 1px solid @borderColor;
   background: @itemBgColor;
-  display: flex;
+  display: table;
+  width: 100%;
   .search-block{
+    height: 100%;
+    display: table-cell;
+    vertical-align: middle;
     width: 100%;
   }
   .btn-block{
-    width: 587px;
+    width: 435px;
     &>div{
       float: left;
       color: @btnTextColor;

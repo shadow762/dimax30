@@ -72,14 +72,17 @@ main {
   height: 71px;
   border-bottom: 1px solid #f6f6f6;
   background: #f9fbfc;
-  display: -webkit-box;
-  display: flex;
+  display: table;
+  width: 100%;
 }
 .main-header .search-block {
+  height: 100%;
+  display: table-cell;
+  vertical-align: middle;
   width: 100%;
 }
 .main-header .btn-block {
-  width: 512px;
+  width: 435px;
 }
 .main-header .btn-block > div {
   float: left;
