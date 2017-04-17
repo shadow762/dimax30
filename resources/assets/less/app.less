@@ -1,0 +1,102 @@
+@borderColor: #f6f6f6;
+@borderColorDark: #d2d7dc;
+@itemBgColor: #f9fbfc;
+@btnTextColor: #34495e;
+body{
+  display: flex;
+}
+main{
+  width: 100%;
+}
+.left-sidebar{
+  width: 111px;
+  border-right: 1px solid @borderColor;
+  #logo-place{
+    height:96px;
+  }
+  ul{
+    padding: 0;
+    li{
+      display: block;
+      width: 100%;
+      height: 46px;
+      text-align: center;
+      line-height: 39px;
+      vertical-align: middle;
+      transition: background 0.3s ease-in-out;
+      position: relative;
+      &.current, &:hover{
+        background: @itemBgColor;
+      }
+      &.current::after, &.current:after{
+        position: absolute;
+        content: '';
+        display: block;
+        width: 84px;
+        border-bottom: 1px solid @borderColor;
+        bottom: 10px;
+        left:0;
+        right:0;
+        margin: 0 auto;
+      }
+      a{
+        display: block;
+        height: 100%;
+        color: @btnTextColor;
+      }
+    }
+  }
+}
+.main-header{
+  height: 71px;
+  border-bottom: 1px solid @borderColor;
+  background: @itemBgColor;
+  display: flex;
+  .search-block{
+    width: 100%;
+  }
+  .btn-block{
+    width: 587px;
+    &>div{
+      float: left;
+      color: @btnTextColor;
+      padding: 0 17px;
+      cursor: pointer;
+      line-height: 70px;
+      vertical-align: middle;
+      position: relative;
+      &:before, &::before{
+        height: 41px;
+        position: absolute;
+        top:14px;
+        left: 0;
+        bottom: 0;
+        content: '';
+        display: block;
+        border-right: 1px solid @borderColorDark;
+      }
+    }
+    .icon-i{
+        background: url(/public/images/sprite.png);
+        float: left;
+        margin-right: 18px;
+    }
+    .add-order-i{
+        width: 23px;
+        height: 23px;
+        margin-top: 24px;
+    }
+    .filter-i{
+        width: 23px;
+        height: 20px;
+        margin-top: 24px;
+        background-position-y: 67px;
+    }
+    .person-i{
+        width: 33px;
+        height: 33px;
+        margin-top: 19px;
+        background-position-y: 37px;
+    }
+  }
+}
