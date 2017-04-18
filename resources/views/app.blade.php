@@ -47,13 +47,14 @@
         <li><a href="{{ route('clients.index') }}">Клиенты</a></li>
         <li><a href="#">Запчасти</a></li>
         <li><a href="#">Услуги</a></li>
-        <li><a href="#">Выход</a></li>
     </ul>
 </aside>
 <main>
     <header class="main-header">
         <div class="search-block">
-            <input type="search" placeholder="Найдите, что искали...">
+            <div>
+                <input type="search" placeholder="Найдите, что искали...">
+            </div>
         </div>
         <div class="btn-block">
             <div><div class="clearfix"><div class="add-order-i icon-i"></div>Новый заказ</div></div>

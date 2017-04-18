@@ -22,7 +22,8 @@
         @include('models._modal')
         @include('orders._header')
         @include('orders.create')
-        <table>
+        <div class="table-container">
+            <table border="1">
             <thead>
                 <tr>
                     <td>Номер</td>
@@ -50,19 +51,20 @@
                 </tr>
             </tbody>
         </table>
-        <ul class="pagination">
-            <li v-if="pagination.current_page > 1">
+        </div>
+        <ul class="pagination clearfix">
+            <li :class="pagination.current_page > 1 ? '' : 'disable'">
                 <a href="#" aria-label="Previous"
                    @click.prevent="changePage(pagination.current_page - 1)">
                     <i class="material-icons">chevron_left</i>
                 </a>
             </li>
             <li v-for="page in pagesNumber"
-                v-bind:class="[ page == isActived ? 'active' : 'waves-effect']">
+                v-bind:class="[ page == isActived ? 'disable' : 'waves-effect']">
                 <a href="#"
                    @click.prevent="changePage(page)">@{{ page }}</a>
             </li>
-            <li class="waves-effect" v-if="pagination.current_page < pagination.last_page">
+            <li :class="pagination.current_page < pagination.last_page ? '' : 'disable'">
                 <a href="#" aria-label="Next"
                    @click.prevent="changePage(pagination.current_page + 1)">
                     <i class="material-icons">chevron_right</i>
