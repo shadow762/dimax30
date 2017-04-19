@@ -201,23 +201,50 @@ main{
       }
       .rm-field{
         float: left;
+        text-align: center;
+        i{
+          display: inline-block;
+          width: 15px;
+          height: 4px;
+          background: rgba(52, 73, 94, 0.502);
+          border-radius: 3px;
+        }
       }
       ul{
         padding: 0;
+        margin: 0;
       }
       .list-item{
+        &:not(:first-child){
+          div{
+            border-top: none;
+          }
+        }
         div{
           border:1px solid @tableBorderColor;
           padding: 10px 20px;
           font-size: 14px;
           font-weight: 600;
           text-align: right;
+          &:not(:first-child){
+            border-left:none;
+          }
           &.name-field{
             text-align: left;
+          }
+          &.rm-field{
+            padding: 7px 0 13px;
+            width: 4%;
+            cursor: pointer;
+            text-align: center;
           }
         }
       }
       .parts-section {
+        margin-bottom: 30px;
+        .add-part-fields{
+          margin-bottom: 10px;
+        }
         .name-field, .number-field, .icost-field, .ocost-field, .add-field {
           float: left;
           padding-right: 10px;
@@ -235,8 +262,15 @@ main{
           width: 4%;
           padding-right: 0;
         }
+        input{
+          margin-bottom: 0;
+        }
       }
       .jobs-section{
+        margin-bottom: 30px;
+        .add-job-fields{
+          margin-bottom: 10px;
+        }
         .name-field, .number-field, .cost-field, .add-field {
           float: left;
           padding-right: 10px;
@@ -252,6 +286,9 @@ main{
         .add-field {
           width: 3%;
           padding-right: 0;
+        }
+        input{
+          margin-bottom: 0;
         }
       }
     }

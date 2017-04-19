@@ -246,9 +246,21 @@ main {
 }
 #content .new-order-section .right-part .rm-field {
   float: left;
+  text-align: center;
+}
+#content .new-order-section .right-part .rm-field i {
+  display: inline-block;
+  width: 15px;
+  height: 4px;
+  background: rgba(52, 73, 94, 0.502);
+  border-radius: 3px;
 }
 #content .new-order-section .right-part ul {
   padding: 0;
+  margin: 0;
+}
+#content .new-order-section .right-part .list-item:not(:first-child) div {
+  border-top: none;
 }
 #content .new-order-section .right-part .list-item div {
   border: 1px solid rgba(52, 73, 94, 0.1);
@@ -257,8 +269,23 @@ main {
   font-weight: 600;
   text-align: right;
 }
+#content .new-order-section .right-part .list-item div:not(:first-child) {
+  border-left: none;
+}
 #content .new-order-section .right-part .list-item div.name-field {
   text-align: left;
+}
+#content .new-order-section .right-part .list-item div.rm-field {
+  padding: 7px 0 13px;
+  width: 4%;
+  cursor: pointer;
+  text-align: center;
+}
+#content .new-order-section .right-part .parts-section {
+  margin-bottom: 30px;
+}
+#content .new-order-section .right-part .parts-section .add-part-fields {
+  margin-bottom: 10px;
 }
 #content .new-order-section .right-part .parts-section .name-field,
 #content .new-order-section .right-part .parts-section .number-field,
@@ -285,6 +312,15 @@ main {
   width: 4%;
   padding-right: 0;
 }
+#content .new-order-section .right-part .parts-section input {
+  margin-bottom: 0;
+}
+#content .new-order-section .right-part .jobs-section {
+  margin-bottom: 30px;
+}
+#content .new-order-section .right-part .jobs-section .add-job-fields {
+  margin-bottom: 10px;
+}
 #content .new-order-section .right-part .jobs-section .name-field,
 #content .new-order-section .right-part .jobs-section .number-field,
 #content .new-order-section .right-part .jobs-section .cost-field,
@@ -304,6 +340,9 @@ main {
 #content .new-order-section .right-part .jobs-section .add-field {
   width: 3%;
   padding-right: 0;
+}
+#content .new-order-section .right-part .jobs-section input {
+  margin-bottom: 0;
 }
 #content .pagination {
   padding: 0;

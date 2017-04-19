@@ -46,7 +46,7 @@
     </div>
     <div class="right-part pull-left">
         <div class="parts-section">
-            <div class="clearfix">
+            <div class="clearfix add-part-fields">
                 <div class="name-field">
                     {{ Form::text('parts.name', '', ['v-model' => 'newPart.name', 'class' => 'text-field', 'placeholder' => 'Наименование']) }}
                 </div>
@@ -68,13 +68,13 @@
                         <div class="number-field">@{{ part.numbers }}</div>
                         <div class="icost-field">@{{ part.price_own }}</div>
                         <div class="ocost-field">@{{ part.price_sell }}</div>
-                        <div class="rm-field"><a @click.prevent="removePart(key)"><i></i></a></div>
+                        <div class="rm-field" @click="removePart(key)"><i></i></div>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="jobs-section">
-            <div class="input-field">
+            <div class="clearfix add-job-fields">
                 <div class="name-field">
                     {{ Form::text('services.name', '', ['v-model' => 'newService.name', 'class' => 'text-field', 'placeholder' => 'Наименование']) }}
                 </div>
@@ -86,9 +86,14 @@
                 </div>
                 <div class="add-field"><i @click="saveService()"></i></div>
             </div>
-            <div class="input-field col s10">
+            <div class="jobs-list">
                 <ul>
-                    <li v-for="(service, key) in newOrder.services">@{{ service.name }}/@{{ service.numbers }}/@{{ service.price }}<a @click.prevent="removeService(key)">----------</a></li>
+                    <li v-for="(service, key) in newOrder.services" class="clearfix list-item">
+                        <div class="name-field">@{{ service.name }}</div>
+                        <div class="number-field">@{{ service.numbers }}</div>
+                        <div class="cost-field">@{{ service.price }}</div>
+                        <div class="rm-field" @click="removeService(key)"><i></i></div>
+                    </li>
                 </ul>
             </div>
         </div>
