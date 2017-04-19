@@ -14,6 +14,6 @@ require('laravel-elixir-vue-2');
  */
 
 elixir(mix => {
-    mix.less([ 'general.less', 'app.less'])
+    mix.less([ 'general.less', 'fields.less','app.less'])
        .webpack('app.js');
 });

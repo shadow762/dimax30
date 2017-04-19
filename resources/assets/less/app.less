@@ -82,12 +82,15 @@ main{
       width: 25px;
       height: 24px;
       background: @spriteUrl;
-      background-position-y: 26px;
+      background-position-y: -104px;
     }
     input[type="search"]{
       width: 100%;
       border: none;
       background: @itemBgColor;
+      font-size: 14px;
+      padding: 0;
+      margin: 0;
     }
   }
   .btn-block{
@@ -112,7 +115,7 @@ main{
       }
     }
     .icon-i{
-        background: @spriteUrl;
+        background: @spriteUrl no-repeat;
         float: left;
         margin-right: 18px;
     }
@@ -125,13 +128,13 @@ main{
         width: 23px;
         height: 20px;
         margin-top: 25px;
-        background-position-y: 97px;
+        background-position-y: -33px;
     }
     .person-i{
         width: 33px;
         height: 33px;
         margin-top: 19px;
-        background-position-y: 66px;
+        background-position-y: -64px;
     }
   }
 }
@@ -175,6 +178,81 @@ main{
       td{
         //border: 1px solid #d6dade;
 
+      }
+    }
+  }
+  .new-order-section{
+    .left-part{
+      width: 30%;
+    }
+    .right-part{
+      width: 70%;
+      padding-left: 20px;
+      .add-field {
+        padding-top: 15px;
+        padding-left: 15px;
+        i {
+          display: block;
+          width: 25px;
+          height: 25px;
+          background: @spriteUrl no-repeat;
+          background-position-y: -135px;
+        }
+      }
+      .rm-field{
+        float: left;
+      }
+      ul{
+        padding: 0;
+      }
+      .list-item{
+        div{
+          border:1px solid @tableBorderColor;
+          padding: 10px 20px;
+          font-size: 14px;
+          font-weight: 600;
+          text-align: right;
+          &.name-field{
+            text-align: left;
+          }
+        }
+      }
+      .parts-section {
+        .name-field, .number-field, .icost-field, .ocost-field, .add-field {
+          float: left;
+          padding-right: 10px;
+        }
+        .name-field {
+          width: 30%;
+        }
+        .number-field, .icost-field, .ocost-field {
+          width: 22%;
+          input {
+            text-align: right;
+          }
+        }
+        .add-field {
+          width: 4%;
+          padding-right: 0;
+        }
+      }
+      .jobs-section{
+        .name-field, .number-field, .cost-field, .add-field {
+          float: left;
+          padding-right: 10px;
+        }
+        .name-field, .number-field, .cost-field {
+          width: 32%;
+        }
+        .number-field, .cost-field {
+          input {
+            text-align: right;
+          }
+        }
+        .add-field {
+          width: 3%;
+          padding-right: 0;
+        }
       }
     }
   }

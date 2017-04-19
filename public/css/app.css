@@ -24,6 +24,30 @@ input {
 input:focus {
   outline: none;
 }
+.pull-left {
+  float: left;
+}
+.pull-right {
+  float: right;
+}
+
+input,
+textarea,
+select {
+  background: #f5f8f8;
+  font-size: 16px;
+  padding: 19px;
+  font-weight: 300;
+  font-family: 'Open Sans', sans-serif;
+  margin-bottom: 20px;
+}
+input.text-field {
+  width: 100%;
+  height: 60px;
+  border: 1px solid #e8ebed;
+  border-radius: 5px;
+  color: #34495e;
+}
 
 body {
   display: -webkit-box;
@@ -108,12 +132,15 @@ main {
   width: 25px;
   height: 24px;
   background: url(/public/images/sprite.png);
-  background-position-y: 26px;
+  background-position-y: -104px;
 }
 .main-header .search-block input[type="search"] {
   width: 100%;
   border: none;
   background: #f9fbfc;
+  font-size: 14px;
+  padding: 0;
+  margin: 0;
 }
 .main-header .btn-block {
   width: 435px;
@@ -139,7 +166,7 @@ main {
   border-right: 1px solid #d2d7dc;
 }
 .main-header .btn-block .icon-i {
-  background: url(/public/images/sprite.png);
+  background: url(/public/images/sprite.png) no-repeat;
   float: left;
   margin-right: 18px;
 }
@@ -152,13 +179,13 @@ main {
   width: 23px;
   height: 20px;
   margin-top: 25px;
-  background-position-y: 97px;
+  background-position-y: -33px;
 }
 .main-header .btn-block .person-i {
   width: 33px;
   height: 33px;
   margin-top: 19px;
-  background-position-y: 66px;
+  background-position-y: -64px;
 }
 #content {
   padding: 28px;
@@ -198,6 +225,85 @@ main {
 }
 #content .table-container table tr td:last-child {
   border-right: none;
+}
+#content .new-order-section .left-part {
+  width: 30%;
+}
+#content .new-order-section .right-part {
+  width: 70%;
+  padding-left: 20px;
+}
+#content .new-order-section .right-part .add-field {
+  padding-top: 15px;
+  padding-left: 15px;
+}
+#content .new-order-section .right-part .add-field i {
+  display: block;
+  width: 25px;
+  height: 25px;
+  background: url(/public/images/sprite.png) no-repeat;
+  background-position-y: -135px;
+}
+#content .new-order-section .right-part .rm-field {
+  float: left;
+}
+#content .new-order-section .right-part ul {
+  padding: 0;
+}
+#content .new-order-section .right-part .list-item div {
+  border: 1px solid rgba(52, 73, 94, 0.1);
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: right;
+}
+#content .new-order-section .right-part .list-item div.name-field {
+  text-align: left;
+}
+#content .new-order-section .right-part .parts-section .name-field,
+#content .new-order-section .right-part .parts-section .number-field,
+#content .new-order-section .right-part .parts-section .icost-field,
+#content .new-order-section .right-part .parts-section .ocost-field,
+#content .new-order-section .right-part .parts-section .add-field {
+  float: left;
+  padding-right: 10px;
+}
+#content .new-order-section .right-part .parts-section .name-field {
+  width: 30%;
+}
+#content .new-order-section .right-part .parts-section .number-field,
+#content .new-order-section .right-part .parts-section .icost-field,
+#content .new-order-section .right-part .parts-section .ocost-field {
+  width: 22%;
+}
+#content .new-order-section .right-part .parts-section .number-field input,
+#content .new-order-section .right-part .parts-section .icost-field input,
+#content .new-order-section .right-part .parts-section .ocost-field input {
+  text-align: right;
+}
+#content .new-order-section .right-part .parts-section .add-field {
+  width: 4%;
+  padding-right: 0;
+}
+#content .new-order-section .right-part .jobs-section .name-field,
+#content .new-order-section .right-part .jobs-section .number-field,
+#content .new-order-section .right-part .jobs-section .cost-field,
+#content .new-order-section .right-part .jobs-section .add-field {
+  float: left;
+  padding-right: 10px;
+}
+#content .new-order-section .right-part .jobs-section .name-field,
+#content .new-order-section .right-part .jobs-section .number-field,
+#content .new-order-section .right-part .jobs-section .cost-field {
+  width: 32%;
+}
+#content .new-order-section .right-part .jobs-section .number-field input,
+#content .new-order-section .right-part .jobs-section .cost-field input {
+  text-align: right;
+}
+#content .new-order-section .right-part .jobs-section .add-field {
+  width: 3%;
+  padding-right: 0;
 }
 #content .pagination {
   padding: 0;
