@@ -50,20 +50,12 @@
     </ul>
 </aside>
 <main>
-    <header class="main-header">
-        <div class="search-block">
-            <div>
-                <input type="search" placeholder="Найдите, что искали...">
-            </div>
-        </div>
-        <div class="btn-block">
-            <div><div class="clearfix"><div class="add-order-i icon-i"></div>Новый заказ</div></div>
-            <div><div class="clearfix"><div class="filter-i icon-i"></div>Фильтр</div></div>
-            <div><div class="clearfix"><div class="person-i icon-i"></div>Выход</div></div>
-        </div>
-        @yield('header')
-    </header>
-    <section id="content">@yield('content')</section>
+    <div id="orders-block">
+        <header class="main-header">
+            @yield('header')
+        </header>
+        <section id="content">@yield('content')</section>
+    </div>
 </main>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script type="text/javascript" src="/public/js/app.js"></script>

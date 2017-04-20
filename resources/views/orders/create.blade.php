@@ -11,29 +11,30 @@
             {{ Form::text('description', '', ['v-model.lazy' => 'newOrder.description', 'class' => 'text-field', 'placeholder' => 'Описание'] ) }}
             <span class="error-text" id="description-error" v-text="errors.get('description')"></span>
         </div>
-        <div class="input-field">
+        <div class="combobox-field with-add">
             <combobox v-model.lazy="newOrder.status_id" :list="statuses" text="статус"></combobox>
+            <div class="combobox-add"><div class="combobox-add-btn"><i></i></div></div>
             <span class="error-text" id="status_id-error" v-text="errors.get('status_id')"></span>
         </div>
-        <div class="input-field">
-            <myselect v-model.lazy="newOrder.client_id" :list="clients.data" text="клиента"></myselect>
+        <div class="combobox-field with-add">
+            <combobox v-model.lazy="newOrder.client_id" :list="clients.data" text="Выберите клиента"></combobox>
+            <div class="combobox-add"><div class="combobox-add-btn" @click="clients.showModal=true"><i></i></div></div>
             <span class="error-text" id="client_id-error" v-text="errors.get('client_id')"></span>
-            <a class="btn-floating waves-effect waves-light red add-btn" @click.prevent="clients.showModal=true"><i class="material-icons">add</i></a>
         </div>
-        <div class="input-field">
-            <myselect v-model.lazy="newOrder.type_id" :list="types.data" text="тип устройства"></myselect>
+        <div class="combobox-field with-add">
+            <combobox v-model.lazy="newOrder.type_id" :list="types.data" text="Выберите тип устройства"></combobox>
+            <div class="combobox-add"><div class="combobox-add-btn" @click="types.showModal=true"><i></i></div></div>
             <span class="error-text" id="type_id-error" v-text="errors.get('type_id')"></span>
-            <a class="btn-floating waves-effect waves-light red add-btn" @click.prevent="types.showModal=true"><i class="material-icons">add</i></a>
         </div>
-        <div class="input-field">
-            <myselect v-model.lazy="newOrder.brend_id" @change="models.get(newOrder.brend_id)" :list="brends.data" text="бренд"></myselect>
+        <div class="combobox-field with-add">
+            <combobox v-model.lazy="newOrder.brend_id" @change="models.get(newOrder.brend_id)" :list="brends.data" text="Выберите бренд"></combobox>
+            <div class="combobox-add"><div class="combobox-add-btn" @click="brends.showModal=true"><i></i></div></div>
             <span class="error-text" id="brend_id-error" v-text="errors.get('brend_id')"></span>
-            <a class="btn-floating waves-effect waves-light red add-btn" @click.prevent="brends.showModal=true"><i class="material-icons">add</i></a>
         </div>
-        <div class="input-field">
-            <myselect v-model.lazy="newOrder.model_id" :list="models.data" text="модель"></myselect>
+        <div class="combobox-field with-add">
+            <combobox v-model.lazy="newOrder.model_id" :list="models.data" text="Выберите модель"></combobox>
+            <div class="combobox-add"><div class="combobox-add-btn" @click="models.showModal=true"><i></i></div></div>
             <span class="error-text" id="model_id-error" v-text="errors.get('model_id')"></span>
-            <a class="btn-floating waves-effect waves-light red add-btn" @click.prevent="models.showModal=true"><i class="material-icons">add</i></a>
         </div>
         <div class="input-field col s10">
             {{ Form::text('cost', '', ['v-model.lazy' => 'newOrder.cost', 'class' => 'text-field', 'placeholder' => 'Стоимость']) }}

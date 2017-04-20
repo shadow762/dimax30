@@ -9,13 +9,7 @@
 @extends('app')
 
 @section('content')
-    <style>select{display: block;}</style>
-    <style>
-        .input-field{position: relative}
-        .add-btn{position: absolute; top:0; right: -50px;}
-    </style>
-
-    <div class="row" id="orders-block">
+    <div class="row">
         @include('types._modal')
         @include('clients._modal')
         @include('brends._modal')

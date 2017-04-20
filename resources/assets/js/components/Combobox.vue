@@ -1,15 +1,13 @@
 <template>
-    <div class="combobox">
-        <input v-model="filterQuery" type="text" v-bind:data-id="id" ref="input">
-        <div class="combobox-item" v-if="filterQuery">
+    <div class="combobox-wrap">
+        <input v-model="filterQuery" type="text" v-bind:data-id="id" ref="input" @click="showFlag=true" :placeholder=text>
+        <i class="down-icon" :class="showFlag ? 'open' : ''"></i>
+        <div class="combobox-item" v-if="showFlag">
             <ul>
                 <li v-for="item in filterList" :data-id="item.id" :data-name="item.name" @click="selectItem($event.target)">{{ item.name }}</li>
             </ul>
         </div>
     </div>
-
-
-
 </template>
 <script>
     export default {
@@ -18,7 +16,8 @@
             return {
                 id:'',
                 name:'',
-                filterQuery: ''
+                filterQuery: '',
+                showFlag: false
             }
         },
         computed: {
@@ -38,6 +37,7 @@
                 this.id = el.dataset.id;
                 this.name = el.dataset.name;
                 this.filterQuery = el.dataset.name;
+                this.showFlag = false;
                 this.updateValue();
             }
         }

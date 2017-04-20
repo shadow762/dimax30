@@ -36,17 +36,88 @@ textarea,
 select {
   background: #f5f8f8;
   font-size: 16px;
-  padding: 19px;
+  padding: 0 19px;
   font-weight: 300;
   font-family: 'Open Sans', sans-serif;
   margin-bottom: 20px;
 }
-input.text-field {
+input.text-field,
+.combobox-field input {
   width: 100%;
-  height: 60px;
+  height: 50px;
   border: 1px solid #e8ebed;
   border-radius: 5px;
   color: #34495e;
+}
+.combobox-field {
+  position: relative;
+}
+.combobox-field input {
+  padding-right: 43px;
+}
+.combobox-field i.down-icon {
+  width: 13px;
+  height: 8px;
+  background: url(/public/images/down-icon.png) no-repeat;
+  display: block;
+  position: absolute;
+  top: 22px;
+  right: 9px;
+  -webkit-transition: -webkit-transform 0.2s ease-in-out;
+  transition: -webkit-transform 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
+}
+.combobox-field i.down-icon.open {
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.combobox-field.with-add i.down-icon {
+  right: 53px;
+}
+.combobox-field .combobox-add {
+  height: 50px;
+  width: 42px;
+  right: 0;
+  top: 0;
+  position: absolute;
+}
+.combobox-field .combobox-add-btn {
+  cursor: pointer;
+  height: 34px;
+  border-left: 1px solid #ced5d9;
+  margin-top: 8px;
+  padding: 10px 12px;
+}
+.combobox-field .combobox-add-btn i {
+  background: url(/public/images/sprite.png) no-repeat;
+  background-position-y: -165px;
+  height: 15px;
+  width: 15px;
+  display: block;
+}
+.combobox-field .combobox-item {
+  position: absolute;
+  top: 50px;
+  border: 1px solid #dbdfe3;
+  width: 100%;
+  z-index: 10;
+  background: #fff;
+}
+.combobox-field .combobox-item ul {
+  padding: 0;
+  margin: 0;
+  max-height: 200px;
+  overflow: auto;
+}
+.combobox-field .combobox-item ul li {
+  font-size: 16px;
+  padding: 13px 20px;
+  border-bottom: 1px solid #dbdfe3;
+  cursor: pointer;
+}
+.combobox-field .combobox-item ul li:last-child {
+  border-bottom: none;
 }
 
 body {
@@ -153,6 +224,8 @@ main {
   line-height: 70px;
   vertical-align: middle;
   position: relative;
+  -webkit-transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
 }
 .main-header .btn-block > div:before,
 .main-header .btn-block > div::before {
@@ -164,6 +237,25 @@ main {
   content: '';
   display: block;
   border-right: 1px solid #d2d7dc;
+}
+.main-header .btn-block > div:after,
+.main-header .btn-block > div::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  content: '';
+  height: 5px;
+  background: transparent;
+  -webkit-transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
+}
+.main-header .btn-block > div.active {
+  background: rgba(186, 205, 206, 0.102);
+}
+.main-header .btn-block > div.active:after,
+.main-header .btn-block > div.active::after {
+  background: rgba(52, 73, 94, 0.6);
 }
 .main-header .btn-block .icon-i {
   background: url(/public/images/sprite.png) no-repeat;

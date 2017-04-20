@@ -177,9 +177,6 @@ class Models{
 Vue.component('myselect', require('./components/Select.vue'));
 Vue.component('combobox', require('./components/Combobox.vue'));
 
-/*const app = new Vue({
-    el: '#app'
-});*/
 const order = new Vue({
     el: '#orders-block',
     data: {

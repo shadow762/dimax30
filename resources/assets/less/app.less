@@ -103,6 +103,7 @@ main{
       line-height: 70px;
       vertical-align: middle;
       position: relative;
+      transition: background-color 0.2s ease-in-out;
       &:before, &::before{
         height: 41px;
         position: absolute;
@@ -112,6 +113,22 @@ main{
         content: '';
         display: block;
         border-right: 1px solid @borderColorDark;
+      }
+      &:after, &::after{
+        position: absolute;
+        top:0;
+        left: 0;
+        width: 100%;
+        content: '';
+        height: 5px;
+        background: transparent;
+        transition: background-color 0.2s ease-in-out;
+      }
+      &.active{
+        background: rgba(186, 205, 206, 0.102);
+        &:after, &::after{
+          background: rgba(52, 73, 94, 0.6);
+        }
       }
     }
     .icon-i{
