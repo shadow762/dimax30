@@ -16,6 +16,7 @@
         @include('models._modal')
         @include('orders._header')
         @include('orders.create')
+        @include('orders.edit')
         <div class="table-container">
             <table border="1">
             <thead>
@@ -32,7 +33,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="order in orders" class="create-modal-dbl">
+                <tr v-for="order in orders" @click="editOrder(order.id)">
                     <td>@{{ order.id }}</td>
                     <td>@{{ order.status }}</td>
                     <td>@{{ order.client_name }}</td>

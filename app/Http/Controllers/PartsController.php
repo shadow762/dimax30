@@ -43,18 +43,25 @@ class PartsController extends Controller
         foreach($data as $part) {
 
             //Если запчасть выбрана из существующего списка, то просто добавляется в результат
-            if(!empty($part['id']) && $part['id']) {
+            if(!empty($part['data']['id'])) {
+                $part['id'] = $part['data']['id'];
+                $part['name'] = $part['data']['name'];
+                unset($part['data']);
                 $result[] = $part;
                 continue;
             }
             $partModel = new Part();
-            $partModel->name = $part['name'];
+            $partModel->name = $part['data']['name'];
             $partModel->numbers = $part['numbers'];
 
             if($partModel->save()) {
                 $part['id'] = $partModel->id;
-                $result[] = $part;
+                $part['name'] = $partModel->name;
+
+                unset($part['data']);
                 unset($partModel);
+
+                $result[] = $part;
             }
             else{
                 return false;
@@ -62,5 +69,14 @@ class PartsController extends Controller
         }
         return $result;
         //TODO Реализовать проверку наличия запчастей на складе
+    }
+
+    /**
+     * @brief Метод для получения списка запчастей
+     * @return string
+     */
+    public function getParts() {
+        //TODO Реализовать выборку запчастей по id компании
+        return json_encode(Part::select('id', 'name')->get());
     }
 }

@@ -43,7 +43,7 @@
 <aside class="left-sidebar">
     <div id="logo-place"></div>
     <ul>
-        <li class="current"><a href="{{ route('orders.index') }}">Заказы</a></li>
+        <li class="current"><a href="{{ route('orders.panel') }}">Заказы</a></li>
         <li><a href="{{ route('clients.index') }}">Клиенты</a></li>
         <li><a href="#">Запчасти</a></li>
         <li><a href="#">Услуги</a></li>
@@ -58,7 +58,7 @@
     </div>
 </main>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script type="text/javascript" src="/public/js/app.js"></script>
+<script type="text/javascript" src="/public/js/all.js"></script>
 <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 

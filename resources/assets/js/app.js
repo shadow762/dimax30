@@ -173,9 +173,45 @@ class Models{
         this.errors = errors.data;
     }
 }
+class Parts {
+    constructor() {
+        this.data = {};
+        this.get();
+    }
+    get() {
+        axios.post('/getparts')
+            .then(this.onSuccess.bind(this))
+            .catch(this.onFail.bind(this));
+    }
+    onSuccess(response){
+        this.data = response.data;
+    }
+    onFail(error){
+        this.errors.set(error.response.data);
+    }
+}
+class Services {
+    constructor() {
+        this.data = {};
+        this.get();
+    }
+    get() {
+        axios.post('/getservices')
+            .then(this.onSuccess.bind(this))
+            .catch(this.onFail.bind(this));
+    }
+    onSuccess(response){
+        this.data = response.data;
+    }
+    onFail(error){
+        this.errors.set(error.response.data);
+    }
+}
+
 
 Vue.component('myselect', require('./components/Select.vue'));
 Vue.component('combobox', require('./components/Combobox.vue'));
+Vue.component('comboboxwithadd', require('./components/Comboboxcustom.vue'));
 
 const order = new Vue({
     el: '#orders-block',
@@ -187,6 +223,8 @@ const order = new Vue({
         models: new Models(),
         clients: new Clients(),
         errors: new Errors(),
+        parts: new Parts(),
+        services: new Services(),
 
         pagination: {
             total: 0,
@@ -210,16 +248,17 @@ const order = new Vue({
             services: []
         },
         newPart: {
-            name: '',
+            data: {},
             numbers: '',
             price_own: '',
             price_sell: ''
         },
         newService: {
-            name: '',
+            name: {},
             numbers: '',
             price: ''
         },
+        editingOrder: {},
         showAddForm: false,
         showModal: false
     },
@@ -269,8 +308,29 @@ const order = new Vue({
         createOrder: function(){
             this.errors.clear();
             this.$http.post('/orders', this.newOrder).then((response) => {
+                this.newOrder = {
+                    'sn': '',
+                    'description': '',
+                    'status_id': '',
+                    client_id: '',
+                    type_id: '',
+                    brend_id: '',
+                    model_id: '',
+                    cost: '',
+                    pay: '',
+                    parts: [],
+                    services: []
+                };
+                this.showAddForm = false;
         }, (response) => {
                 this.errors.set(response.body);
+            });
+        },
+        editOrder: function(id) {
+            this.$http.get('/api/json/getorder/' + id).then(response => {
+                this.$set(this, 'editingOrder', response.body);
+            }, response => {
+                alert('error');
             });
         },
         /*updateOrder: function(){
@@ -288,14 +348,14 @@ const order = new Vue({
         },
         savePart: function() {
             this.newOrder.parts.push(this.newPart);
-            this.newPart =  {'name': '', 'numbers': '', 'price_own': '', 'price_sell': ''};
+            this.newPart =  {'data': {}, 'numbers': '', 'price_own': '', 'price_sell': ''};
         },
         removePart: function(key) {
             this.newOrder.parts.splice(key, 1);
         },
         saveService: function() {
             this.newOrder.services.push(this.newService);
-            this.newService =  {name: '', numbers: '', price: ''};
+            this.newService =  {data: {}, numbers: '', price: ''};
         },
         removeService: function(key) {
             this.newOrder.services.splice(key, 1);

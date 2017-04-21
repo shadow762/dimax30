@@ -73,10 +73,11 @@ class OrdersController extends Controller
     public function store(Request $request, Models\Order $orderModel)
     {
 
-        //$this->validate($request, $this->rules);
+        $this->validate($request, $this->rules);
 
         $data = $request->all();
         //dd($data);
+        //Если добавлены запчасти и работы - проверяем на наличие в бд и добавляем
         if(!empty($data['parts'])) {
             $data['parts'] = PartsController::store($data['parts']);
         }
@@ -101,6 +102,7 @@ class OrdersController extends Controller
         $orderModel->pay = (int)$request->pay;
 
         if($orderModel->save()) {
+            //После сохранения заказа - привязываем запчасти и работы
             if($data['parts']) {
                 $partAttach = [];
                 foreach ($data['parts'] as $part) {
@@ -127,20 +129,18 @@ class OrdersController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Метод возвращает данные заказа в json.
      *
      * @param  int  $id
      * @param Models\Order $orderModel
      * @return \Illuminate\Http\Response
      */
-    public function show(Models\Order $orderModel, $id)
+    public function getOrder(Models\Order $orderModel, $id)
     {
         // TODO Добавить к запросу информацию об участвующих пользователях
-        $order = $orderModel->with('client', 'status', 'lmodel')->where('orders.id', '=', $id)->first();
-        $brend = Models\Brend::where('id', '=', $order->lmodel->brend_id)->first();
-        $type = Models\Type::where('id', '=', $brend->type_id)->first();
+        $order = $orderModel->where('orders.id', '=', $id)->first();
 
-        return view('orders.show', compact('order', 'brend', 'type'));
+        return json_encode($order);
     }
 
     /**

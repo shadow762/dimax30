@@ -41,22 +41,40 @@ class ServicesController extends Controller
         foreach($data as $service) {
 
             //Если услуга выбрана из существующего списка, то просто добавляется в результат
-            if(!empty($service['id']) && $service['id']) {
+            if(!empty($service['data']['id'])) {
+                $service['id'] = $service['data']['id'];
+                $service['name'] = $service['data']['name'];
+
+                unset($service['data']);
+
                 $result[] = $service;
                 continue;
             }
             $serviceModel = new Service();
-            $serviceModel->name = $service['name'];
+            $serviceModel->name = $service['data']['name'];
 
             if($serviceModel->save()) {
                 $service['id'] = $serviceModel->id;
-                $result[] = $service;
+                $service['name'] = $serviceModel->name;
+
+                unset($service['data']);
                 unset($serviceModel);
+
+                $result[] = $service;
             }
             else{
                 return false;
             }
         }
         return $result;
+    }
+
+    /**
+     * @brief Метод для получения списка работ
+     * @return string
+     */
+    public function getServices() {
+        //TODO Реализовать выборку работ по id компании
+        return json_encode(Service::select('id', 'name')->get());
     }
 }
