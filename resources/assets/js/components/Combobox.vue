@@ -1,3 +1,10 @@
+<!-- Элемент комбобокс. Передаваемые параметры:
+ - Список значений (id - name)
+ - id текущего значения (при наличии)
+ - текст placeholder
+ Возвращаемые параметры:
+ - id выбранного элемента
+ -->
 <template>
     <div class="combobox-wrap">
         <input v-model="filterQuery" type="text" v-bind:data-id="id" ref="input" @click="showFlag=true" :placeholder=text>
@@ -11,13 +18,11 @@
 </template>
 <script>
     export default {
-        props:['list', 'text', 'value'],
+        props:['list', 'text', 'value', 'current'],
         data() {
             return {
-                id:'',
-                name:'',
+                id: '',
                 filterQuery: '',
-                current: '',
                 showFlag: false
             }
         },
@@ -29,6 +34,27 @@
                 })
             }
         },
+        watch: {
+            current: function(val) {
+                //Если передано значение
+                if (val) {
+                    var self = this;
+                    this.$emit('change');
+                    // TODO Костыль. Надо выполнять после подгрузки моделей
+                    setTimeout(function(){
+                        var currentIndex;
+                        self.id = val;
+                        //вычисляем name текущего элемента
+                        currentIndex = self.list.findIndex(function (el) {
+                            if (el.id == self.id)
+                                return el;
+                        }, self);
+                        self.filterQuery = self.list[currentIndex].name;
+                    }, 1000);
+
+                }
+            }
+        },
         methods: {
             updateValue: function() {
                 this.$emit('input', this.id);
@@ -36,15 +62,10 @@
             },
             selectItem: function(el) {
                 this.id = el.dataset.id;
-                this.name = el.dataset.name;
                 this.filterQuery = el.dataset.name;
                 this.showFlag = false;
                 this.updateValue();
             }
-        },
-        created() {
-            if(this.current)
-                this.filterQuery = this.current;
-        },
+        }
     }
 </script>

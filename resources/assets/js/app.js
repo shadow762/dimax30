@@ -148,7 +148,6 @@ class Models{
         this.showModal = false;
     }
     get(brend_id){
-        console.log(brend_id);
         axios.post('/getdevicemodels', {id : brend_id})
             .then(this.onSuccess.bind(this))
             .catch(this.onFail.bind(this));
@@ -248,7 +247,8 @@ const order = new Vue({
             services: []
         },
         newPart: {
-            data: {},
+            id: -1,
+            nama: '',
             numbers: '',
             price_own: '',
             price_sell: ''
@@ -333,14 +333,13 @@ const order = new Vue({
                 alert('error');
             });
         },
-        /*updateOrder: function(){
+        updateOrder: function(){
             this.errors.clear();
-            this.$http.put('/orders', this.currentOrder).then((response) => {
+            this.$http.post('/orders/update', this.editingOrder).then((response) => {
             }, (response) => {
                 this.errors.set(response.body);
             });
-        },*/
-        /* */
+        },
         getStatuses: function() {
             this.$http.post('/getstatuses').then(response => {
                 this.$set(this, 'statuses', response.body);
@@ -348,7 +347,7 @@ const order = new Vue({
         },
         savePart: function() {
             this.newOrder.parts.push(this.newPart);
-            this.newPart =  {'data': {}, 'numbers': '', 'price_own': '', 'price_sell': ''};
+            this.newPart =  {'id': -1, name: '', 'numbers': '', 'price_own': '', 'price_sell': ''};
         },
         removePart: function(key) {
             this.newOrder.parts.splice(key, 1);

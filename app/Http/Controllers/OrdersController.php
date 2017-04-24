@@ -138,7 +138,11 @@ class OrdersController extends Controller
     public function getOrder(Models\Order $orderModel, $id)
     {
         // TODO Добавить к запросу информацию об участвующих пользователях
-        $order = $orderModel->where('orders.id', '=', $id)->first();
+        $order = $orderModel->with('parts', 'services')->where('orders.id', '=', $id)->first();
+        $order->brend_id = $order->lmodel->brend_id;
+        $order->type_id = $order->lmodel->brend->type_id;
+
+        //$order->parts = $order->part->withPivot();
 
         return json_encode($order);
     }
@@ -175,52 +179,43 @@ class OrdersController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param $ordersModel
      * @return json $result
      */
     public function update(Request $request)
     {
+        if($request->id) {
+            $this->validate($request, $this->rules);
 
-        //$this->validate($request, $this->rules);
+            $data = $request->all();
 
-        $data = $request->all();
-        //dd($data);
-        if(!empty($data['parts'])) {
-            $data['parts'] = PartsController::store($data['parts']);
-        }
-        //dd($data);
-        $data['user_created'] = '1';
-        $data['cost'] = $data['cost'] ? $data['cost'] : 0;
-        $data['pay'] = $data['pay'] ? $data['pay'] : 0;
+            $data['cost'] = $data['cost'] ? $data['cost'] : 0;
+            $data['pay'] = $data['pay'] ? $data['pay'] : 0;
 
-        $orderModel = Models\Order::find($order);
-        $orderModel->status_id = (int)$request->status_id;
-        $orderModel->client_id = (int)$request->client_id;
-        $orderModel->model_id = (int)$request->model_id;
+            //отличие от $this->store
+            $orderModel = Models\Order::find((int)$request->id);
+            //отличие от $this->store
 
-        /** TODO После реализации модуля пользователей добавить подстановку текущего пользователя в user_created */
-        $orderModel->user_created = 1;
 
-        $orderModel->sn = $request->sn;
-        $orderModel->description = $request->description;
-        $orderModel->cost = (int)$request->cost;
-        $orderModel->pay = (int)$request->pay;
+            $orderModel->status_id = (int)$request->status_id;
+            $orderModel->client_id = (int)$request->client_id;
+            $orderModel->model_id = (int)$request->model_id;
 
-        if($orderModel->save()) {
-            if($data['parts']) {
-                $partAttach = [];
-                foreach ($data['parts'] as $part) {
-                    $partAttach[$part['id']]['price_own'] = $part['price_own'];
-                    $partAttach[$part['id']]['price_sell'] = $part['price_sell'];
-                    $partAttach[$part['id']]['quantity'] = $part['numbers'];
+            // TODO После реализации модуля пользователей добавить подстановку текущего пользователя в user_created
 
+            $orderModel->sn = $request->sn;
+            $orderModel->description = $request->description;
+            $orderModel->cost = (int)$request->cost;
+            $orderModel->pay = (int)$request->pay;
+
+            if ($orderModel->save()) {
+                if ($data['parts']) {
+                    PartsController::store($data['parts']);
                 }
-                $orderModel->part()->sync($partAttach);
+                $result['success'] = true;
             }
-            $result['success'] = true;
-        }
 
-        return json_encode($result);
+            return json_encode($result);
+        }
     }
 
     /**

@@ -26,6 +26,7 @@ $router->resource('types', 'TypesController');
 /**orders**/
 Route::get('orders', ['as' => 'orders.get', 'uses' => 'OrdersController@index']);
 Route::post('orders', ['as' => 'orders.store', 'uses' => 'OrdersController@store']);
+Route::post('orders/update', ['as' => 'orders.update', 'uses' => 'OrdersController@update']);
 Route::get('api/json/getorder/{id}', ['as' => 'order.get', 'uses' => 'OrdersController@getOrder']);
 
 /**other**/

@@ -30,8 +30,8 @@
         },
         methods: {
             updateValue: function() {
-                this.$emit('input', {name: this.filterQuery, id: this.id});
-                this.$emit('change', {name: this.filterQuery, id: this.id});
+                this.$emit('input', {name: this.filterQuery});
+                this.$emit('change', {name: this.filterQuery});
             },
             selectItem: function(el) {
                 this.id = el.dataset.id;
