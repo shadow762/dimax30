@@ -198,7 +198,7 @@ main{
       }
     }
   }
-  .new-order-section{
+  .new-order-section, .edit-order-section{
     .left-part{
       width: 30%;
     }
@@ -344,6 +344,29 @@ main{
       &.disable{
         border: 1px solid @paginateDisableBorderColor;
       }
+    }
+  }
+}
+#notifications{
+  position: fixed;
+  top:20px;
+  width: 80%;
+  z-index: 20;
+  div.notification{
+    display: table;
+    margin: 10px auto;
+    padding: 30px;
+    font-size: 16px;
+    background: blue;
+    color: #fff;
+    &.notice-error{
+
+    }
+    &.notice-warning{
+
+    }
+    &.notice-success{
+
     }
   }
 }

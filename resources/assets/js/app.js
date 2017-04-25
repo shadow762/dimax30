@@ -29,6 +29,20 @@ class Errors{
         this.errors = {};
     }
 }
+class Notifications{
+    constructor() {
+        this.notifications = {};
+    }
+    set(notifications) {
+        this.notifications = notifications;
+    }
+    clearAll() {
+        this.notifications = {};
+    }
+    clear(key) {
+        this.notifications.splice(key, 1);
+    }
+}
 
 class Types {
     constructor() {
@@ -215,15 +229,17 @@ Vue.component('comboboxwithadd', require('./components/Comboboxcustom.vue'));
 const order = new Vue({
     el: '#orders-block',
     data: {
-        orders: [],
-        statuses: [],
+        errors: new Errors(),
+        notifications: new Notifications(),
         types: new Types(),
         brends: new Brends(),
         models: new Models(),
         clients: new Clients(),
-        errors: new Errors(),
         parts: new Parts(),
         services: new Services(),
+        statuses: [],
+
+        orders: [],
 
         pagination: {
             total: 0,
@@ -248,19 +264,21 @@ const order = new Vue({
         },
         newPart: {
             id: -1,
-            nama: '',
+            name: '',
             numbers: '',
             price_own: '',
             price_sell: ''
         },
         newService: {
-            name: {},
+            id: -1,
+            name: '',
             numbers: '',
             price: ''
         },
         editingOrder: {},
         showAddForm: false,
-        showModal: false
+        showModal: false,
+        showEditSection: false,
     },
     mounted: function () {
         this.getOrders(this.pagination.current_page);
@@ -308,6 +326,7 @@ const order = new Vue({
         createOrder: function(){
             this.errors.clear();
             this.$http.post('/orders', this.newOrder).then((response) => {
+                this.showAddForm = false;
                 this.newOrder = {
                     'sn': '',
                     'description': '',
@@ -321,12 +340,13 @@ const order = new Vue({
                     parts: [],
                     services: []
                 };
-                this.showAddForm = false;
+                this.notifications.notifications = response.body;
         }, (response) => {
                 this.errors.set(response.body);
             });
         },
         editOrder: function(id) {
+            this.showEditSection = true
             this.$http.get('/api/json/getorder/' + id).then(response => {
                 this.$set(this, 'editingOrder', response.body);
             }, response => {
@@ -336,6 +356,9 @@ const order = new Vue({
         updateOrder: function(){
             this.errors.clear();
             this.$http.post('/orders/update', this.editingOrder).then((response) => {
+                this.editingOrder = {};
+                this.showEditSection = false;
+                this.notifications.notifications = response.body;
             }, (response) => {
                 this.errors.set(response.body);
             });
@@ -345,19 +368,19 @@ const order = new Vue({
                 this.$set(this, 'statuses', response.body);
             });
         },
-        savePart: function() {
-            this.newOrder.parts.push(this.newPart);
-            this.newPart =  {'id': -1, name: '', 'numbers': '', 'price_own': '', 'price_sell': ''};
+        savePart: function(object) {
+            object.parts.push(this.newPart);
+            this.newPart =  {id: -1, name: '', 'numbers': '', 'price_own': '', 'price_sell': ''};
         },
-        removePart: function(key) {
-            this.newOrder.parts.splice(key, 1);
+        removePart: function(object, key) {
+            object.parts.splice(key, 1);
         },
-        saveService: function() {
-            this.newOrder.services.push(this.newService);
-            this.newService =  {data: {}, numbers: '', price: ''};
+        saveService: function(object) {
+            object.services.push(this.newService);
+            this.newService =  {id: -1, name: '', numbers: '', price: ''};
         },
-        removeService: function(key) {
-            this.newOrder.services.splice(key, 1);
+        removeService: function(object, key) {
+            object.services.splice(key, 1);
         }
     }
 });

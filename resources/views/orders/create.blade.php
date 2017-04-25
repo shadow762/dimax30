@@ -49,7 +49,7 @@
         <div class="parts-section">
             <div class="clearfix add-part-fields">
                 <div class="name-field combobox-field">
-                    <comboboxwithadd v-model="newPart.data" :list="parts.data" text="Наименование"></comboboxwithadd>
+                    <comboboxwithadd v-model="newPart.name" :list="parts.data" text="Наименование"></comboboxwithadd>
                 </div>
                 <div class="number-field">
                     {{ Form::text('parts.numbers', '', ['v-model' => 'newPart.numbers', 'class' => 'text-field', 'placeholder' => 'Количество']) }}
@@ -60,16 +60,16 @@
                 <div class="ocost-field">
                     {{ Form::text('parts.price_sell', '', ['v-model' => 'newPart.price_sell', 'class' => 'text-field', 'placeholder' => 'Стоимость реализации']) }}
                 </div>
-                <div class="add-field" ><i @click="savePart()"></i></div>
+                <div class="add-field" ><i @click="savePart(newOrder)"></i></div>
             </div>
             <div class="parts-list">
                 <ul>
                     <li v-for="(part, key) in newOrder.parts" class="clearfix list-item">
-                        <div class="name-field">@{{ part.data.name }}</div>
+                        <div class="name-field">@{{ part.name }}</div>
                         <div class="number-field">@{{ part.numbers }}</div>
                         <div class="icost-field">@{{ part.price_own }}</div>
                         <div class="ocost-field">@{{ part.price_sell }}</div>
-                        <div class="rm-field" @click="removePart(key)"><i></i></div>
+                        <div class="rm-field" @click="removePart(newOrder, key)"><i></i></div>
                     </li>
                 </ul>
             </div>
@@ -77,7 +77,7 @@
         <div class="jobs-section">
             <div class="clearfix add-job-fields">
                 <div class="name-field combobox-field">
-                    <comboboxwithadd v-model="newService.data" :list="services.data" text="Наименование"></comboboxwithadd>
+                    <comboboxwithadd v-model="newService.name" :list="services.data" text="Наименование"></comboboxwithadd>
                 </div>
                 <div class="number-field">
                     {{ Form::text('services.numbers', '', ['v-model' => 'newService.numbers', 'class' => 'text-field', 'placeholder' => 'Количество']) }}
@@ -85,7 +85,7 @@
                 <div class="cost-field">
                     {{ Form::text('services.price', '', ['v-model' => 'newService.price', 'class' => 'text-field', 'placeholder' => 'Стоимость']) }}
                 </div>
-                <div class="add-field"><i @click="saveService()"></i></div>
+                <div class="add-field"><i @click="saveService(newOrder)"></i></div>
             </div>
             <div class="jobs-list">
                 <ul>
@@ -93,7 +93,7 @@
                         <div class="name-field">@{{ service.data.name }}</div>
                         <div class="number-field">@{{ service.numbers }}</div>
                         <div class="cost-field">@{{ service.price }}</div>
-                        <div class="rm-field" @click="removeService(key)"><i></i></div>
+                        <div class="rm-field" @click="removeService(newOrder, key)"><i></i></div>
                     </li>
                 </ul>
             </div>

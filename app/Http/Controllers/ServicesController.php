@@ -30,43 +30,54 @@ class ServicesController extends Controller
     /**
      * @brief Перебирает и сохраняет переданные запчасти. Возвращает список добавленных запчастей
      * @param array $data
+     * @param int $order_id
      *
      * @return array result - id добавленных запчастей или false, в случае неудачи
      */
-    public static function store($data) {
-        if(!is_array($data)) {
+    public static function store($data, $order_id) {
+        if(!is_array($data) || !count($data)) {
             return false;
         }
+
         $result = array();
-        foreach($data as $service) {
+        $adding = array();
 
-            //Если услуга выбрана из существующего списка, то просто добавляется в результат
-            if(!empty($service['data']['id'])) {
-                $service['id'] = $service['data']['id'];
-                $service['name'] = $service['data']['name'];
-
-                unset($service['data']);
-
-                $result[] = $service;
-                continue;
-            }
-            $serviceModel = new Service();
-            $serviceModel->name = $service['data']['name'];
-
-            if($serviceModel->save()) {
-                $service['id'] = $serviceModel->id;
-                $service['name'] = $serviceModel->name;
-
-                unset($service['data']);
-                unset($serviceModel);
-
-                $result[] = $service;
-            }
-            else{
-                return false;
+        foreach($data as $key=>$service) {
+            //Отделяем несуществующие услуги
+            if ($service['id'] === -1) {
+                $adding[] = $service;
+                unset($data[$key]);
             }
         }
-        return $result;
+        //Получаем все привязанные к заказу услуги
+        $addedServices = Service::select('id')->where('order_id', '=', $order_id);
+
+        //Сравниваем услуги в запросе с привязанными запчастями. Удаляем лишние.
+        $toDestroy = array();
+        foreach($addedServices as $added) {
+            if(array_search($added['id'], $data) === false) {
+                $toDestroy[] = $added['id'];
+            }
+        }
+        Service::destroy($toDestroy);
+        unset($toDestroy);
+        unset($addedServices);
+
+        //Добавляем несуществующие услуги
+        foreach($adding as $add) {
+            $serviceModel = new Service();
+
+            $serviceModel->name = $add['name'];
+            $serviceModel->numbers = $add['numbers'];
+            $serviceModel->price = $add['price'];
+            $serviceModel->order_id = $order_id;
+
+            $serviceModel->save();
+
+            unset($serviceModel);
+        }
+
+        return true;
     }
 
     /**

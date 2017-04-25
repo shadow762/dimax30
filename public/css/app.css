@@ -321,122 +321,163 @@ main {
 #content .table-container table tr td:last-child {
   border-right: none;
 }
-#content .new-order-section .left-part {
+#content .new-order-section .left-part,
+#content .edit-order-section .left-part {
   width: 30%;
 }
-#content .new-order-section .right-part {
+#content .new-order-section .right-part,
+#content .edit-order-section .right-part {
   width: 70%;
   padding-left: 20px;
 }
-#content .new-order-section .right-part .add-field {
+#content .new-order-section .right-part .add-field,
+#content .edit-order-section .right-part .add-field {
   padding-top: 15px;
   padding-left: 15px;
 }
-#content .new-order-section .right-part .add-field i {
+#content .new-order-section .right-part .add-field i,
+#content .edit-order-section .right-part .add-field i {
   display: block;
   width: 25px;
   height: 25px;
   background: url(/public/images/sprite.png) no-repeat;
   background-position-y: -135px;
 }
-#content .new-order-section .right-part .rm-field {
+#content .new-order-section .right-part .rm-field,
+#content .edit-order-section .right-part .rm-field {
   float: left;
   text-align: center;
 }
-#content .new-order-section .right-part .rm-field i {
+#content .new-order-section .right-part .rm-field i,
+#content .edit-order-section .right-part .rm-field i {
   display: inline-block;
   width: 15px;
   height: 4px;
   background: rgba(52, 73, 94, 0.502);
   border-radius: 3px;
 }
-#content .new-order-section .right-part ul {
+#content .new-order-section .right-part ul,
+#content .edit-order-section .right-part ul {
   padding: 0;
   margin: 0;
 }
-#content .new-order-section .right-part .list-item:not(:first-child) div {
+#content .new-order-section .right-part .list-item:not(:first-child) div,
+#content .edit-order-section .right-part .list-item:not(:first-child) div {
   border-top: none;
 }
-#content .new-order-section .right-part .list-item div {
+#content .new-order-section .right-part .list-item div,
+#content .edit-order-section .right-part .list-item div {
   border: 1px solid rgba(52, 73, 94, 0.1);
   padding: 10px 20px;
   font-size: 14px;
   font-weight: 600;
   text-align: right;
 }
-#content .new-order-section .right-part .list-item div:not(:first-child) {
+#content .new-order-section .right-part .list-item div:not(:first-child),
+#content .edit-order-section .right-part .list-item div:not(:first-child) {
   border-left: none;
 }
-#content .new-order-section .right-part .list-item div.name-field {
+#content .new-order-section .right-part .list-item div.name-field,
+#content .edit-order-section .right-part .list-item div.name-field {
   text-align: left;
 }
-#content .new-order-section .right-part .list-item div.rm-field {
+#content .new-order-section .right-part .list-item div.rm-field,
+#content .edit-order-section .right-part .list-item div.rm-field {
   padding: 7px 0 13px;
   width: 4%;
   cursor: pointer;
   text-align: center;
 }
-#content .new-order-section .right-part .parts-section {
+#content .new-order-section .right-part .parts-section,
+#content .edit-order-section .right-part .parts-section {
   margin-bottom: 30px;
 }
-#content .new-order-section .right-part .parts-section .add-part-fields {
+#content .new-order-section .right-part .parts-section .add-part-fields,
+#content .edit-order-section .right-part .parts-section .add-part-fields {
   margin-bottom: 10px;
 }
 #content .new-order-section .right-part .parts-section .name-field,
+#content .edit-order-section .right-part .parts-section .name-field,
 #content .new-order-section .right-part .parts-section .number-field,
+#content .edit-order-section .right-part .parts-section .number-field,
 #content .new-order-section .right-part .parts-section .icost-field,
+#content .edit-order-section .right-part .parts-section .icost-field,
 #content .new-order-section .right-part .parts-section .ocost-field,
-#content .new-order-section .right-part .parts-section .add-field {
+#content .edit-order-section .right-part .parts-section .ocost-field,
+#content .new-order-section .right-part .parts-section .add-field,
+#content .edit-order-section .right-part .parts-section .add-field {
   float: left;
   padding-right: 10px;
 }
-#content .new-order-section .right-part .parts-section .name-field {
+#content .new-order-section .right-part .parts-section .name-field,
+#content .edit-order-section .right-part .parts-section .name-field {
   width: 30%;
 }
 #content .new-order-section .right-part .parts-section .number-field,
+#content .edit-order-section .right-part .parts-section .number-field,
 #content .new-order-section .right-part .parts-section .icost-field,
-#content .new-order-section .right-part .parts-section .ocost-field {
+#content .edit-order-section .right-part .parts-section .icost-field,
+#content .new-order-section .right-part .parts-section .ocost-field,
+#content .edit-order-section .right-part .parts-section .ocost-field {
   width: 22%;
 }
 #content .new-order-section .right-part .parts-section .number-field input,
+#content .edit-order-section .right-part .parts-section .number-field input,
 #content .new-order-section .right-part .parts-section .icost-field input,
-#content .new-order-section .right-part .parts-section .ocost-field input {
+#content .edit-order-section .right-part .parts-section .icost-field input,
+#content .new-order-section .right-part .parts-section .ocost-field input,
+#content .edit-order-section .right-part .parts-section .ocost-field input {
   text-align: right;
 }
-#content .new-order-section .right-part .parts-section .add-field {
+#content .new-order-section .right-part .parts-section .add-field,
+#content .edit-order-section .right-part .parts-section .add-field {
   width: 4%;
   padding-right: 0;
 }
-#content .new-order-section .right-part .parts-section input {
+#content .new-order-section .right-part .parts-section input,
+#content .edit-order-section .right-part .parts-section input {
   margin-bottom: 0;
 }
-#content .new-order-section .right-part .jobs-section {
+#content .new-order-section .right-part .jobs-section,
+#content .edit-order-section .right-part .jobs-section {
   margin-bottom: 30px;
 }
-#content .new-order-section .right-part .jobs-section .add-job-fields {
+#content .new-order-section .right-part .jobs-section .add-job-fields,
+#content .edit-order-section .right-part .jobs-section .add-job-fields {
   margin-bottom: 10px;
 }
 #content .new-order-section .right-part .jobs-section .name-field,
+#content .edit-order-section .right-part .jobs-section .name-field,
 #content .new-order-section .right-part .jobs-section .number-field,
+#content .edit-order-section .right-part .jobs-section .number-field,
 #content .new-order-section .right-part .jobs-section .cost-field,
-#content .new-order-section .right-part .jobs-section .add-field {
+#content .edit-order-section .right-part .jobs-section .cost-field,
+#content .new-order-section .right-part .jobs-section .add-field,
+#content .edit-order-section .right-part .jobs-section .add-field {
   float: left;
   padding-right: 10px;
 }
 #content .new-order-section .right-part .jobs-section .name-field,
+#content .edit-order-section .right-part .jobs-section .name-field,
 #content .new-order-section .right-part .jobs-section .number-field,
-#content .new-order-section .right-part .jobs-section .cost-field {
+#content .edit-order-section .right-part .jobs-section .number-field,
+#content .new-order-section .right-part .jobs-section .cost-field,
+#content .edit-order-section .right-part .jobs-section .cost-field {
   width: 32%;
 }
 #content .new-order-section .right-part .jobs-section .number-field input,
-#content .new-order-section .right-part .jobs-section .cost-field input {
+#content .edit-order-section .right-part .jobs-section .number-field input,
+#content .new-order-section .right-part .jobs-section .cost-field input,
+#content .edit-order-section .right-part .jobs-section .cost-field input {
   text-align: right;
 }
-#content .new-order-section .right-part .jobs-section .add-field {
+#content .new-order-section .right-part .jobs-section .add-field,
+#content .edit-order-section .right-part .jobs-section .add-field {
   width: 3%;
   padding-right: 0;
 }
-#content .new-order-section .right-part .jobs-section input {
+#content .new-order-section .right-part .jobs-section input,
+#content .edit-order-section .right-part .jobs-section input {
   margin-bottom: 0;
 }
 #content .pagination {
@@ -474,6 +515,20 @@ main {
 }
 #content .pagination li.disable {
   border: 1px solid rgba(249, 251, 252, 0.8);
+}
+#notifications {
+  position: fixed;
+  top: 20px;
+  width: 80%;
+  z-index: 20;
+}
+#notifications div.notification {
+  display: table;
+  margin: 10px auto;
+  padding: 30px;
+  font-size: 16px;
+  background: blue;
+  color: #fff;
 }
 
 /*# sourceMappingURL=app.css.map */

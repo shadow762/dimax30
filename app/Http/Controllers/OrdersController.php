@@ -72,28 +72,20 @@ class OrdersController extends Controller
      */
     public function store(Request $request, Models\Order $orderModel)
     {
-
         $this->validate($request, $this->rules);
 
         $data = $request->all();
-        //dd($data);
-        //Если добавлены запчасти и работы - проверяем на наличие в бд и добавляем
-        if(!empty($data['parts'])) {
-            $data['parts'] = PartsController::store($data['parts']);
-        }
-        if(!empty($data['services'])) {
-            $data['services'] = ServicesController::store($data['services']);
-        }
-        //dd($data);
-        $data['user_created'] = '1';
+
         $data['cost'] = $data['cost'] ? $data['cost'] : 0;
         $data['pay'] = $data['pay'] ? $data['pay'] : 0;
+
+        $orderModel = new Models\Order();
 
         $orderModel->status_id = (int)$request->status_id;
         $orderModel->client_id = (int)$request->client_id;
         $orderModel->model_id = (int)$request->model_id;
 
-        /** TODO После реализации модуля пользователей добавить подстановку текущего пользователя в user_created */
+        // TODO После реализации модуля пользователей добавить подстановку текущего пользователя в user_created
         $orderModel->user_created = 1;
 
         $orderModel->sn = $request->sn;
@@ -101,28 +93,19 @@ class OrdersController extends Controller
         $orderModel->cost = (int)$request->cost;
         $orderModel->pay = (int)$request->pay;
 
-        if($orderModel->save()) {
-            //После сохранения заказа - привязываем запчасти и работы
-            if($data['parts']) {
-                $partAttach = [];
-                foreach ($data['parts'] as $part) {
-                    $partAttach[$part['id']]['price_own'] = $part['price_own'];
-                    $partAttach[$part['id']]['price_sell'] = $part['price_sell'];
-                    $partAttach[$part['id']]['quantity'] = $part['numbers'];
-
-                }
-                $orderModel->part()->sync($partAttach);
+        if ($orderModel->save()) {
+            if ($data['parts']) {
+                if(!PartsController::store($data['parts'], $orderModel->id))
+                    $result[] = ['status' => 'error', 'message' => 'Не удалось сохранить запчасти'];
             }
-            if($data['services']) {
-                $serviceAttach = [];
-                foreach ($data['services'] as $service) {
-                    $serviceAttach[$service['id']]['price'] = $service['price'];
-                    $serviceAttach[$service['id']]['quantity'] = $service['numbers'];
-
-                }
-                $orderModel->service()->sync($serviceAttach);
+            if ($data['services']) {
+                if(!ServicesController::store($data['services'], $orderModel->id))
+                    $result[] = ['status' => 'error', 'message' => 'Не удалось сохранить работы'];
             }
-            $result['success'] = true;
+            $result[] = ['status' => 'success', 'message' => 'Заказ успешно сохранен'];
+        }
+        else {
+            $result[] = ['status' => 'error', 'message' => 'Не удалось сохранить заказ'];
         }
 
         return json_encode($result);
@@ -209,12 +192,23 @@ class OrdersController extends Controller
 
             if ($orderModel->save()) {
                 if ($data['parts']) {
-                    PartsController::store($data['parts']);
+                    if(!PartsController::store($data['parts'], $orderModel->id))
+                        $result[] = ['status' => 'error', 'message' => 'Не удалось сохранить запчасти'];
                 }
-                $result['success'] = true;
+                if ($data['services']) {
+                    if(!ServicesController::store($data['services'], $orderModel->id))
+                        $result[] = ['status' => 'error', 'message' => 'Не удалось сохранить работы'];
+                }
+                $result[] = ['status' => 'success', 'message' => 'Заказ успешно сохранен'];
+            }
+            else {
+                $result[] = ['status' => 'error', 'message' => 'Не удалось сохранить заказ'];
             }
 
             return json_encode($result);
+        }
+        else {
+
         }
     }
 

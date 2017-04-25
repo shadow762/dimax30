@@ -51,6 +51,9 @@
 </aside>
 <main>
     <div id="orders-block">
+        <section id="notifications">
+            <div v-for="(notification, key) in notifications.notifications" class="notification" @click="notifications.clear(key)">@{{ notification.message }}</div>
+        </section>
         <header class="main-header">
             @yield('header')
         </header>

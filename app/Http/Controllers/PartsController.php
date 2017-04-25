@@ -67,9 +67,13 @@ class PartsController extends Controller
 
             $partModel->name = $add['name'];
             $partModel->numbers = $add['numbers'];
-            $partModel->own_price = $add['own_price'];
-            $partModel->sell_price = $add['sell_price'];
+            $partModel->price_own = $add['price_own'];
+            $partModel->price_sell = $add['price_sell'];
             $partModel->order_id = $order_id;
+
+            $partModel->save();
+
+            unset($partModel);
         }
 
         return true;

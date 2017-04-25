@@ -1,6 +1,6 @@
 <template>
     <div class="combobox-wrap">
-        <input v-model="filterQuery" type="text" v-bind:data-id="id" ref="input" @click="showFlag=true" :placeholder=text @change="returnString()">
+        <input v-model="filterQuery" type="text" v-bind:data-id="id" ref="input" @click="showFlag=true" :placeholder=text @change="updateValue()">
         <i class="down-icon" :class="showFlag ? 'open' : ''"></i>
         <div class="combobox-item" v-if="showFlag">
             <ul>
@@ -30,8 +30,8 @@
         },
         methods: {
             updateValue: function() {
-                this.$emit('input', {name: this.filterQuery});
-                this.$emit('change', {name: this.filterQuery});
+                this.$emit('input', this.filterQuery);
+                this.$emit('change', this.filterQuery);
             },
             selectItem: function(el) {
                 this.id = el.dataset.id;
@@ -39,10 +39,6 @@
                 this.filterQuery = el.dataset.name;
                 this.showFlag = false;
                 this.updateValue();
-            },
-            returnString: function() {
-                this.$emit('input', {name: this.filterQuery, id: ''});
-                this.$emit('change', {name: this.filterQuery, id: ''});
             }
         }
     }
