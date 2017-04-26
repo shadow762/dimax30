@@ -191,14 +191,12 @@ class OrdersController extends Controller
             $orderModel->pay = (int)$request->pay;
 
             if ($orderModel->save()) {
-                if ($data['parts']) {
-                    if(!PartsController::store($data['parts'], $orderModel->id))
-                        $result[] = ['status' => 'error', 'message' => 'Не удалось сохранить запчасти'];
-                }
-                if ($data['services']) {
-                    if(!ServicesController::store($data['services'], $orderModel->id))
-                        $result[] = ['status' => 'error', 'message' => 'Не удалось сохранить работы'];
-                }
+                if(!PartsController::store($data['parts'], $orderModel->id))
+                    $result[] = ['status' => 'error', 'message' => 'Не удалось сохранить запчасти'];
+
+                if(!ServicesController::store($data['services'], $orderModel->id))
+                    $result[] = ['status' => 'error', 'message' => 'Не удалось сохранить работы'];
+
                 $result[] = ['status' => 'success', 'message' => 'Заказ успешно сохранен'];
             }
             else {

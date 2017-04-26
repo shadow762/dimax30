@@ -384,3 +384,9 @@ const order = new Vue({
         }
     }
 });
+
+
+window.bus = new Vue();
+bus.$on('click', function () {
+    bus.$emit('click');
+});

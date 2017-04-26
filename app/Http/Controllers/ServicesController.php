@@ -35,7 +35,7 @@ class ServicesController extends Controller
      * @return array result - id добавленных запчастей или false, в случае неудачи
      */
     public static function store($data, $order_id) {
-        if(!is_array($data) || !count($data)) {
+        if(!is_array($data)) {
             return false;
         }
 
@@ -50,13 +50,13 @@ class ServicesController extends Controller
             }
         }
         //Получаем все привязанные к заказу услуги
-        $addedServices = Service::select('id')->where('order_id', '=', $order_id);
+        $addedServices = Service::select('id')->where('order_id', '=', $order_id)->get();
 
         //Сравниваем услуги в запросе с привязанными запчастями. Удаляем лишние.
         $toDestroy = array();
         foreach($addedServices as $added) {
-            if(array_search($added['id'], $data) === false) {
-                $toDestroy[] = $added['id'];
+            if(array_search($added->id, array_column($data, 'id')) === false) {
+                $toDestroy[] = $added->id;
             }
         }
         Service::destroy($toDestroy);
