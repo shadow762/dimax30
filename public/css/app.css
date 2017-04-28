@@ -321,6 +321,17 @@ main {
 #content .table-container table tr td:last-child {
   border-right: none;
 }
+#content .new-order-section,
+#content .edit-order-section {
+  /*old style |*/
+}
+#content .new-order-section .client-section,
+#content .edit-order-section .client-section,
+#content .new-order-section .device-section,
+#content .edit-order-section .device-section {
+  width: 50%;
+  float: left;
+}
 #content .new-order-section .left-part,
 #content .edit-order-section .left-part {
   width: 30%;

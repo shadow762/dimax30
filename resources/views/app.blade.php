@@ -47,6 +47,7 @@
         <li><a href="{{ route('clients.index') }}">Клиенты</a></li>
         <li><a href="#">Запчасти</a></li>
         <li><a href="#">Услуги</a></li>
+        <li><a href="{{ route('accounts.index') }}">Касса</a></li>
     </ul>
 </aside>
 <main>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models;
+use Illuminate\Support\Facades\DB;
 
 class OrdersController extends Controller
 {
@@ -15,7 +16,6 @@ class OrdersController extends Controller
         'status_id' => 'required|integer',
         'client_id' => 'required|integer',
         'model_id' => 'required|integer',
-        'cost' => 'integer',
         'pay' => 'integer'
     );
     public function getPage() {
@@ -76,9 +76,6 @@ class OrdersController extends Controller
 
         $data = $request->all();
 
-        $data['cost'] = $data['cost'] ? $data['cost'] : 0;
-        $data['pay'] = $data['pay'] ? $data['pay'] : 0;
-
         $orderModel = new Models\Order();
 
         $orderModel->status_id = (int)$request->status_id;
@@ -90,8 +87,7 @@ class OrdersController extends Controller
 
         $orderModel->sn = $request->sn;
         $orderModel->description = $request->description;
-        $orderModel->cost = (int)$request->cost;
-        $orderModel->pay = (int)$request->pay;
+
 
         if ($orderModel->save()) {
             if ($data['parts']) {
@@ -102,6 +98,17 @@ class OrdersController extends Controller
                 if(!ServicesController::store($data['services'], $orderModel->id))
                     $result[] = ['status' => 'error', 'message' => 'Не удалось сохранить работы'];
             }
+
+            //Формируем данные для внесения предоплаты в кассу
+            if((int)$request->pay) {
+                $data['order_id'] = $orderModel->id;
+                $data['amount'] = (int)$request->pay;
+                $data['type'] = 'in';
+
+                if (!AccountController::addLine($data))
+                    $result[] = ['status' => 'error', 'message' => 'Не удалось сохранить предоплату'];
+            }
+
             $result[] = ['status' => 'success', 'message' => 'Заказ успешно сохранен'];
         }
         else {
@@ -159,8 +166,8 @@ class OrdersController extends Controller
 
     /**
      * ajax
-     * Update the specified resource in storage.
      *
+     * @brief Обновление данных заказа
      * @param  \Illuminate\Http\Request  $request
      * @return json $result
      */
@@ -170,9 +177,6 @@ class OrdersController extends Controller
             $this->validate($request, $this->rules);
 
             $data = $request->all();
-
-            $data['cost'] = $data['cost'] ? $data['cost'] : 0;
-            $data['pay'] = $data['pay'] ? $data['pay'] : 0;
 
             //отличие от $this->store
             $orderModel = Models\Order::find((int)$request->id);
@@ -187,8 +191,6 @@ class OrdersController extends Controller
 
             $orderModel->sn = $request->sn;
             $orderModel->description = $request->description;
-            $orderModel->cost = (int)$request->cost;
-            $orderModel->pay = (int)$request->pay;
 
             if ($orderModel->save()) {
                 if(!PartsController::store($data['parts'], $orderModel->id))
@@ -196,6 +198,9 @@ class OrdersController extends Controller
 
                 if(!ServicesController::store($data['services'], $orderModel->id))
                     $result[] = ['status' => 'error', 'message' => 'Не удалось сохранить работы'];
+
+                if(!$this->updateSum($orderModel->id))
+                    $result[] = ['status' => 'error', 'message' => 'Не удалось обновить сумму заказа'];
 
                 $result[] = ['status' => 'success', 'message' => 'Заказ успешно сохранен'];
             }
@@ -208,6 +213,32 @@ class OrdersController extends Controller
         else {
 
         }
+    }
+
+    private function updateSum($orderId) {
+        if(!$orderId)
+            return false;
+
+        $partsSum = Models\Part::where('order_id', '=', $orderId)->select(DB::raw('sum(numbers*price_sell) as sum'))->first();
+        $servicesSum = Models\Service::where('order_id', '=', $orderId)->select(DB::raw('sum(numbers*price) as sum'))->first();
+
+        $orderModel = Models\Order::find($orderId);
+        $sum = $partsSum->sum + $servicesSum->sum;
+        $orderModel->cost = $sum;
+
+        try {
+            $orderModel->save();
+        }
+        catch(\mysqli_sql_exception $e) {
+            return false;
+        }
+        finally {
+            unset($partsSum);
+            unset($servicesSum);
+            unset($orderModel);
+        }
+
+        return true;
     }
 
     /**

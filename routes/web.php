@@ -29,6 +29,9 @@ Route::post('orders', ['as' => 'orders.store', 'uses' => 'OrdersController@store
 Route::post('orders/update', ['as' => 'orders.update', 'uses' => 'OrdersController@update']);
 Route::get('api/json/getorder/{id}', ['as' => 'order.get', 'uses' => 'OrdersController@getOrder']);
 
+/**accounts**/
+Route::get('accounts', ['as' => 'accounts.index', 'uses' => 'AccountController@index']);
+
 /**other**/
 Route::post('getstatuses', ['as' => 'statuses.get', 'uses' => 'StatusesController@getStatuses']);
 Route::post('getdevicetypes', ['as' => 'types.get', 'uses' => 'TypesController@getTypes']);

@@ -20,7 +20,6 @@ class Order extends Model
             'orders.closed',
             'orders.description',
             'orders.cost',
-            'orders.pay',
             'orders.sn',
             's.name as status',
             's.id as status_id',
