@@ -29,19 +29,13 @@ class Order extends Model
             'ru.id as resp_id',
             'cru.name as creator_name',
             'cru.id as creator_id',
-            'm.name as model_name',
-            'b.name as brend_name',
-            't.name as type_name',
             'c.name as client_name'
         )
             ->leftJoin('users as ru', 'orders.user_resp', '=', 'ru.id')
             ->leftJoin('users as cu', 'orders.user_closed', '=', 'cu.id')
             ->leftJoin('users as cru', 'orders.user_created', '=', 'cru.id')
             ->leftJoin('statuses as s', 'orders.status_id', '=', 's.id')
-            ->leftJoin('lmodels as m', 'orders.model_id', '=', 'm.id')
-            ->leftJoin('clients as c', 'orders.client_id', '=', 'c.id')
-            ->leftJoin('brends as b', 'm.brend_id', '=', 'b.id')
-            ->leftJoin('types as t', 'b.type_id', '=', 't.id');
+            ->leftJoin('clients as c', 'orders.client_id', '=', 'c.id');
     }
     /** One-to-many relationships with Client
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -57,11 +51,11 @@ class Order extends Model
         return $this->belongsTo('App\Models\Status');
     }
 
-    /** One-to-many relationships with Lmodel
+    /** One-to-one relationships with Device
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function lmodel() {
-        return $this->belongsTo('App\Models\Lmodel', 'model_id');
+    public function device() {
+        return $this->hasOne('App\Models\Devices');
     }
 
     /** One-to-many relationships with User

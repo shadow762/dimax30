@@ -34,9 +34,7 @@ Route::get('accounts', ['as' => 'accounts.index', 'uses' => 'AccountController@i
 
 /**other**/
 Route::post('getstatuses', ['as' => 'statuses.get', 'uses' => 'StatusesController@getStatuses']);
-Route::post('getdevicetypes', ['as' => 'types.get', 'uses' => 'TypesController@getTypes']);
-Route::post('getdevicebrends', ['as' => 'brends.get', 'uses' => 'BrendsController@getBrends']);
-Route::post('getdevicemodels', ['as' => 'models.get', 'uses' => 'ModelsController@getModels']);
+Route::post('getdevices', ['as' => 'devices.get', 'uses' => 'DevicesController@getDevices']);
 Route::post('getclients', ['as' => 'clients.get', 'uses' => 'ClientsController@getClients']);
 Route::post('getparts', ['as' => 'parts.get', 'uses' => 'PartsController@getParts']);
 Route::post('getservices', ['as' => 'services.get', 'uses' => 'ServicesController@getServices']);

@@ -20,17 +20,17 @@
             <div class="combobox-field with-add">
                 <combobox v-model.lazy="newOrder.type_id" :list="types.data" text="Выберите тип устройства"></combobox>
                 <div class="combobox-add"><div class="combobox-add-btn" @click="types.showModal=true"><i></i></div></div>
-            <span class="error-text" id="type_id-error" v-text="errors.get('type_id')"></span>
+                <span class="error-text" id="type-error" v-text="errors.get('type')"></span>
             </div>
             <div class="combobox-field with-add">
                 <combobox v-model.lazy="newOrder.brend_id" @change="models.get(newOrder.brend_id)" :list="brends.data" text="Выберите бренд"></combobox>
                 <div class="combobox-add"><div class="combobox-add-btn" @click="brends.showModal=true"><i></i></div></div>
-            <span class="error-text" id="brend_id-error" v-text="errors.get('brend_id')"></span>
+                <span class="error-text" id="brend-error" v-text="errors.get('brend')"></span>
             </div>
             <div class="combobox-field with-add">
                 <combobox v-model.lazy="newOrder.model_id" :list="models.data" text="Выберите модель"></combobox>
                 <div class="combobox-add"><div class="combobox-add-btn" @click="models.showModal=true"><i></i></div></div>
-            <span class="error-text" id="model_id-error" v-text="errors.get('model_id')"></span>
+                <span class="error-text" id="model-error" v-text="errors.get('model')"></span>
             </div>
         </fieldset>
     </section>

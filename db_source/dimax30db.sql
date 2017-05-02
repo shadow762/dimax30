@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Мар 23 2017 г., 15:09
+-- Время создания: Май 02 2017 г., 14:32
 -- Версия сервера: 5.5.53
 -- Версия PHP: 5.6.29
 
@@ -23,32 +23,24 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `brends`
+-- Структура таблицы `accounts`
 --
 
-CREATE TABLE `brends` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` text COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `type_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE `accounts` (
+  `id` int(11) NOT NULL,
+  `type` varchar(4) DEFAULT NULL,
+  `amount` int(11) DEFAULT NULL,
+  `order_id` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Дамп данных таблицы `brends`
+-- Дамп данных таблицы `accounts`
 --
 
-INSERT INTO `brends` (`id`, `name`, `created_at`, `updated_at`, `type_id`) VALUES
-  (1, 'saepe', '2017-01-11 09:10:46', '2017-01-11 09:10:46', 1),
-  (2, 'suscipit', '2017-01-11 09:10:46', '2017-01-11 09:10:46', 1),
-  (3, 'amet', '2017-01-11 09:10:46', '2017-01-11 09:10:46', 1),
-  (4, 'aut', '2017-01-11 09:10:46', '2017-01-11 09:10:46', 1),
-  (5, 'quasi', '2017-01-11 09:10:46', '2017-01-11 09:10:46', 1),
-  (6, 'eum', '2017-01-11 09:10:46', '2017-01-11 09:10:46', 1),
-  (7, 'cupiditate', '2017-01-11 09:10:46', '2017-01-11 09:10:46', 1),
-  (8, 'delectus', '2017-01-11 09:10:46', '2017-01-11 09:10:46', 1),
-  (9, 'adipisci', '2017-01-11 09:10:46', '2017-01-11 09:10:46', 1),
-  (10, 'qui', '2017-01-11 09:10:46', '2017-01-11 09:10:46', 1);
+INSERT INTO `accounts` (`id`, `type`, `amount`, `order_id`, `created_at`, `updated_at`) VALUES
+  (1, 'in', 500, 37, '2017-04-28 07:23:06', '2017-04-28 07:23:06');
 
 -- --------------------------------------------------------
 
@@ -142,42 +134,29 @@ CREATE TABLE `comments` (
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `lmodels`
+-- Структура таблицы `devicedictionary`
 --
 
-CREATE TABLE `lmodels` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` text COLLATE utf8_unicode_ci NOT NULL,
-  `brend_id` int(10) UNSIGNED NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE `devicedictionary` (
+  `id` int(11) NOT NULL DEFAULT '0',
+  `model` text,
+  `type` text,
+  `brend` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
 
 --
--- Дамп данных таблицы `lmodels`
+-- Структура таблицы `devices`
 --
 
-INSERT INTO `lmodels` (`id`, `name`, `brend_id`, `created_at`, `updated_at`) VALUES
-  (1, 'sunt', 10, '2017-01-11 09:34:00', '2017-01-11 09:34:00'),
-  (2, 'et', 1, '2017-01-11 09:34:00', '2017-01-11 09:34:00'),
-  (3, 'qui', 3, '2017-01-11 09:34:00', '2017-01-11 09:34:00'),
-  (4, 'totam', 6, '2017-01-11 09:34:00', '2017-01-11 09:34:00'),
-  (5, 'perferendis', 4, '2017-01-11 09:34:00', '2017-01-11 09:34:00'),
-  (6, 'numquam', 6, '2017-01-11 09:34:00', '2017-01-11 09:34:00'),
-  (7, 'amet', 1, '2017-01-11 09:34:00', '2017-01-11 09:34:00'),
-  (8, 'dolorem', 9, '2017-01-11 09:34:00', '2017-01-11 09:34:00'),
-  (9, 'rerum', 2, '2017-01-11 09:34:00', '2017-01-11 09:34:00'),
-  (10, 'qui', 10, '2017-01-11 09:34:00', '2017-01-11 09:34:00'),
-  (11, 'quis', 3, '2017-01-11 09:34:00', '2017-01-11 09:34:00'),
-  (12, 'consequatur', 6, '2017-01-11 09:34:00', '2017-01-11 09:34:00'),
-  (13, 'possimus', 9, '2017-01-11 09:34:00', '2017-01-11 09:34:00'),
-  (14, 'iure', 6, '2017-01-11 09:34:00', '2017-01-11 09:34:00'),
-  (15, 'alias', 10, '2017-01-11 09:34:00', '2017-01-11 09:34:00'),
-  (16, 'ea', 5, '2017-01-11 09:34:00', '2017-01-11 09:34:00'),
-  (17, 'cum', 5, '2017-01-11 09:34:00', '2017-01-11 09:34:00'),
-  (18, 'consectetur', 9, '2017-01-11 09:34:00', '2017-01-11 09:34:00'),
-  (19, 'error', 10, '2017-01-11 09:34:00', '2017-01-11 09:34:00'),
-  (20, 'quia', 6, '2017-01-11 09:34:00', '2017-01-11 09:34:00');
+CREATE TABLE `devices` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `model` text,
+  `type` text,
+  `brend` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -226,92 +205,48 @@ CREATE TABLE `orders` (
   `description` text COLLATE utf8_unicode_ci,
   `cost` mediumint(8) UNSIGNED DEFAULT '0',
   `client_id` int(10) UNSIGNED NOT NULL,
-  `model_id` int(10) UNSIGNED NOT NULL,
-  `closed` timestamp NULL DEFAULT NULL,
-  `pay` mediumint(8) UNSIGNED DEFAULT '0'
+  `closed` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Дамп данных таблицы `orders`
 --
 
-INSERT INTO `orders` (`id`, `sn`, `created`, `updated`, `status_id`, `user_created`, `user_closed`, `user_resp`, `description`, `cost`, `client_id`, `model_id`, `closed`, `pay`) VALUES
-  (3, '123456789', '2017-03-03 07:31:48', NULL, 1, 1, 1, 2, '123', 30000, 103, 1, NULL, 0),
-  (4, '123456789', '2017-03-02 12:25:06', NULL, 1, 1, NULL, NULL, 'описание', 1000, 117, 1, NULL, 0),
-  (5, '123456789', '2017-03-02 12:29:12', NULL, 1, 1, NULL, NULL, 'описание', 0, 117, 1, NULL, 200),
-  (6, '123', '2017-03-03 11:05:44', NULL, 1, 1, NULL, NULL, '', 100, 117, 1, NULL, 0),
-  (7, 'fdsgfgd', '2017-03-06 06:31:27', NULL, 1, 1, NULL, NULL, '', 0, 153, 1, NULL, 0),
-  (8, 'fdsgfgd', '2017-03-06 06:33:40', NULL, 1, 1, NULL, NULL, '', 0, 153, 1, NULL, 0),
-  (9, 'fdsgfgd', '2017-03-06 06:33:53', NULL, 1, 1, NULL, NULL, '', 0, 153, 1, NULL, 0),
-  (10, 'fsd', '2017-03-06 06:48:25', NULL, 1, 1, NULL, NULL, '', 0, 153, 1, NULL, 0),
-  (11, 'fsdf', '2017-03-06 06:54:32', NULL, 1, 1, NULL, NULL, '', 0, 153, 1, NULL, 0),
-  (12, '123', '2017-03-23 06:28:31', NULL, 1, 1, NULL, NULL, '', 123, 117, 9, NULL, 123),
-  (13, '123', '2017-03-23 06:30:28', NULL, 1, 1, NULL, NULL, '', 123, 117, 9, NULL, 123),
-  (14, '123', '2017-03-23 06:42:13', NULL, 1, 1, NULL, NULL, '', 123, 117, 9, NULL, 123),
-  (15, '123', '2017-03-23 06:42:28', NULL, 1, 1, NULL, NULL, '', 123, 117, 9, NULL, 123),
-  (16, '123', '2017-03-23 08:04:35', NULL, 1, 1, NULL, NULL, '', 123, 117, 9, NULL, 123),
-  (17, '123', '2017-03-23 08:04:43', NULL, 1, 1, NULL, NULL, '', 123, 117, 9, NULL, 123),
-  (18, '123', '2017-03-23 08:12:30', NULL, 1, 1, NULL, NULL, '', 123, 117, 9, NULL, 123),
-  (20, '31242', '2017-03-23 10:53:27', NULL, 1, 1, NULL, NULL, '', 0, 153, 2, NULL, 0),
-  (21, '31242', '2017-03-23 10:57:34', NULL, 1, 1, NULL, NULL, '', 0, 153, 2, NULL, 0),
-  (22, '31242', '2017-03-23 10:58:13', NULL, 1, 1, NULL, NULL, '', 0, 153, 2, NULL, 0);
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `order_part`
---
-
-CREATE TABLE `order_part` (
-  `id` int(11) NOT NULL,
-  `order_id` int(11) NOT NULL,
-  `part_id` int(11) NOT NULL,
-  `price_own` mediumint(8) UNSIGNED DEFAULT NULL,
-  `price_sell` mediumint(8) UNSIGNED DEFAULT NULL,
-  `quantity` smallint(5) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `order_part`
---
-
-INSERT INTO `order_part` (`id`, `order_id`, `part_id`, `price_own`, `price_sell`, `quantity`) VALUES
-  (5, 17, 33, 100, 200, 2),
-  (6, 17, 34, 500, 1000, 10),
-  (7, 18, 37, 100, 200, 2),
-  (8, 18, 38, 500, 1000, 10),
-  (9, 15, 43, 100, 200, 2),
-  (10, 15, 44, 500, 1000, 10),
-  (13, 16, 47, 1000, 2000, 100),
-  (14, 20, 52, 100, 200, 32),
-  (15, 20, 53, 200, 400, 100),
-  (16, 21, 54, 100, 200, 32),
-  (17, 21, 55, 200, 400, 100),
-  (18, 22, 56, 100, 200, 32),
-  (19, 22, 57, 200, 400, 100);
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `order_service`
---
-
-CREATE TABLE `order_service` (
-  `id` int(11) NOT NULL,
-  `order_id` int(11) NOT NULL,
-  `service_id` int(11) NOT NULL,
-  `price` mediumint(8) UNSIGNED DEFAULT '0',
-  `quantity` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `order_service`
---
-
-INSERT INTO `order_service` (`id`, `order_id`, `service_id`, `price`, `quantity`) VALUES
-  (1, 22, 15, 100, 10),
-  (2, 22, 16, 200, 5),
-  (3, 22, 17, 100, 1);
+INSERT INTO `orders` (`id`, `sn`, `created`, `updated`, `status_id`, `user_created`, `user_closed`, `user_resp`, `description`, `cost`, `client_id`, `closed`) VALUES
+  (3, '123456789', '2017-04-25 07:18:10', NULL, 1, 1, 1, 2, '1234', 30000, 103, NULL),
+  (4, '123456789', '2017-03-02 12:25:06', NULL, 1, 1, NULL, NULL, 'описание', 1000, 117, NULL),
+  (5, '123456789', '2017-03-02 12:29:12', NULL, 1, 1, NULL, NULL, 'описание', 0, 117, NULL),
+  (6, '123', '2017-03-03 11:05:44', NULL, 1, 1, NULL, NULL, '', 100, 117, NULL),
+  (7, 'fdsgfgd', '2017-04-28 10:34:20', NULL, 1, 1, NULL, NULL, 'бла бла 11123', 2000, 153, NULL),
+  (8, 'fdsgfgd', '2017-03-06 06:33:40', NULL, 1, 1, NULL, NULL, '', 0, 153, NULL),
+  (9, 'fdsgfgd', '2017-03-06 06:33:53', NULL, 1, 1, NULL, NULL, '', 0, 153, NULL),
+  (10, 'fsd', '2017-03-06 06:48:25', NULL, 1, 1, NULL, NULL, '', 0, 153, NULL),
+  (11, 'fsdf', '2017-03-06 06:54:32', NULL, 1, 1, NULL, NULL, '', 0, 153, NULL),
+  (12, '123', '2017-03-23 06:28:31', NULL, 1, 1, NULL, NULL, '', 123, 117, NULL),
+  (13, '123', '2017-03-23 06:30:28', NULL, 1, 1, NULL, NULL, '', 123, 117, NULL),
+  (14, '123', '2017-03-23 06:42:13', NULL, 1, 1, NULL, NULL, '', 123, 117, NULL),
+  (15, '123', '2017-03-23 06:42:28', NULL, 1, 1, NULL, NULL, '', 123, 117, NULL),
+  (16, '123', '2017-03-23 08:04:35', NULL, 1, 1, NULL, NULL, '', 123, 117, NULL),
+  (17, '123', '2017-03-23 08:04:43', NULL, 1, 1, NULL, NULL, '', 123, 117, NULL),
+  (18, '123', '2017-03-23 08:12:30', NULL, 1, 1, NULL, NULL, '', 123, 117, NULL),
+  (20, '31242', '2017-04-24 12:31:53', NULL, 1, 1, NULL, NULL, 'Бла бла бла', 0, 153, NULL),
+  (21, '31242', '2017-03-23 10:57:34', NULL, 1, 1, NULL, NULL, '', 0, 153, NULL),
+  (22, '31242', '2017-03-23 10:58:13', NULL, 1, 1, NULL, NULL, '', 0, 153, NULL),
+  (24, '123', '2017-04-24 12:10:05', NULL, 1, 1, NULL, NULL, 'Не работает', 100, 153, NULL),
+  (25, '123', '2017-04-21 09:39:25', NULL, 1, 1, NULL, NULL, '', 0, 117, NULL),
+  (26, '123', '2017-04-21 10:26:38', NULL, 1, 1, NULL, NULL, '', 0, 153, NULL),
+  (27, '321', '2017-04-21 10:47:26', NULL, 1, 1, NULL, NULL, '', 100, 107, NULL),
+  (28, '321', '2017-04-21 11:02:56', NULL, 1, 1, NULL, NULL, '123', 100, 153, NULL),
+  (29, 'srt234', '2017-04-25 07:24:04', NULL, 1, 1, NULL, NULL, 'Сломался', 0, 115, NULL),
+  (30, 'bv3566', '2017-04-25 07:27:16', NULL, 1, 1, NULL, NULL, 'Сломалось', 0, 116, NULL),
+  (31, 'bv3566', '2017-04-25 07:28:37', NULL, 1, 1, NULL, NULL, 'Сломалось', 0, 116, NULL),
+  (32, 'bv3566', '2017-04-25 07:29:04', NULL, 1, 1, NULL, NULL, 'Сломалось', 0, 116, NULL),
+  (33, 'hgfhfd654', '2017-04-25 10:31:48', NULL, 1, 1, NULL, NULL, 'Сломалось 222', 0, 129, NULL),
+  (34, 'hgfhfd654', '2017-04-25 10:44:01', NULL, 1, 1, NULL, NULL, 'Сломалось 123', 0, 129, NULL),
+  (35, '565677889', '2017-04-28 11:16:23', NULL, 1, 1, NULL, NULL, 'fsdf', 0, 148, NULL),
+  (36, '565677889', '2017-04-28 11:17:05', NULL, 1, 1, NULL, NULL, 'fsdf', 0, 148, NULL),
+  (37, 'fgdsgfd', '2017-04-28 11:23:06', NULL, 1, 1, NULL, NULL, '', 0, 140, NULL),
+  (38, 'fvxcvxc', '2017-04-28 11:55:56', NULL, 1, 1, NULL, NULL, '', 1001, 153, NULL);
 
 -- --------------------------------------------------------
 
@@ -320,73 +255,22 @@ INSERT INTO `order_service` (`id`, `order_id`, `service_id`, `price`, `quantity`
 --
 
 CREATE TABLE `parts` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` text COLLATE utf8_unicode_ci NOT NULL,
-  `numbers` smallint(5) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `id` int(11) NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `numbers` int(11) DEFAULT NULL,
+  `price_own` int(11) DEFAULT NULL,
+  `price_sell` int(11) DEFAULT NULL,
+  `order_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `parts`
 --
 
-INSERT INTO `parts` (`id`, `name`, `numbers`) VALUES
-  (1, 'тест 1', 10),
-  (2, 'тест 1', 10),
-  (3, 'тест', 2),
-  (4, 'тест 1', 10),
-  (5, 'тест', 2),
-  (6, 'тест 1', 10),
-  (7, 'тест', 2),
-  (8, 'тест 1', 10),
-  (9, 'тест', 2),
-  (10, 'тест 1', 10),
-  (11, 'тест', 2),
-  (12, 'тест 1', 10),
-  (13, 'тест', 2),
-  (14, 'тест 1', 10),
-  (15, 'тест', 2),
-  (16, 'тест 1', 10),
-  (17, 'тест', 2),
-  (18, 'тест 1', 10),
-  (19, 'тест', 2),
-  (20, 'тест 1', 10),
-  (21, 'тест', 2),
-  (22, 'тест 1', 10),
-  (23, 'тест', 2),
-  (24, 'тест 1', 10),
-  (25, 'тест', 2),
-  (26, 'тест 1', 10),
-  (27, 'тест', 2),
-  (28, 'тест 1', 10),
-  (29, 'тест', 2),
-  (30, 'тест 1', 10),
-  (31, 'тест', 2),
-  (32, 'тест 1', 10),
-  (33, 'тест', 2),
-  (34, 'тест 1', 10),
-  (35, 'тест', 2),
-  (36, 'тест 1', 10),
-  (37, 'тест', 2),
-  (38, 'тест 1', 10),
-  (39, 'тест', 2),
-  (40, 'тест 1', 10),
-  (41, 'тест', 2),
-  (42, 'тест 1', 10),
-  (43, 'тест', 2),
-  (44, 'тест 1', 10),
-  (45, 'Тест 3', 100),
-  (46, 'тест 4', 1000),
-  (47, 'Тест 3', 100),
-  (48, 'ntn2312', 32),
-  (49, '1fdfssd', 100),
-  (50, 'ntn2312', 32),
-  (51, '1fdfssd', 100),
-  (52, 'ntn2312', 32),
-  (53, '1fdfssd', 100),
-  (54, 'ntn2312', 32),
-  (55, '1fdfssd', 100),
-  (56, 'ntn2312', 32),
-  (57, '1fdfssd', 100);
+INSERT INTO `parts` (`id`, `name`, `numbers`, `price_own`, `price_sell`, `order_id`) VALUES
+  (2, 'Запчасть 2', 3, 100, 500, 7),
+  (3, 'Запчасть 2', 1, 100, 200, 36),
+  (4, 'Запчасть 2', 2, 200, 500, 38);
 
 -- --------------------------------------------------------
 
@@ -407,32 +291,23 @@ CREATE TABLE `password_resets` (
 --
 
 CREATE TABLE `services` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` text COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `id` int(11) NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `price` int(11) DEFAULT NULL,
+  `order_id` int(11) DEFAULT NULL,
+  `numbers` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `services`
 --
 
-INSERT INTO `services` (`id`, `name`) VALUES
-  (1, 'тест'),
-  (2, 'тест 1'),
-  (3, 'тест'),
-  (4, 'тест 1'),
-  (5, 'ntcvn'),
-  (6, 'тест'),
-  (7, 'тест 1'),
-  (8, 'ntcvn'),
-  (9, 'тест'),
-  (10, 'тест 1'),
-  (11, 'ntcvn'),
-  (12, 'тест'),
-  (13, 'тест 1'),
-  (14, 'ntcvn'),
-  (15, 'тест'),
-  (16, 'тест 1'),
-  (17, 'ntcvn');
+INSERT INTO `services` (`id`, `name`, `price`, `order_id`, `numbers`) VALUES
+  (9, 'Услуга 1', 2, 34, 2),
+  (10, 'Услуга 3', 3, 34, 3),
+  (11, 'Услуга 1', 100, 7, 5),
+  (12, 'Услуга 1', 400, 36, 2),
+  (13, 'Услуга 1', 1, 38, 1);
 
 -- --------------------------------------------------------
 
@@ -452,39 +327,6 @@ CREATE TABLE `statuses` (
 INSERT INTO `statuses` (`id`, `name`) VALUES
   (1, 'test'),
   (2, 'test2');
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `types`
---
-
-CREATE TABLE `types` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` text COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Дамп данных таблицы `types`
---
-
-INSERT INTO `types` (`id`, `name`, `created_at`, `updated_at`) VALUES
-  (1, 'id', '2017-01-11 09:14:24', '2017-01-11 09:14:24'),
-  (2, 'earum', '2017-01-11 09:14:24', '2017-01-11 09:14:24'),
-  (3, 'ut', '2017-01-11 09:14:24', '2017-01-11 09:14:24'),
-  (4, 'qui', '2017-01-11 09:14:24', '2017-01-11 09:14:24'),
-  (5, 'autem', '2017-01-11 09:14:24', '2017-01-11 09:14:24'),
-  (6, 'sint', '2017-01-11 09:14:24', '2017-01-11 09:14:24'),
-  (7, 'porro', '2017-01-11 09:14:24', '2017-01-11 09:14:24'),
-  (8, 'sed', '2017-01-11 09:14:24', '2017-01-11 09:14:24'),
-  (9, 'sapiente', '2017-01-11 09:14:24', '2017-01-11 09:14:24'),
-  (10, 'ut', '2017-01-11 09:14:24', '2017-01-11 09:14:24'),
-  (11, 'Планшетный компьютер', '2017-03-20 06:03:52', '2017-03-20 06:03:52'),
-  (12, 'Ноутбук', '2017-03-20 06:57:33', '2017-03-20 06:57:33'),
-  (20, 'тест', '2017-03-20 07:14:37', '2017-03-20 07:14:37'),
-  (21, 'Монитор', '2017-03-20 07:23:28', '2017-03-20 07:23:28');
 
 -- --------------------------------------------------------
 
@@ -515,9 +357,9 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `creat
 --
 
 --
--- Индексы таблицы `brends`
+-- Индексы таблицы `accounts`
 --
-ALTER TABLE `brends`
+ALTER TABLE `accounts`
 ADD PRIMARY KEY (`id`);
 
 --
@@ -534,9 +376,15 @@ ALTER TABLE `comments`
 ADD PRIMARY KEY (`id`);
 
 --
--- Индексы таблицы `lmodels`
+-- Индексы таблицы `devicedictionary`
 --
-ALTER TABLE `lmodels`
+ALTER TABLE `devicedictionary`
+ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `devices`
+--
+ALTER TABLE `devices`
 ADD PRIMARY KEY (`id`);
 
 --
@@ -551,23 +399,10 @@ ADD PRIMARY KEY (`id`);
 ALTER TABLE `orders`
 ADD PRIMARY KEY (`id`),
 ADD KEY `orders_client_id_foreign` (`client_id`),
-ADD KEY `orders_model_id_foreign` (`model_id`),
 ADD KEY `orders_status_id_foreign` (`status_id`),
 ADD KEY `orders_user_created_foreign` (`user_created`),
 ADD KEY `orders_user_closed_foreign` (`user_closed`),
 ADD KEY `orders_user_resp_foreign` (`user_resp`);
-
---
--- Индексы таблицы `order_part`
---
-ALTER TABLE `order_part`
-ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `order_service`
---
-ALTER TABLE `order_service`
-ADD PRIMARY KEY (`id`);
 
 --
 -- Индексы таблицы `parts`
@@ -595,12 +430,6 @@ ALTER TABLE `statuses`
 ADD PRIMARY KEY (`id`);
 
 --
--- Индексы таблицы `types`
---
-ALTER TABLE `types`
-ADD PRIMARY KEY (`id`);
-
---
 -- Индексы таблицы `users`
 --
 ALTER TABLE `users`
@@ -612,10 +441,10 @@ ADD UNIQUE KEY `users_email_unique` (`email`);
 --
 
 --
--- AUTO_INCREMENT для таблицы `brends`
+-- AUTO_INCREMENT для таблицы `accounts`
 --
-ALTER TABLE `brends`
-MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+ALTER TABLE `accounts`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT для таблицы `clients`
 --
@@ -627,10 +456,10 @@ MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=154;
 ALTER TABLE `comments`
 MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT для таблицы `lmodels`
+-- AUTO_INCREMENT для таблицы `devices`
 --
-ALTER TABLE `lmodels`
-MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+ALTER TABLE `devices`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT для таблицы `migrations`
 --
@@ -640,37 +469,22 @@ MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
---
--- AUTO_INCREMENT для таблицы `order_part`
---
-ALTER TABLE `order_part`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
---
--- AUTO_INCREMENT для таблицы `order_service`
---
-ALTER TABLE `order_service`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 --
 -- AUTO_INCREMENT для таблицы `parts`
 --
 ALTER TABLE `parts`
-MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT для таблицы `services`
 --
 ALTER TABLE `services`
-MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT для таблицы `statuses`
 --
 ALTER TABLE `statuses`
 MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT для таблицы `types`
---
-ALTER TABLE `types`
-MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
@@ -685,7 +499,6 @@ MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 ALTER TABLE `orders`
 ADD CONSTRAINT `orders_client_id_foreign` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`) ON UPDATE CASCADE,
-ADD CONSTRAINT `orders_model_id_foreign` FOREIGN KEY (`model_id`) REFERENCES `lmodels` (`id`) ON UPDATE CASCADE,
 ADD CONSTRAINT `orders_status_id_foreign` FOREIGN KEY (`status_id`) REFERENCES `statuses` (`id`) ON UPDATE CASCADE,
 ADD CONSTRAINT `orders_user_closed_foreign` FOREIGN KEY (`user_closed`) REFERENCES `users` (`id`) ON UPDATE CASCADE,
 ADD CONSTRAINT `orders_user_created_foreign` FOREIGN KEY (`user_created`) REFERENCES `users` (`id`) ON UPDATE CASCADE,

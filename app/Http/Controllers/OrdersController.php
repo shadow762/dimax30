@@ -15,8 +15,10 @@ class OrdersController extends Controller
         'sn' => 'required|max:30',
         'status_id' => 'required|integer',
         'client_id' => 'required|integer',
-        'model_id' => 'required|integer',
-        'pay' => 'integer'
+        'pay' => 'integer',
+        'model' => 'required',
+        'type' => 'required',
+        'brend' => 'required'
     );
     public function getPage() {
         return view('orders.index');
@@ -78,22 +80,35 @@ class OrdersController extends Controller
 
         $orderModel = new Models\Order();
 
-        $orderModel->status_id = (int)$request->status_id;
-        $orderModel->client_id = (int)$request->client_id;
-        $orderModel->model_id = (int)$request->model_id;
+        $orderModel->status_id = (int)$data['status_id'];
+        $orderModel->client_id = (int)$data['client_id'];
+        $orderModel->sn = $data['sn'];
+        $orderModel->description = $data['description'];
 
         // TODO После реализации модуля пользователей добавить подстановку текущего пользователя в user_created
         $orderModel->user_created = 1;
 
-        $orderModel->sn = $request->sn;
-        $orderModel->description = $request->description;
+
 
 
         if ($orderModel->save()) {
+            $device['order_id'] = $orderModel->id;
+            $device['model'] = $data['model'];
+            $device['brend'] = $data['brend'];
+            $device['type'] = $data['type'];
+
+            //Сохраняем устройство в словарь
+            DevicesController::setToDictionary($device);
+            //и в таблицу устройств с привязкой к заказу
+            if(!DevicesController::bindToOrder($device))
+                $result[] = ['status' => 'error', 'message' => 'Не удалось сохранить устойство'];
+
+            //Сохраняем запчасти
             if ($data['parts']) {
                 if(!PartsController::store($data['parts'], $orderModel->id))
                     $result[] = ['status' => 'error', 'message' => 'Не удалось сохранить запчасти'];
             }
+            //И работы
             if ($data['services']) {
                 if(!ServicesController::store($data['services'], $orderModel->id))
                     $result[] = ['status' => 'error', 'message' => 'Не удалось сохранить работы'];

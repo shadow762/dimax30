@@ -220,7 +220,35 @@ class Services {
         this.errors.set(error.response.data);
     }
 }
-
+class Devices {
+    constructor() {
+        this.data = {};
+        this.changed = {
+            model: '',
+            type: '',
+            brend: ''
+        };
+        this.errors = new Errors();
+    }
+    get() {
+        axios.post('/getdevicemodels', {id : brend_id})
+            .then(this.onSuccess.bind(this))
+            .catch(this.onFail.bind(this));
+    }
+    onSuccess(response){
+        this.data = response.data;
+    }
+    onFail(errors){
+        this.errors = errors.data;
+    }
+    clearChanged() {
+        this.changed = {
+            model: '',
+            type: '',
+            brend: ''
+        };
+    }
+}
 
 Vue.component('myselect', require('./components/Select.vue'));
 Vue.component('combobox', require('./components/Combobox.vue'));
@@ -229,26 +257,17 @@ Vue.component('comboboxwithadd', require('./components/Comboboxcustom.vue'));
 const order = new Vue({
     el: '#orders-block',
     data: {
+        //Вспомогательные данные
         errors: new Errors(),
         notifications: new Notifications(),
-        types: new Types(),
-        brends: new Brends(),
-        models: new Models(),
+        devices: new Devices(),
         clients: new Clients(),
         parts: new Parts(),
         services: new Services(),
         statuses: [],
 
+        //Заказы
         orders: [],
-
-        pagination: {
-            total: 0,
-            per_page: 2,
-            from: 1,
-            to: 0,
-            current_page: 1
-        },
-        offset: 4,
         newOrder: {
             'sn': '',
             'description': '',
@@ -262,6 +281,15 @@ const order = new Vue({
             parts: [],
             services: []
         },
+        pagination: {
+            total: 0,
+            per_page: 2,
+            from: 1,
+            to: 0,
+            current_page: 1
+        },
+        offset: 4,
+
         newPart: {
             id: -1,
             name: '',
@@ -283,8 +311,6 @@ const order = new Vue({
     mounted: function () {
         this.getOrders(this.pagination.current_page);
         this.getStatuses();
-        this.types.get();
-        this.brends.get();
         this.clients.get();
     },
     computed: {
