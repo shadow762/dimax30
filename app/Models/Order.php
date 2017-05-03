@@ -29,13 +29,17 @@ class Order extends Model
             'ru.id as resp_id',
             'cru.name as creator_name',
             'cru.id as creator_id',
-            'c.name as client_name'
+            'c.name as client_name',
+            'd.model',
+            'd.type',
+            'd.brend'
         )
             ->leftJoin('users as ru', 'orders.user_resp', '=', 'ru.id')
             ->leftJoin('users as cu', 'orders.user_closed', '=', 'cu.id')
             ->leftJoin('users as cru', 'orders.user_created', '=', 'cru.id')
             ->leftJoin('statuses as s', 'orders.status_id', '=', 's.id')
-            ->leftJoin('clients as c', 'orders.client_id', '=', 'c.id');
+            ->leftJoin('clients as c', 'orders.client_id', '=', 'c.id')
+            ->leftjoin('devices as d', 'orders.id', '=', 'd.order_id');
     }
     /** One-to-many relationships with Client
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -55,7 +59,7 @@ class Order extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function device() {
-        return $this->hasOne('App\Models\Devices');
+        return $this->hasOne('App\Models\Device');
     }
 
     /** One-to-many relationships with User

@@ -43,44 +43,6 @@ class Notifications{
         this.notifications.splice(key, 1);
     }
 }
-
-class Types {
-    constructor() {
-        this.data = {};
-        this.new = {name:''};
-        this.errors = new Errors();
-        this.formUrl = '/types/create';
-        this.saveUrl = '/types';
-        this.showModal = false;
-    }
-    clear() {
-        this.new = {name:''};
-    }
-    get() {
-        axios.post('/getdevicetypes')
-            .then(this.onSuccess.bind(this))
-            .catch(this.onFail.bind(this));
-    }
-    create() {
-        axios.post(this.saveUrl, this.new)
-            .then(this.createSuccess.bind(this))
-            .catch(this.onFail.bind(this));
-    }
-    createSuccess(response){
-        //выводим сообщение, очищаем ошибки и данные нового элемента, обновляем список элементов
-        alert(response.data.msg);
-        this.clear();
-        this.showModal = false;
-        this.errors.clear();
-        this.get();
-    }
-    onSuccess(response){
-        this.data = response.data;
-    }
-    onFail(error){
-        this.errors.set(error.response.data);
-    }
-}
 class Clients {
     constructor() {
         this.data = {};
@@ -116,74 +78,6 @@ class Clients {
     }
     onFail(error){
         this.errors.set(error.response.data);
-    }
-}
-class Brends{
-    constructor() {
-        this.data = {};
-        this.new = {};
-        this.errors = new Errors();
-        this.formUrl = '/brends/create';
-        this.saveUrl = '/brends';
-        this.showModal = false;
-    }
-    get(){
-        axios.post('/getdevicebrends')
-            .then(this.onSuccess.bind(this))
-            .catch(this.onFail.bind(this));
-    }
-    create() {
-        axios.post(this.saveUrl, this.new)
-            .then(this.createSuccess.bind(this))
-            .catch(this.onFail.bind(this));
-    }
-    createSuccess(response){
-        //выводим сообщение, очищаем ошибки и данные нового элемента, обновляем список элементов
-        alert(response.data.msg);
-        this.clear();
-        this.showModal = false;
-        this.errors.clear();
-        this.get();
-    }
-    onSuccess(response){
-        this.data = response.data;
-    }
-    onFail(errors){
-        this.errors = errors.data;
-    }
-}
-class Models{
-    constructor() {
-        this.data = {};
-        this.new = {};
-        this.errors = new Errors();
-        this.formUrl = '/models/create';
-        this.saveUrl = '/models';
-        this.showModal = false;
-    }
-    get(brend_id){
-        axios.post('/getdevicemodels', {id : brend_id})
-            .then(this.onSuccess.bind(this))
-            .catch(this.onFail.bind(this));
-    }
-    create() {
-        axios.post(this.saveUrl, this.new)
-            .then(this.createSuccess.bind(this))
-            .catch(this.onFail.bind(this));
-    }
-    createSuccess(response){
-        //выводим сообщение, очищаем ошибки и данные нового элемента, обновляем список элементов
-        alert(response.data.msg);
-        this.clear();
-        this.showModal = false;
-        this.errors.clear();
-        this.get();
-    }
-    onSuccess(response){
-        this.data = response.data;
-    }
-    onFail(errors){
-        this.errors = errors.data;
     }
 }
 class Parts {
@@ -223,7 +117,7 @@ class Services {
 class Devices {
     constructor() {
         this.data = {};
-        this.changed = {
+        this.selected = {
             model: '',
             type: '',
             brend: ''
@@ -231,7 +125,7 @@ class Devices {
         this.errors = new Errors();
     }
     get() {
-        axios.post('/getdevicemodels', {id : brend_id})
+        axios.post('/getdevices')
             .then(this.onSuccess.bind(this))
             .catch(this.onFail.bind(this));
     }
@@ -241,8 +135,8 @@ class Devices {
     onFail(errors){
         this.errors = errors.data;
     }
-    clearChanged() {
-        this.changed = {
+    clearSelected() {
+        this.selected = {
             model: '',
             type: '',
             brend: ''
@@ -252,6 +146,7 @@ class Devices {
 
 Vue.component('myselect', require('./components/Select.vue'));
 Vue.component('combobox', require('./components/Combobox.vue'));
+Vue.component('inputbox', require('./components/Inputbox.vue'));
 Vue.component('comboboxwithadd', require('./components/Comboboxcustom.vue'));
 
 const order = new Vue({
@@ -273,9 +168,6 @@ const order = new Vue({
             'description': '',
             'status_id': '',
             client_id: '',
-            type_id: '',
-            brend_id: '',
-            model_id: '',
             cost: '',
             pay: '',
             parts: [],
@@ -312,8 +204,10 @@ const order = new Vue({
         this.getOrders(this.pagination.current_page);
         this.getStatuses();
         this.clients.get();
+        this.devices.get();
     },
     computed: {
+        //pagination
         isActived: function () {
             return this.pagination.current_page;
         },
@@ -335,7 +229,35 @@ const order = new Vue({
                 from++;
             }
             return pagesArray;
+        },
+
+        //devices computing
+        devicesType: function() {
+            return this.devicesFilter.map(function(item){
+                return item.type;
+            });
+        },
+        devicesBrend: function() {
+            return this.devicesFilter.map(function(item){
+                return item.brend;
+            });
+        },
+        devicesModel: function() {
+            return this.devicesFilter.map(function(item){
+                return item.model;
+            });
+        },
+        devicesFilter: function () {
+            var self = this;
+
+            if(self.devices.data.length > 0) {
+                return self.devices.data.filter(function(item) {
+                    return item.brend.search(self.devices.selected.brend) !== -1;
+                });
+            }
         }
+    },
+    watch: {
     },
     methods: {
         /* order merhods */
@@ -350,7 +272,15 @@ const order = new Vue({
             this.getOrders(page);
         },
         createOrder: function(){
+            //Очищаем ошибки
             this.errors.clear();
+
+            //Выбранное устройство переносим в новый заказ
+            for(var key in this.devices.selected) {
+                this.newOrder[key] = this.devices.selected[key];
+            };
+
+            //Отправляем данные заказа и очищаем объект
             this.$http.post('/orders', this.newOrder).then((response) => {
                 this.showAddForm = false;
                 this.newOrder = {
@@ -358,22 +288,26 @@ const order = new Vue({
                     'description': '',
                     'status_id': '',
                     client_id: '',
-                    type_id: '',
-                    brend_id: '',
-                    model_id: '',
-                    cost: '',
                     pay: '',
                     parts: [],
                     services: []
                 };
                 this.notifications.notifications = response.body;
-        }, (response) => {
+                this.devices.clearSelected();
+            }, (response) => {
                 this.errors.set(response.body);
             });
         },
         editOrder: function(id) {
+            //Показывает окно редактирования
             this.showEditSection = true
+
+            //Получаем данные заказа
             this.$http.get('/api/json/getorder/' + id).then(response => {
+                //Помещаем данные об устройстве в devices.selected
+                this.$set(this.devices, 'selected', response.body.device);
+                delete(response.body.device);
+
                 this.$set(this, 'editingOrder', response.body);
             }, response => {
                 alert('error');
@@ -409,10 +343,4 @@ const order = new Vue({
             object.services.splice(key, 1);
         }
     }
-});
-
-
-window.bus = new Vue();
-bus.$on('click', function () {
-    bus.$emit('click');
 });

@@ -138,18 +138,12 @@ class OrdersController extends Controller
      *
      * @param  int  $id
      * @param Models\Order $orderModel
-     * @return \Illuminate\Http\Response
+     * @return string json
      */
     public function getOrder(Models\Order $orderModel, $id)
     {
         // TODO Добавить к запросу информацию об участвующих пользователях
-        $order = $orderModel->with('parts', 'services')->where('orders.id', '=', $id)->first();
-        $order->brend_id = $order->lmodel->brend_id;
-        $order->type_id = $order->lmodel->brend->type_id;
-
-        //$order->parts = $order->part->withPivot();
-
-        return json_encode($order);
+        return $order = $orderModel->with('parts', 'services', 'device')->where('orders.id', '=', $id)->first()->toJson();
     }
 
     /**

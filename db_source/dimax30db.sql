@@ -378,7 +378,7 @@ ADD PRIMARY KEY (`id`);
 --
 -- Индексы таблицы `devicedictionary`
 --
-ALTER TABLE `devicedictionary`
+ALTER TABLE device_dictionaries
 ADD PRIMARY KEY (`id`);
 
 --

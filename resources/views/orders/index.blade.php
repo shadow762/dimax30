@@ -10,10 +10,7 @@
 
 @section('content')
     <div class="row">
-        @include('types._modal')
         @include('clients._modal')
-        @include('brends._modal')
-        @include('models._modal')
         @include('orders._header')
         @include('orders.create')
         @include('orders.edit')
@@ -39,8 +36,8 @@
                     <td>@{{ order.client_name }}</td>
                     <td>@{{ order.created }}</td>
                     <td>@{{ order.sn }}</td>
-                    <td>@{{ order.type_name }}</td>
-                    <td>@{{ order.brend_name + ' ' + order.model_name }}</td>
+                    <td>@{{ order.type }}</td>
+                    <td>@{{ order.brend + ' ' + order.model }}</td>
                     <td>@{{ order.creator_name }}</td>
                     <td>@{{ order.resp_name }}</td>
                 </tr>
