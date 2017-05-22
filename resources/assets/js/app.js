@@ -315,6 +315,10 @@ const order = new Vue({
         },
         updateOrder: function(){
             this.errors.clear();
+            //Выбранное устройство переносим в  заказ
+            for(var key in this.devices.selected) {
+                this.editingOrder[key] = this.devices.selected[key];
+            };
             this.$http.post('/orders/update', this.editingOrder).then((response) => {
                 this.editingOrder = {};
                 this.showEditSection = false;
