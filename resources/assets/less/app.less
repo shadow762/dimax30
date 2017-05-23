@@ -198,123 +198,78 @@ main{
       }
     }
   }
-  .new-order-section, .edit-order-section{
-    .client-section, .device-section{
+  .new-order-section, .edit-order-section {
+    .client-section, .device-section {
       width: 50%;
       float: left;
     }
-    /*old style |*/
-    .left-part{
-      width: 30%;
-    }
-    .right-part{
-      width: 70%;
-      padding-left: 20px;
-      .add-field {
-        padding-top: 15px;
-        padding-left: 15px;
-        i {
-          display: block;
-          width: 25px;
-          height: 25px;
-          background: @spriteUrl no-repeat;
-          background-position-y: -135px;
-        }
-      }
-      .rm-field{
-        float: left;
-        text-align: center;
-        i{
-          display: inline-block;
-          width: 15px;
-          height: 4px;
-          background: rgba(52, 73, 94, 0.502);
-          border-radius: 3px;
-        }
-      }
-      ul{
-        padding: 0;
-        margin: 0;
-      }
-      .list-item{
-        &:not(:first-child){
-          div{
-            border-top: none;
-          }
-        }
-        div{
-          border:1px solid @tableBorderColor;
-          padding: 10px 20px;
-          font-size: 14px;
-          font-weight: 600;
-          text-align: right;
-          &:not(:first-child){
-            border-left:none;
-          }
-          &.name-field{
-            text-align: left;
-          }
-          &.rm-field{
-            padding: 7px 0 13px;
-            width: 4%;
-            cursor: pointer;
-            text-align: center;
-          }
-        }
-      }
-      .parts-section {
-        margin-bottom: 30px;
-        .add-part-fields{
-          margin-bottom: 10px;
-        }
-        .name-field, .number-field, .icost-field, .ocost-field, .add-field {
-          float: left;
-          padding-right: 10px;
-        }
-        .name-field {
-          width: 30%;
-        }
-        .number-field, .icost-field, .ocost-field {
-          width: 22%;
-          input {
-            text-align: right;
-          }
-        }
-        .add-field {
-          width: 4%;
-          padding-right: 0;
-        }
-        input{
-          margin-bottom: 0;
-        }
-      }
-      .jobs-section{
-        margin-bottom: 30px;
-        .add-job-fields{
-          margin-bottom: 10px;
-        }
-        .name-field, .number-field, .cost-field, .add-field {
-          float: left;
-          padding-right: 10px;
-        }
-        .name-field, .number-field, .cost-field {
-          width: 32%;
-        }
-        .number-field, .cost-field {
-          input {
-            text-align: right;
-          }
-        }
-        .add-field {
-          width: 3%;
-          padding-right: 0;
-        }
-        input{
-          margin-bottom: 0;
-        }
-      }
-    }
   }
+  .new-order-section{
+    .parts-section {
+      margin-bottom: 30px;
+      .add-part-fields{
+        margin-bottom: 10px;
+      }
+      .name-field, .number-field, .icost-field, .ocost-field, .add-field {
+        float: left;
+        padding-right: 10px;
+      }
+      .name-field {
+        width: 30%;
+      }
+      .number-field, .icost-field, .ocost-field {
+        width: 22%;
+        input {
+          text-align: right;
+        }
+      }
+      .add-field {
+        width: 4%;
+        padding-right: 0;
+      }
+      input{
+        margin-bottom: 0;
+      }
+    }
+    .jobs-section{
+      margin-bottom: 30px;
+      .add-job-fields{
+        margin-bottom: 10px;
+      }
+      .name-field, .number-field, .cost-field, .add-field {
+        float: left;
+        padding-right: 10px;
+      }
+      .name-field, .number-field, .cost-field {
+        width: 32%;
+      }
+      .number-field, .cost-field {
+        input {
+          text-align: right;
+        }
+      }
+      .add-field {
+        width: 3%;
+        padding-right: 0;
+      }
+      input{
+        margin-bottom: 0;
+      }
+    }
+    .add-field {
+      padding-top: 15px;
+      padding-left: 15px;
+      i {
+        display: block;
+        width: 25px;
+        height: 25px;
+        background: @spriteUrl no-repeat;
+        background-position-y: -135px;
+      }
+  }
+}
+
+
   .pagination{
     padding: 0;
     margin: 25px 0;
@@ -352,25 +307,25 @@ main{
     }
   }
 }
-#notifications{
+#notifications {
   position: fixed;
-  top:20px;
+  top: 20px;
   width: 80%;
   z-index: 20;
-  div.notification{
+  div.notification {
     display: table;
     margin: 10px auto;
     padding: 30px;
     font-size: 16px;
     background: blue;
     color: #fff;
-    &.notice-error{
+    &.notice-error {
 
     }
-    &.notice-warning{
+    &.notice-warning {
 
     }
-    &.notice-success{
+    &.notice-success {
 
     }
   }
