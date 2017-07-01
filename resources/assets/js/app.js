@@ -12,6 +12,9 @@ require('./bootstrap');
  * the body of the page. From here, you may begin adding components to
  * the application, or feel free to tweak this setup for your needs.
  */
+import { Validator } from 'vee-validate';
+
+//Vue.use(Validator);
 
 class Errors{
     constructor() {
@@ -149,9 +152,25 @@ Vue.component('combobox', require('./components/Combobox.vue'));
 Vue.component('inputbox', require('./components/Inputbox.vue'));
 Vue.component('comboboxwithadd', require('./components/Comboboxcustom.vue'));
 
+const partValidator = new Validator({
+    id: 'required',
+    name: 'required',
+    numbers: 'required',
+    price_own: 'required',
+    price_sell: 'required'
+});
+const serviceValidator = new Validator({
+    id: 'required',
+    name: 'required',
+    numbers: 'required',
+    price: 'required'
+});
+
 const order = new Vue({
     el: '#orders-block',
     data: {
+        partValidator: partValidator,
+        serviceValidator: serviceValidator,
         //Вспомогательные данные
         errors: new Errors(),
         notifications: new Notifications(),
@@ -366,15 +385,29 @@ const order = new Vue({
             });
         },
         savePart: function(object) {
-            object.parts.push(this.newPart);
-            this.newPart =  {id: -1, name: '', 'numbers': '', 'price_own': '', 'price_sell': ''};
+            partValidator.validateAll(this.newPart).then(result => {
+                if (!result)
+                {
+                    return false;
+                }
+                object.parts.push(this.newPart);
+                this.newPart =  {id: -1, name: '', 'numbers': '', 'price_own': '', 'price_sell': ''};
+            }).catch(error => {
+            });
         },
         removePart: function(object, key) {
             object.parts.splice(key, 1);
         },
         saveService: function(object) {
-            object.services.push(this.newService);
-            this.newService =  {id: -1, name: '', numbers: '', price: ''};
+            serviceValidator.validateAll(this.newService).then(result => {
+                if (!result)
+                {
+                    return false;
+                }
+                object.services.push(this.newService);
+                this.newService =  {id: -1, name: '', numbers: '', price: ''};
+        }).catch(error => {
+            });
         },
         removeService: function(object, key) {
             object.services.splice(key, 1);
