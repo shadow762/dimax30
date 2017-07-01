@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Brend extends Model
+class DeviceDictionary extends Model
 {
-    //
+    public $timestamps = false;
 }

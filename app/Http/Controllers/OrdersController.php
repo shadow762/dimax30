@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models;
+use Illuminate\Support\Facades\DB;
 
 class OrdersController extends Controller
 {
@@ -14,10 +15,14 @@ class OrdersController extends Controller
         'sn' => 'required|max:30',
         'status_id' => 'required|integer',
         'client_id' => 'required|integer',
-        'model_id' => 'required|integer',
-        'cost' => 'integer',
-        'pay' => 'integer'
+        'pay' => 'integer',
+        'model' => 'required',
+        'type' => 'required',
+        'brend' => 'required'
     );
+    public function getPage() {
+        return view('orders.index');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -26,9 +31,21 @@ class OrdersController extends Controller
      */
     public function index(Models\Order $orderModel)
     {
-        $orders = $orderModel->getAllWithAssoc();
+        $orders = $orderModel->getAllWithAssoc()->paginate(5);
 
-        return view('orders.index', ['orders' => $orders]);
+        $response = [
+            'pagination' => [
+                'total' => $orders->total(),
+                'per_page' => $orders->perPage(),
+                'current_page' => $orders->currentPage(),
+                'last_page' => $orders->lastPage(),
+                'from' => $orders->firstItem(),
+                'to' => $orders->lastItem()
+            ],
+            'data' => $orders
+        ];
+
+        return response()->json($response);
     }
 
     /**
@@ -57,34 +74,76 @@ class OrdersController extends Controller
      */
     public function store(Request $request, Models\Order $orderModel)
     {
-        /** TODO После реализации модуля пользователей добавить подстановку текущего пользователя в user_created */
         $this->validate($request, $this->rules);
-        $data = $request->all();
-        $data['user_created'] = '1';
-        $data['cost'] = $data['cost'] ? $data['cost'] : 0;
-        $data['pay'] = $data['pay'] ? $data['pay'] : 0;
 
-        if($orderModel->create($data))
-            $result['success'] = true;
+        $data = $request->all();
+
+        $orderModel = new Models\Order();
+
+        $orderModel->status_id = (int)$data['status_id'];
+        $orderModel->client_id = (int)$data['client_id'];
+        $orderModel->sn = $data['sn'];
+        $orderModel->description = $data['description'];
+
+        // TODO После реализации модуля пользователей добавить подстановку текущего пользователя в user_created
+        $orderModel->user_created = 1;
+
+
+
+
+        if ($orderModel->save()) {
+            $device['order_id'] = $orderModel->id;
+            $device['model'] = $data['model'];
+            $device['brend'] = $data['brend'];
+            $device['type'] = $data['type'];
+
+            //Сохраняем устройство в словарь
+            DevicesController::setToDictionary($device);
+            //и в таблицу устройств с привязкой к заказу
+            if(!DevicesController::bindToOrder($device))
+                $result[] = ['status' => 'error', 'message' => 'Не удалось сохранить устойство'];
+
+            //Сохраняем запчасти
+            if ($data['parts']) {
+                if(!PartsController::store($data['parts'], $orderModel->id))
+                    $result[] = ['status' => 'error', 'message' => 'Не удалось сохранить запчасти'];
+            }
+            //И работы
+            if ($data['services']) {
+                if(!ServicesController::store($data['services'], $orderModel->id))
+                    $result[] = ['status' => 'error', 'message' => 'Не удалось сохранить работы'];
+            }
+
+            //Формируем данные для внесения предоплаты в кассу
+            if((int)$request->pay) {
+                $data['order_id'] = $orderModel->id;
+                $data['amount'] = (int)$request->pay;
+                $data['type'] = 'in';
+
+                if (!AccountController::addLine($data))
+                    $result[] = ['status' => 'error', 'message' => 'Не удалось сохранить предоплату'];
+            }
+
+            $result[] = ['status' => 'success', 'message' => 'Заказ успешно сохранен'];
+        }
+        else {
+            $result[] = ['status' => 'error', 'message' => 'Не удалось сохранить заказ'];
+        }
 
         return json_encode($result);
     }
 
     /**
-     * Display the specified resource.
+     * Метод возвращает данные заказа в json.
      *
      * @param  int  $id
      * @param Models\Order $orderModel
-     * @return \Illuminate\Http\Response
+     * @return string json
      */
-    public function show(Models\Order $orderModel, $id)
+    public function getOrder(Models\Order $orderModel, $id)
     {
         // TODO Добавить к запросу информацию об участвующих пользователях
-        $order = $orderModel->with('client', 'status', 'lmodel')->where('orders.id', '=', $id)->first();
-        $brend = Models\Brend::where('id', '=', $order->lmodel->brend_id)->first();
-        $type = Models\Type::where('id', '=', $brend->type_id)->first();
-
-        return view('orders.show', compact('order', 'brend', 'type'));
+        return $order = $orderModel->with('parts', 'services', 'device')->where('orders.id', '=', $id)->first()->toJson();
     }
 
     /**
@@ -104,10 +163,10 @@ class OrdersController extends Controller
         $statuses = $statusModel->pluck('name', 'id')->toArray();
 
         $brends = Models\Brend::where('id', '=', $order->lmodel->brend_id)->pluck('name', 'id')->toArray();
-        $current['brend'] = Models\Brend::select('id', 'type_id')->where('id', '=', $order->lmodel->brend_id)->first();
+        $current['brend'] = Models\Brend::select('id', 'type_id', 'name')->where('id', '=', $order->lmodel->brend_id)->first();
 
         $types = $typeModel->pluck('name', 'id')->toArray();
-        $current['type'] = Models\Type::select('id')->where('id', '=', $current['brend']->type_id)->first();
+        $current['type'] = Models\Type::select('id', 'name')->where('id', '=', $current['brend']->type_id)->first();
 
         $models = Models\Lmodel::pluck('name', 'id')->toArray();
 
@@ -116,28 +175,79 @@ class OrdersController extends Controller
 
     /**
      * ajax
-     * Update the specified resource in storage.
      *
+     * @brief Обновление данных заказа
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @param $ordersModel
      * @return json $result
      */
-    public function update(Request $request, $id, Models\Order $ordersModel)
+    public function update(Request $request)
     {
-        $this->validate($request, $this->rules);
+        if($request->id) {
+            $this->validate($request, $this->rules);
 
-        $data = $request->all();
+            $data = $request->all();
 
-        unset($data['_method']);
-        unset($data['_token']);
-        unset($data['type_id']);
-        unset($data['brend_id']);
+            //отличие от $this->store
+            $orderModel = Models\Order::find((int)$request->id);
+            //отличие от $this->store
 
-        if($ordersModel->where('id', '=', (int)$id)->update($data))
-            $result['success'] = true;
 
-        return json_encode($result);
+            $orderModel->status_id = (int)$request->status_id;
+            $orderModel->client_id = (int)$request->client_id;
+            $orderModel->model_id = (int)$request->model_id;
+
+            // TODO После реализации модуля пользователей добавить подстановку текущего пользователя в user_created
+
+            $orderModel->sn = $request->sn;
+            $orderModel->description = $request->description;
+
+            if ($orderModel->save()) {
+                if(!PartsController::store($data['parts'], $orderModel->id))
+                    $result[] = ['status' => 'error', 'message' => 'Не удалось сохранить запчасти'];
+
+                if(!ServicesController::store($data['services'], $orderModel->id))
+                    $result[] = ['status' => 'error', 'message' => 'Не удалось сохранить работы'];
+
+                if(!$this->updateSum($orderModel->id))
+                    $result[] = ['status' => 'error', 'message' => 'Не удалось обновить сумму заказа'];
+
+                $result[] = ['status' => 'success', 'message' => 'Заказ успешно сохранен'];
+            }
+            else {
+                $result[] = ['status' => 'error', 'message' => 'Не удалось сохранить заказ'];
+            }
+
+            return json_encode($result);
+        }
+        else {
+
+        }
+    }
+
+    private function updateSum($orderId) {
+        if(!$orderId)
+            return false;
+
+        $partsSum = Models\Part::where('order_id', '=', $orderId)->select(DB::raw('sum(numbers*price_sell) as sum'))->first();
+        $servicesSum = Models\Service::where('order_id', '=', $orderId)->select(DB::raw('sum(numbers*price) as sum'))->first();
+
+        $orderModel = Models\Order::find($orderId);
+        $sum = $partsSum->sum + $servicesSum->sum;
+        $orderModel->cost = $sum;
+
+        try {
+            $orderModel->save();
+        }
+        catch(\mysqli_sql_exception $e) {
+            return false;
+        }
+        finally {
+            unset($partsSum);
+            unset($servicesSum);
+            unset($orderModel);
+        }
+
+        return true;
     }
 
     /**
@@ -150,11 +260,7 @@ class OrdersController extends Controller
     {
         //
     }
-
-    /**
-     * @param $brend_id
-     */
-    public function getModel($brend_id) {
+    public function attachPart(Request $request){
 
     }
 }

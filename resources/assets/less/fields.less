@@ -1,0 +1,91 @@
+@fieldsBorderColor: #e8ebed;
+@fieldsBg: #f5f8f8;
+@fieldTextColor: #34495e;
+@borderColor: #ced5d9;
+@resultBorderColor: #dbdfe3;
+@spriteUrl: url(/public/images/sprite.png);
+input, textarea, select{
+  background: @fieldsBg;
+  font-size: 16px;
+  padding: 0 19px;
+  font-weight: 300;
+  font-family: 'Open Sans', sans-serif;
+}
+.input-field, .combobox-field{
+  margin-bottom: 20px;
+}
+input.text-field, .combobox-field input{
+  width:100%;
+  height: 50px;
+  border: 1px solid @fieldsBorderColor;
+  border-radius: 5px;
+  color: @fieldTextColor;
+}
+.combobox-field{
+  position: relative;
+  input{
+    padding-right: 43px;
+  }
+  i.down-icon{
+    width: 13px;
+    height: 8px;
+    background: url(/public/images/down-icon.png) no-repeat;
+    display: block;
+    position: absolute;
+    top: 22px;
+    right: 9px;
+    transition: transform 0.2s ease-in-out;
+    &.open{
+      transform: rotate(180deg);
+    }
+  }
+  &.with-add{
+    i.down-icon{
+      right: 53px;
+    }
+  }
+  .combobox-add{
+    height: 50px;
+    width: 42px;
+    right: 0;
+    top: 0;
+    position: absolute;
+  }
+  .combobox-add-btn{
+    cursor: pointer;
+    height: 34px;
+    border-left: 1px solid @borderColor;
+    margin-top: 8px;
+    padding: 10px 12px;
+    i{
+      background: @spriteUrl no-repeat;
+      background-position-y: -165px;
+      height: 15px;
+      width: 15px;
+      display: block;
+    }
+  }
+  .combobox-item{
+    position: absolute;
+    top: 50px;
+    border: 1px solid @resultBorderColor;
+    width: 100%;
+    z-index: 10;
+    background: #fff;
+    ul{
+      padding: 0;
+      margin: 0;
+      max-height: 200px;
+      overflow: auto;
+      li{
+        font-size: 16px;
+        padding: 13px 20px;
+        border-bottom: 1px solid @resultBorderColor;
+        cursor: pointer;
+        &:last-child{
+          border-bottom: none;
+        }
+      }
+    }
+  }
+}

@@ -16,7 +16,30 @@ Route::get('/', function () {
 });
 
 $router->resource('clients', 'ClientsController');
-$router->resource('orders', 'OrdersController');
 
-Route::post('brends/getbrend', ['as' => 'brends.get', 'uses' => 'BrendsController@getBrend']);
-Route::post('models/getmodel', ['as' => 'models.get', 'uses' => 'ModelsController@getModels']);
+Route::get('orders-panel', ['as' => 'orders.panel', 'uses' => 'OrdersController@getPage']);
+//$router->resource('orders', 'OrdersController');
+
+
+$router->resource('types', 'TypesController');
+
+/**orders**/
+Route::get('orders', ['as' => 'orders.get', 'uses' => 'OrdersController@index']);
+Route::post('orders', ['as' => 'orders.store', 'uses' => 'OrdersController@store']);
+Route::post('orders/update', ['as' => 'orders.update', 'uses' => 'OrdersController@update']);
+Route::get('api/json/getorder/{id}', ['as' => 'order.get', 'uses' => 'OrdersController@getOrder']);
+
+/**accounts**/
+Route::get('accounts', ['as' => 'accounts.index', 'uses' => 'AccountController@index']);
+
+/**other**/
+Route::post('getstatuses', ['as' => 'statuses.get', 'uses' => 'StatusesController@getStatuses']);
+Route::post('getdevices', ['as' => 'devices.get', 'uses' => 'DevicesController@getDevices']);
+Route::post('getclients', ['as' => 'clients.get', 'uses' => 'ClientsController@getClients']);
+Route::post('getparts', ['as' => 'parts.get', 'uses' => 'PartsController@getParts']);
+Route::post('getservices', ['as' => 'services.get', 'uses' => 'ServicesController@getServices']);
+
+
+Route::get('vue-brend', ['as' => 'brends.get', 'uses' => 'BrendsController@manageVue']);
+$router->resource('brends', 'BrendsController');
+$router->resource('models', 'ModelsController');
