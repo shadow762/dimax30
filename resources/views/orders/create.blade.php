@@ -18,15 +18,15 @@
         <fieldset>
             <legend>Устройство</legend>
             <div class="combobox-field">
-                <inputbox v-model.lazy="devices.selected.type" :list="devicesType" text="Тип устройства"></inputbox>
+                <inputbox v-model.lazy="devices.selected.type" :list="devicesType ? devicesType : []" text="Тип устройства"></inputbox>
                 <span class="error-text" id="type-error" v-text="errors.get('type')"></span>
             </div>
             <div class="combobox-field">
-                <inputbox v-model.lazy="devices.selected.brend" :list="devicesBrend" text="Бренд"></inputbox>
+                <inputbox v-model.lazy="devices.selected.brend" :list="devicesBrend ? devicesBrend : []" text="Бренд"></inputbox>
                 <span class="error-text" id="brend-error" v-text="errors.get('brend')"></span>
             </div>
             <div class="combobox-field">
-                <inputbox v-model.lazy="devices.selected.model" :list="devicesModel" text="Модель"></inputbox>
+                <inputbox v-model.lazy="devices.selected.model" :list="devicesModel ? devicesModel : []" text="Модель"></inputbox>
                 <span class="error-text" id="model-error" v-text="errors.get('model')"></span>
             </div>
         </fieldset>
@@ -99,7 +99,7 @@
             <div class="jobs-list">
                 <ul>
                     <li v-for="(service, key) in newOrder.services" class="clearfix list-item">
-                        <div class="name-field">@{{ service.data.name }}</div>
+                        <div class="name-field">@{{ service.name }}</div>
                         <div class="number-field">@{{ service.numbers }}</div>
                         <div class="cost-field">@{{ service.price }}</div>
                         <div class="rm-field" @click="removeService(newOrder, key)"><i></i></div>

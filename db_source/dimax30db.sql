@@ -137,12 +137,17 @@ CREATE TABLE `comments` (
 -- Структура таблицы `devicedictionary`
 --
 
-CREATE TABLE `devicedictionary` (
-  `id` int(11) NOT NULL DEFAULT '0',
+CREATE TABLE `device_dictionaries` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `model` text,
   `type` text,
-  `brend` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `brend` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+INSERT INTO dimax.device_dictionaries (id, model, type, brend) VALUES (1, 'iphone 7', 'Телефон', 'Apple');
+INSERT INTO dimax.device_dictionaries (id, model, type, brend) VALUES (2, 'Galaxy 7', 'Телефон', 'Samsung');
+INSERT INTO dimax.device_dictionaries (id, model, type, brend) VALUES (3, 'Tab 2', 'Планшет', 'Samsung');
 
 -- --------------------------------------------------------
 

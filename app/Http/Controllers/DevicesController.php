@@ -21,14 +21,12 @@ class DevicesController extends Controller
      * @return bool
      */
     public static function setToDictionary(array $data) {
-        $deviceDicModel = new DeviceDictionary();
-
-        $deviceDicModel->model = $data['model'];
-        $deviceDicModel->type = $data['type'];
-        $deviceDicModel->brend = $data['brend'];
-
         try {
-            $deviceDicModel->save();
+            $deviceDicModel = DeviceDictionary::firstOrCreate([
+                'model' => $data['model'],
+                'type' => $data['type'],
+                'brend' => $data['brend']
+            ]);
         }
         catch(\mysqli_sql_exception $e) {
             return false;

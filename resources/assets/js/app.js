@@ -233,19 +233,52 @@ const order = new Vue({
 
         //devices computing
         devicesType: function() {
-            return this.devicesFilter.map(function(item){
-                return item.type;
-            });
+            if(this.devicesFilter && this.devicesFilter !== 'undefined') {
+                var result = this.devicesFilter.map(function (item) {
+                    return item.type;
+                });
+                result.sort();
+                var i = result.length;
+                while(i--) {
+                    if(result[i] == result[i-1]) {
+                        result.splice(i, 1);
+                    }
+                }
+
+                return result;
+            }
+            else {
+                return [];
+            }
         },
         devicesBrend: function() {
-            return this.devicesFilter.map(function(item){
-                return item.brend;
-            });
+            if(this.devicesFilter && this.devicesFilter !== 'undefined') {
+                var result = this.devicesFilter.map(function (item) {
+                    return item.brend;
+                });
+                result.sort();
+                var i = result.length;
+                while(i--) {
+                    if(result[i] == result[i-1]) {
+                        result.splice(i, 1);
+                    }
+                }
+
+                return result;
+            }
+            else {
+                return [];
+            }
         },
         devicesModel: function() {
-            return this.devicesFilter.map(function(item){
-                return item.model;
-            });
+            if(this.devicesFilter && this.devicesFilter !== 'undefined') {
+                return this.devicesFilter.map(function (item) {
+                    return item.model;
+                });
+            }
+            else {
+                return [];
+            }
         },
         devicesFilter: function () {
             var self = this;
