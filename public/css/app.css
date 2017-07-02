@@ -328,6 +328,18 @@ main {
   width: 50%;
   float: left;
 }
+#content .new-order-section .list-item {
+  position: relative;
+}
+#content .new-order-section .list-item .rm-field {
+  width: 20px;
+  height: 5px;
+  border-radius: 4px;
+  background: #7fa2af;
+  position: absolute;
+  top: 8px;
+  left: -28px;
+}
 #content .new-order-section .parts-section {
   margin-bottom: 30px;
 }

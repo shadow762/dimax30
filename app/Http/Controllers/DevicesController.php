@@ -40,12 +40,11 @@ class DevicesController extends Controller
      * @return bool
      */
     public static function bindToOrder(array $data) {
-        $deviceModel = new Device();
+        $deviceModel = Device::firstOrCreate(['order_id' => $data['order_id']]);
 
         $deviceModel->model = $data['model'];
         $deviceModel->type = $data['type'];
         $deviceModel->brend = $data['brend'];
-        $deviceModel->order_id = $data['order_id'];
 
         try {
             $deviceModel->save();

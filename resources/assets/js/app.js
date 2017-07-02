@@ -360,6 +360,9 @@ const order = new Vue({
                 this.$set(this.devices, 'selected', response.body.device);
                 delete(response.body.device);
 
+                //Получаем данные об устройствах
+                this.devices.get();
+
                 this.$set(this, 'editingOrder', response.body);
             }, response => {
                 alert('error');
@@ -373,8 +376,10 @@ const order = new Vue({
             };
             this.$http.post('/orders/update', this.editingOrder).then((response) => {
                 this.editingOrder = {};
+                this.devices.selected = {};
                 this.showEditSection = false;
                 this.notifications.notifications = response.body;
+                this.getOrders(this.pagination.current_page);
             }, (response) => {
                 this.errors.set(response.body);
             });
