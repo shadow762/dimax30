@@ -64,5 +64,5 @@
             </li>
         </ul>
     </div>
-
+    <div class="modal-bg" v-if="showEditSection" @click="showEditSection = 0"></div>
 @stop

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 02 2017 г., 14:32
+-- Время создания: Июл 03 2017 г., 15:02
 -- Версия сервера: 5.5.53
 -- Версия PHP: 5.6.29
 
@@ -34,13 +34,6 @@ CREATE TABLE `accounts` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `accounts`
---
-
-INSERT INTO `accounts` (`id`, `type`, `amount`, `order_id`, `created_at`, `updated_at`) VALUES
-  (1, 'in', 500, 37, '2017-04-28 07:23:06', '2017-04-28 07:23:06');
 
 -- --------------------------------------------------------
 
@@ -134,30 +127,25 @@ CREATE TABLE `comments` (
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `devicedictionary`
---
-
-CREATE TABLE `device_dictionaries` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `model` text,
-  `type` text,
-  `brend` text,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
-
-INSERT INTO dimax.device_dictionaries (id, model, type, brend) VALUES (1, 'iphone 7', 'Телефон', 'Apple');
-INSERT INTO dimax.device_dictionaries (id, model, type, brend) VALUES (2, 'Galaxy 7', 'Телефон', 'Samsung');
-INSERT INTO dimax.device_dictionaries (id, model, type, brend) VALUES (3, 'Tab 2', 'Планшет', 'Samsung');
-
--- --------------------------------------------------------
-
---
 -- Структура таблицы `devices`
 --
 
 CREATE TABLE `devices` (
   `id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
+  `model` text,
+  `type` text,
+  `brend` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `device_dictionaries`
+--
+
+CREATE TABLE `device_dictionaries` (
+  `id` int(11) NOT NULL,
   `model` text,
   `type` text,
   `brend` text
@@ -213,46 +201,6 @@ CREATE TABLE `orders` (
   `closed` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Дамп данных таблицы `orders`
---
-
-INSERT INTO `orders` (`id`, `sn`, `created`, `updated`, `status_id`, `user_created`, `user_closed`, `user_resp`, `description`, `cost`, `client_id`, `closed`) VALUES
-  (3, '123456789', '2017-04-25 07:18:10', NULL, 1, 1, 1, 2, '1234', 30000, 103, NULL),
-  (4, '123456789', '2017-03-02 12:25:06', NULL, 1, 1, NULL, NULL, 'описание', 1000, 117, NULL),
-  (5, '123456789', '2017-03-02 12:29:12', NULL, 1, 1, NULL, NULL, 'описание', 0, 117, NULL),
-  (6, '123', '2017-03-03 11:05:44', NULL, 1, 1, NULL, NULL, '', 100, 117, NULL),
-  (7, 'fdsgfgd', '2017-04-28 10:34:20', NULL, 1, 1, NULL, NULL, 'бла бла 11123', 2000, 153, NULL),
-  (8, 'fdsgfgd', '2017-03-06 06:33:40', NULL, 1, 1, NULL, NULL, '', 0, 153, NULL),
-  (9, 'fdsgfgd', '2017-03-06 06:33:53', NULL, 1, 1, NULL, NULL, '', 0, 153, NULL),
-  (10, 'fsd', '2017-03-06 06:48:25', NULL, 1, 1, NULL, NULL, '', 0, 153, NULL),
-  (11, 'fsdf', '2017-03-06 06:54:32', NULL, 1, 1, NULL, NULL, '', 0, 153, NULL),
-  (12, '123', '2017-03-23 06:28:31', NULL, 1, 1, NULL, NULL, '', 123, 117, NULL),
-  (13, '123', '2017-03-23 06:30:28', NULL, 1, 1, NULL, NULL, '', 123, 117, NULL),
-  (14, '123', '2017-03-23 06:42:13', NULL, 1, 1, NULL, NULL, '', 123, 117, NULL),
-  (15, '123', '2017-03-23 06:42:28', NULL, 1, 1, NULL, NULL, '', 123, 117, NULL),
-  (16, '123', '2017-03-23 08:04:35', NULL, 1, 1, NULL, NULL, '', 123, 117, NULL),
-  (17, '123', '2017-03-23 08:04:43', NULL, 1, 1, NULL, NULL, '', 123, 117, NULL),
-  (18, '123', '2017-03-23 08:12:30', NULL, 1, 1, NULL, NULL, '', 123, 117, NULL),
-  (20, '31242', '2017-04-24 12:31:53', NULL, 1, 1, NULL, NULL, 'Бла бла бла', 0, 153, NULL),
-  (21, '31242', '2017-03-23 10:57:34', NULL, 1, 1, NULL, NULL, '', 0, 153, NULL),
-  (22, '31242', '2017-03-23 10:58:13', NULL, 1, 1, NULL, NULL, '', 0, 153, NULL),
-  (24, '123', '2017-04-24 12:10:05', NULL, 1, 1, NULL, NULL, 'Не работает', 100, 153, NULL),
-  (25, '123', '2017-04-21 09:39:25', NULL, 1, 1, NULL, NULL, '', 0, 117, NULL),
-  (26, '123', '2017-04-21 10:26:38', NULL, 1, 1, NULL, NULL, '', 0, 153, NULL),
-  (27, '321', '2017-04-21 10:47:26', NULL, 1, 1, NULL, NULL, '', 100, 107, NULL),
-  (28, '321', '2017-04-21 11:02:56', NULL, 1, 1, NULL, NULL, '123', 100, 153, NULL),
-  (29, 'srt234', '2017-04-25 07:24:04', NULL, 1, 1, NULL, NULL, 'Сломался', 0, 115, NULL),
-  (30, 'bv3566', '2017-04-25 07:27:16', NULL, 1, 1, NULL, NULL, 'Сломалось', 0, 116, NULL),
-  (31, 'bv3566', '2017-04-25 07:28:37', NULL, 1, 1, NULL, NULL, 'Сломалось', 0, 116, NULL),
-  (32, 'bv3566', '2017-04-25 07:29:04', NULL, 1, 1, NULL, NULL, 'Сломалось', 0, 116, NULL),
-  (33, 'hgfhfd654', '2017-04-25 10:31:48', NULL, 1, 1, NULL, NULL, 'Сломалось 222', 0, 129, NULL),
-  (34, 'hgfhfd654', '2017-04-25 10:44:01', NULL, 1, 1, NULL, NULL, 'Сломалось 123', 0, 129, NULL),
-  (35, '565677889', '2017-04-28 11:16:23', NULL, 1, 1, NULL, NULL, 'fsdf', 0, 148, NULL),
-  (36, '565677889', '2017-04-28 11:17:05', NULL, 1, 1, NULL, NULL, 'fsdf', 0, 148, NULL),
-  (37, 'fgdsgfd', '2017-04-28 11:23:06', NULL, 1, 1, NULL, NULL, '', 0, 140, NULL),
-  (38, 'fvxcvxc', '2017-04-28 11:55:56', NULL, 1, 1, NULL, NULL, '', 1001, 153, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -275,7 +223,8 @@ CREATE TABLE `parts` (
 INSERT INTO `parts` (`id`, `name`, `numbers`, `price_own`, `price_sell`, `order_id`) VALUES
   (2, 'Запчасть 2', 3, 100, 500, 7),
   (3, 'Запчасть 2', 1, 100, 200, 36),
-  (4, 'Запчасть 2', 2, 200, 500, 38);
+  (4, 'Запчасть 2', 2, 200, 500, 38),
+  (5, 'Запчасть 2', 1, 1, 1, 39);
 
 -- --------------------------------------------------------
 
@@ -330,8 +279,8 @@ CREATE TABLE `statuses` (
 --
 
 INSERT INTO `statuses` (`id`, `name`) VALUES
-  (1, 'test'),
-  (2, 'test2');
+  (1, 'Принят'),
+  (2, 'Закрыт');
 
 -- --------------------------------------------------------
 
@@ -381,15 +330,15 @@ ALTER TABLE `comments`
 ADD PRIMARY KEY (`id`);
 
 --
--- Индексы таблицы `devicedictionary`
---
-ALTER TABLE device_dictionaries
-ADD PRIMARY KEY (`id`);
-
---
 -- Индексы таблицы `devices`
 --
 ALTER TABLE `devices`
+ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `device_dictionaries`
+--
+ALTER TABLE `device_dictionaries`
 ADD PRIMARY KEY (`id`);
 
 --
@@ -449,7 +398,7 @@ ADD UNIQUE KEY `users_email_unique` (`email`);
 -- AUTO_INCREMENT для таблицы `accounts`
 --
 ALTER TABLE `accounts`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT для таблицы `clients`
 --
@@ -464,7 +413,12 @@ MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT для таблицы `devices`
 --
 ALTER TABLE `devices`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT для таблицы `device_dictionaries`
+--
+ALTER TABLE `device_dictionaries`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT для таблицы `migrations`
 --
@@ -474,12 +428,12 @@ MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 --
 -- AUTO_INCREMENT для таблицы `parts`
 --
 ALTER TABLE `parts`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT для таблицы `services`
 --

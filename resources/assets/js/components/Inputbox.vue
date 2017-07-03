@@ -7,7 +7,7 @@
  -->
 <template>
     <div class="combobox-wrap">
-        <input v-model="filterQuery" type="text" ref="input" :placeholder=text v-click-outside="notShow" @click="showFlag=true" @change="updateValue()">
+        <input v-bind:value="value" v-on:input="updateValue()" type="text" ref="input" :placeholder=text v-click-outside="notShow" @click="showFlag=true">
         <i class="down-icon" :class="showFlag ? 'open' : ''"></i>
         <div class="combobox-item" v-if="showFlag">
             <ul>
@@ -18,10 +18,9 @@
 </template>
 <script>
     export default {
-        props:['list', 'text', 'current'],
+        props:['list', 'text', 'current', 'value'],
         data() {
             return {
-                filterQuery: '',
                 showFlag: false
             }
         },
@@ -31,7 +30,7 @@
 
                 if(self.list.length > 0) {
                     return self.list.filter(function(item) {
-                        return item.search(self.filterQuery) !== -1;
+                        return item.search(self.value) !== -1;
                     });
                 }
             }
@@ -40,7 +39,7 @@
             current: function(val) {
                 //Если передано значение
                 if (val) {
-                    this.filterQuery = val;
+                    this.value = val;
                 }
             }
         },
@@ -49,11 +48,11 @@
                 this.showFlag = false;
             },
             updateValue: function() {
-                this.$emit('input', this.filterQuery);
-                this.$emit('change', this.filterQuery);
+                this.$emit('input', this.value);
+                this.$emit('change', this.value);
             },
             selectItem: function(el) {
-                this.filterQuery = el.dataset.name;
+                this.value = el.dataset.name;
                 this.updateValue();
                 this.showFlag = false;
             }

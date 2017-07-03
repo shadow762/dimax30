@@ -1,4 +1,5 @@
-<section class="new-order-section" v-if="showEditSection">
+<transition name="editing-order">
+    <section id="editing-order-section" class="new-order-section" v-if="showEditSection">
     {{ Form::open(['route' => 'orders.update', 'method' => 'post', 'class' => 'col s12 ajax-form', '@submit.prevent' => 'updateOrder', 'v-if' => 'showEditSection']) }}
     <section class="client-section">
         <fieldset>
@@ -75,8 +76,8 @@
                         <div class="icost-field">@{{ part.price_own }}</div>
                         <div class="ocost-field">@{{ part.price_sell }}</div>
                         <div class="rm-field" @click="removePart(editingOrder, key)"><i></i></div>
-            </li>
-            </ul>
+                    </li>
+                </ul>
         </div>
         </div>
         <div class="jobs-section">
@@ -102,8 +103,8 @@
                         <div class="number-field">@{{ service.numbers }}</div>
                         <div class="cost-field">@{{ service.price }}</div>
                         <div class="rm-field" @click="removeService(editingOrder, key)"><i></i></div>
-            </li>
-            </ul>
+                    </li>
+                </ul>
         </div>
         </div>
     </section>
@@ -113,3 +114,4 @@
     </div>
     {{ Form::close() }}
 </section>
+</transition>

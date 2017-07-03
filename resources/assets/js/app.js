@@ -346,6 +346,7 @@ const order = new Vue({
                 };
                 this.notifications.notifications = response.body;
                 this.devices.clearSelected();
+                this.getOrders(this.pagination.current_page);
             }, (response) => {
                 this.errors.set(response.body);
             });
